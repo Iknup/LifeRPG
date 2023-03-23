@@ -7,7 +7,7 @@
   border: 1px solid white;
   border-radius: 10px;
   padding: 1px;
-  box-shadow: 0 2px black;
+  box-shadow: 0 5px rgb(211, 173, 78);
   margin-bottom: 0.5rem;
 }
 
@@ -26,12 +26,19 @@
   margin-bottom: 0.3rem;
 }
 
+.task-detail-info {
+  position: relative;
+  display: flex;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.task-detail-info p {
+  margin-right: 7px;
+}
+
 .task-basic-info p {
   margin-top: 0;
   margin-bottom: 0.3rem;
-}
-
-.task-detail-info {
-  position: absolute;
-  right: 1.3rem;
+  font-weight: 600;
 }

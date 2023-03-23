@@ -4,5 +4,37 @@
   border-radius: 10px;
   padding: 5px;
   color: white;
-  
+}
+
+.tasklist header {
+  display: flex;
+  justify-content: space-between;
+  color: black;
+  background: white;
+  border: 1px solid white;
+  border-radius: 7px;
+  margin-bottom: 0.8rem;
+  padding: 7px;
+  align-items: center;
+  box-shadow: 0 5px yellow;
+}
+
+.tasklist header p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 0.7rem;
+}
+
+.tasklist .button {
+  font-size: 10px;
+  color: black;
+  background: white;
+  margin-right: 5px;
+  margin-top: 2px;
+  border: none;
+}
+
+.tasklist .button:hover {
+  transform: scale(1.2);
+  color: rgb(211, 54, 7);
 }

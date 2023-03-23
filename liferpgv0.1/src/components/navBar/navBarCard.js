@@ -8,7 +8,6 @@ const NavBarCard = function () {
       <header>
         <h3>Life RPG</h3>
       </header>
-      <NewTaskForm />
     </section>
   );
 };

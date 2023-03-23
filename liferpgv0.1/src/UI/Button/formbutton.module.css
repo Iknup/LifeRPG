@@ -1,0 +1,49 @@
+.buttonYes:disabled,
+.buttonYes:disabled:hover {
+  background: white;
+  border: 1px solid #4f899e;
+  color: black;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 200px;
+  font-size: 15px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.3rem;
+  box-shadow: 7px 2px #a9cbd7;
+}
+
+.buttonYes:active {
+  background: #a9cbd7;
+  border: 1px solid #4f899e;
+  color: white;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 200px;
+  font-size: 15px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.3rem;
+  box-shadow: 7px 2px #a9cbd7;
+}
+
+.buttonYes:hover {
+  transform: scale(1.1);
+}
+
+.buttonNo {
+  background: white;
+  border: 1px solid black;
+  color: black;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 200px;
+  font-size: 15px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.3rem;
+  box-shadow: 7px 2px rgb(23, 4, 134);
+}

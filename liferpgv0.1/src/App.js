@@ -1,15 +1,22 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import TaskProvider from './store/taskProvider';
+import TaskProvider from './store/context/taskProvider';
 import NavBarCard from './components/navBar/navBarCard';
 import TaskListCard from './components/taskList/taskListCard';
+import Box from './UI/box';
+import { getLevelAction } from './store/actions/level-action';
 
 function App() {
+  // useEffect(() => {
+  //   dispatch(getLevel());
+  // }, [dispatch]);
+
   return (
-    <TaskProvider>
+    <Box>
       <NavBarCard />
       <TaskListCard />
-    </TaskProvider>
+    </Box>
   );
 }
 

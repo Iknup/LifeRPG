@@ -2,9 +2,10 @@ import React from 'react';
 
 const TaskContext = React.createContext({
   tasks: [],
+  clearedTasks: [],
   addTask: task => {},
   removeTask: id => {},
-  completeTask: id => {},
+  clearTask: id => {},
 });
 
 export default TaskContext;

@@ -1,0 +1,108 @@
+.new-task {
+  display: block;
+  align-items: center;
+  padding-left: 0.5rem;
+  box-shadow: 0 3px orangered;
+}
+
+.new-task .new-title label {
+  margin-right: 3.5rem;
+  font-weight: 700;
+  color: rgb(225, 76, 65);
+}
+
+.new-task .new-descrip label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-right: 2.4rem;
+}
+
+.new-task input {
+  border-bottom-right-radius: 4px;
+  border: 2px solid black;
+  min-width: 90%;
+  font-size: 0.7rem;
+  padding-left: 0.5rem;
+}
+
+.new-task .new-title input {
+  height: 1.5rem;
+  border-radius: 15px;
+}
+
+.new-task .new-title input::placeholder {
+  color: white;
+}
+
+.new-task .new-descrip input {
+  height: 3rem;
+  border-radius: 15px;
+  text-align: start;
+}
+
+.new-task .invalid {
+  background: rgb(214, 88, 42);
+  padding-left: 0.5rem;
+}
+
+.new-task .button {
+  text-align: right;
+}
+
+.buttonYes button:disabled,
+.buttonYes button:disabled:hover {
+  background: white;
+  border: 1px solid #4f899e;
+  color: black;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 200px;
+  font-size: 15px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.3rem;
+  box-shadow: 7px 2px #a9cbd7;
+}
+
+.buttonYes button {
+  background: #a9cbd7;
+  color: white;
+  border: 1px solid #4f899e;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 200px;
+  font-size: 15px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.3rem;
+  box-shadow: 7px 2px #a9cbd7;
+}
+
+.buttonYes button:hover {
+  transform: scale(1.1);
+}
+
+.buttonNo button:hover {
+  transform: scale(1.1);
+}
+
+.buttonNo button {
+  background: #d7a9ab;
+  color: white;
+  border: 1px solid #d68688;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 200px;
+  font-size: 15px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.3rem;
+  box-shadow: 7px 2px #d7a9ab;
+}
+
+.buttonNo button:hover {
+  transform: scale(1.1);
+}

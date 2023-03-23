@@ -5,10 +5,10 @@
   margin: 0.5rem;
   padding: 5px;
   border: 5px solid white;
-  width: 60vw;
+  width: 60%;
   min-height: 65vh;
+  max-width: 50rem;
   border-radius: 10px;
-  position: absolute;
   left: 37vw;
   top: 0;
 }
@@ -18,10 +18,11 @@
   justify-content: space-between;
   padding: 0.3rem;
   border: 3px solid white;
-  background-color: transparent;
+  background-color: white;
   border-radius: 10px;
   color: yellowgreen;
   align-items: center;
+  box-shadow: 0 7px rgb(180, 202, 137);
 }
 
 .header a {

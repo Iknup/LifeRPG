@@ -2,8 +2,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  max-height: 80vh;
-  max-width: 80vw;
+  font-size: 20px;
 }
 
 body {
@@ -13,7 +12,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./img/backgroundImg.jpg');
+  background: rgb(94, 110, 179);
+  /* background-image: url('./img/backgroundImg.jpg'); */
 }
 
 code {
