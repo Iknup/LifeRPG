@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .menu-button {
+    @apply text-center mb-2 flex  place-items-center
+     transition-all duration-0 pb-2 border-b border-b-gray-400
+      hover:border-b-secondary;
+  }
+
+  .active-menu-button {
+    @apply bg-secondary w-[100%] rounded-l-2xl h-8 
+    text-primary place-items-center justify-center duration-300;
+  }
+}
