@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import taskReducer from './task-slice';
-import lvlDataReducer from './lvlData-slice';
 
 const store = configureStore({
   reducer: {
     tasks: taskReducer,
-    levelData: lvlDataReducer,
   },
 });
 

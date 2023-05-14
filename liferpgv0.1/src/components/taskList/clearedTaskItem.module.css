@@ -1,0 +1,44 @@
+.task {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  background: rgb(197, 183, 183);
+  color: rgb(250, 248, 248);
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 1px;
+  box-shadow: 0 5px rgb(72, 52, 146);
+  margin-bottom: 0.5rem;
+}
+
+.task input {
+  margin-left: 0.5rem;
+}
+
+.task-basic-info {
+  display: block;
+  margin-left: 1rem;
+}
+
+.task-basic-info h3 {
+  color: rgb(72, 52, 146);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.task-detail-info {
+  position: relative;
+  display: flex;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.task-detail-info p {
+  margin-right: 7px;
+}
+
+.task-basic-info p {
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
