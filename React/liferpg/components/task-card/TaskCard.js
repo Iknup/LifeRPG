@@ -10,7 +10,7 @@ const TaskCard = props => {
     totalGenerated,
   } = props.task;
 
-  const exp = (expEarned / expNeed) * 100 + '%';
+  const exp = ((expEarned / expNeed) * 100).toFixed(2) + '%';
   let expCal = `bg-yellow-700 h-full rounded-full`;
 
   if (level < 10) {
