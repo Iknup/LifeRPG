@@ -13,7 +13,7 @@ import {
   add,
   startOfWeek,
 } from 'date-fns';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 let colStartClasses = [
   '',
@@ -29,11 +29,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const MyCalendar = () => {
+const MyCalendar = props => {
   const today = startOfToday();
-  const [selectedDay, setSelectedDay] = useState(today);
+  const [selectedDays, setSelectedDays] = useState([today]);
   const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
+  const { className, getDaysHandler } = props;
+
+  useEffect(() => {
+    getDaysHandler(selectedDays);
+  }, [selectedDays]);
 
   const newDays = eachDayOfInterval({
     start: startOfWeek(firstDayCurrentMonth),
@@ -50,11 +55,26 @@ const MyCalendar = () => {
     setCurrentMonth(format(firstDayPrevMonth, 'MMM-yyyy'));
   };
 
+  const isSelected = day =>
+    selectedDays.some(selectedDay => isEqual(selectedDay, day));
+
+  const handleDayClick = day => {
+    if (isSelected(day)) {
+      // If the clicked day is already selected, remove it from the selectedDays array
+      setSelectedDays(
+        selectedDays.filter(selectedDay => !isEqual(selectedDay, day))
+      );
+    } else {
+      // If the clicked day is not selected, add it to the selectedDays array
+      setSelectedDays(prevState => [...prevState, day]);
+    }
+  };
+
   return (
-    <div className="pt-2">
-      <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
-        <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
-          <div className="md:pr-14">
+    <div className={`pt-2 ${className} w-auto`}>
+      <div className="max-w-sm md:max-w-4xl md:px-6">
+        <div>
+          <div>
             <div className="flex items-center justify-between">
               <button
                 type="button"
@@ -104,7 +124,7 @@ const MyCalendar = () => {
                 </svg>
               </button>
             </div>
-            <div className="grid grid-cols-7 mt-10 text-sm leading-6 text-center">
+            <div className="grid grid-cols-7 mt-1 text-sm leading-6 text-center">
               <div className="text-red-700 font-semibold">S</div>
               <div>M</div>
               <div>T</div>
@@ -125,27 +145,22 @@ const MyCalendar = () => {
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedDay(day)}
+                    onClick={() => handleDayClick(day)}
                     className={classNames(
-                      isEqual(day, selectedDay) && 'text-white',
-                      !isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        'text-orange-700',
-                      !isEqual(day, selectedDay) &&
+                      isSelected(day) && 'text-white', // Apply the selected style
+                      !isSelected(day) && isToday(day) && 'text-orange-700', // Apply today style
+                      !isSelected(day) &&
                         !isToday(day) &&
                         isSameMonth(day, firstDayCurrentMonth) &&
-                        'text-white',
-                      !isEqual(day, selectedDay) &&
+                        'text-white', // Apply styles for days in the current month
+                      !isSelected(day) &&
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&
-                        'text-gray-400',
-                      isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        'bg-orange-700',
-                      isEqual(day, selectedDay) && !isToday(day) && 'bg-black',
-                      !isEqual(day, selectedDay) && 'hover:bg-primary',
-                      (isEqual(day, selectedDay) || isToday(day)) &&
-                        'font-semibold',
+                        'text-gray-400', // Apply styles for dyas in the other month
+                      isSelected(day) && isToday(day) && 'bg-orange-700', // Selected and today style
+                      isSelected(day) && !isToday(day) && 'bg-black', // Selected but not today style
+                      !isSelected(day) && 'hover:bg-primary', // hover style
+                      (isSelected(day) || isToday(day)) && 'font-semibold', // Font style for today and selected days
                       'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
                     )}
                   >
