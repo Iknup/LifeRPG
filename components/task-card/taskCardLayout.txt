@@ -1,0 +1,10 @@
+------------Main--------------
+description
+level
+expBar
+clear checkbox
+
+-------------Detail------------
+clearRate
+createdAt
+Repeat: Daily, Weekly, Every Weekdays, Every Selected Day(요일 보여주기), Monthly

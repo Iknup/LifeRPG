@@ -1,0 +1,95 @@
+   // Refresh time property 만들기
+  // currentime <= refresh time
+
+  // Task
+  // 1. 언제 반복
+  // 2. 언제 리셋 - daily - montly - weekly 등등 리밋 걸기
+  // NextResetDate >= current() isComplete = false
+
+  // 인터페이스 및 클라스 만들기 = ticket 이용해서 만들기
+
+  // 친구 -> 전체적인 highlevel design 포토샵으로 끝
+  // 프로그래머 -> html, css, js + server
+  // 사이트
+  // Client
+  // a/s 서버 관리 및 호스팅 비용을 받아 - aws, mongodb
+ 
+ const TaskSchema = new Schema({
+  description: {
+    type: String,
+    require: true,
+  },
+  isComplete: {
+    type: Boolean,
+    require: true,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  isRPG: {
+    type: Boolean,
+  },
+  repeat: {
+    type: String,
+    enum: ['daily', 'weekly', 'Every Weekdays', 'Every selected day'],
+    default: 'none',
+  },
+  level: {
+    type: Number,
+    default: 1,
+  },
+  experience: {
+    type: Number,
+    default: 0,
+  },
+  timeCompleted: {
+    type: Number,
+    default: 0,
+  },
+  timeGenerated: {
+    type: Number,
+    default: 1,
+  },
+ })
+ 
+/////////////////////// OnClick ///////////////////////
+Backend
+task = findOne({_id})
+task
+ isComplete = true
+ if(isRPG){
+expHandler = function(){
+    exp+=2
+    timeCompleted++
+ if(exp >=getRequiredExpForLevel){
+    level++
+    nextLevelExp = getRequiredExpForLevel()
+    prevLevelExp = getPrevLevelExp()
+        }  
+    }
+ }
+
+ /////////////////////// After a day ///////////////////////
+ FrontEnd 
+ getserversideprop(){
+  getprop
+  Run below before returning
+  Mapping all tasks with below code
+ if(current >= reset){
+  if(isComplete = false){
+    실행 미완료에 대한 코드
+  }
+  if(isComplete = true){
+    isComplete = false
+    if(isRPG){
+    timeGenerated++
+    }
+    resetHandler(){
+      reset = prevReset + repeat 타임 추가
+    }
+  }
+}
+
+ }
