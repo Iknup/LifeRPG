@@ -8,3 +8,15 @@ clear checkbox
 clearRate
 createdAt
 Repeat: Daily, Weekly, Every Weekdays, Every Selected Day(요일 보여주기), Monthly
+
+// Task load logic
+// index - 
+1.getServerSideProps(section names)
+2.map(TaskSection(section names))
+
+// TaskSection
+1.getServerSideProps(find {section: section name})
+2.map(TaskCard(task))
+
+TaskSection methods/properties
+{createdAt, getOverAllClear, }

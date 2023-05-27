@@ -49,10 +49,20 @@ const TaskSchema = new Schema({
   selectedDays: {
     type: [],
   },
+  section: {
+    type: String,
+    default: 'user_data_name',
+  },
 });
 
 TaskSchema.loadClass(TaskClass);
 
-const Task = mongoose.model('Task', TaskSchema);
+let Task;
+
+try {
+  Task = mongoose.model('Task');
+} catch (e) {
+  Task = mongoose.model('Task', TaskSchema);
+}
 
 module.exports = { Task };

@@ -1,5 +1,5 @@
 import connectDB from '@/lib/mongoose';
-import { Task } from '@/models/Task/Task';
+import { Task } from '@/models/Task';
 
 const handle = async (req, res) => {
   const { method } = req;
@@ -8,6 +8,14 @@ const handle = async (req, res) => {
 
   if (method === 'PATCH') {
     const taskNeedsResetUpdate = await Task.find({ reset: { $lte: now } });
+    console.log(taskNeedsResetUpdate);
+
+    taskNeedsResetUpdate.forEach(async task => {
+      task.timeGenerated++;
+      task.setResetHandler();
+      await task.save();
+    });
+
     console.log(taskNeedsResetUpdate);
 
     res.json(taskNeedsResetUpdate);

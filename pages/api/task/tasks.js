@@ -1,5 +1,5 @@
 import connectDB from '@/lib/mongoose';
-import { Task } from '@/models/Task/Task';
+import { Task } from '@/models/Task';
 
 const handle = async (req, res) => {
   const { method } = req;
@@ -10,6 +10,23 @@ const handle = async (req, res) => {
 
     const taskDoc = await Task.create(task);
     res.json(taskDoc);
+  }
+
+  if (method === 'GET') {
+    const { sectionName } = req.body;
+
+    try {
+      let tasks;
+
+      if (sectionName === 'overall') {
+        tasks = await Task.find();
+      }
+
+      tasks = await Task.find({ section: sectionName });
+      res.json(tasks);
+    } catch (e) {
+      res.status(500).send(e);
+    }
   }
 };
 

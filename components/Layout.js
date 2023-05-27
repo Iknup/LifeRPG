@@ -1,12 +1,11 @@
+import { Fragment } from 'react';
 import NavBar from './NavBar';
 
 const Layout = ({ children }) => {
   return (
-    <div className="bg-primary flex min-h-screen ">
+    <div className="bg-secondary min-h-screen">
       <NavBar />
-      <div className="bg-secondary flex-grow mt-2 pl-2 pt-1 rounded-sm">
-        {children}
-      </div>
+      <div className=" flex-grow mt-2 pl-2 pt-1 rounded-sm ">{children}</div>
     </div>
   );
 };

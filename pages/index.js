@@ -1,6 +1,8 @@
 import NewTaskForm from '@/components/task-card/NewTaskForm';
 import TaskCard from '@/components/task-card/TaskCard';
 
+import TaskSection from '@/components/TaskSection';
+
 const DUMMY_TASKS = [
   {
     _id: '01',
@@ -38,12 +40,19 @@ const DUMMY_TASKS = [
 ];
 
 export default function Home() {
+  const sectionNames = ['overall'];
   return (
     <div className="text-textPrimary flex flex-col">
-      <NewTaskForm />
+      {sectionNames.map(sectionName => (
+        <TaskSection sectionName={sectionName} key={sectionName} />
+      ))}
+      {/* <NewTaskForm />
       {DUMMY_TASKS.map(task => (
         <TaskCard task={task} key={task._id} />
-      ))}
+      ))} */}
     </div>
   );
 }
+
+// 1. getServerSideProps (get server name)
+// 2. TaskSection(Overall) /  map (TaskSection(sectioname)) / add section btn
