@@ -5,6 +5,7 @@ const REPEAT_ENUM = Object.freeze({
   MONTHLY: 'Monthly',
   EVERY_SELECTED_DAY: 'Every selected day',
 });
+
 const WEEKDAYS_ENUM = Object.freeze({
   SUNDAY: 0,
   MONDAY: 1,

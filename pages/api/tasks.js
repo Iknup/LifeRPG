@@ -3,6 +3,7 @@ import { Task } from '@/models/Task';
 
 const handle = async (req, res) => {
   const { method } = req;
+
   await connectDB();
 
   if (method === 'POST') {
@@ -13,16 +14,17 @@ const handle = async (req, res) => {
   }
 
   if (method === 'GET') {
-    const { sectionName } = req.body;
+    const { sectionName } = req.query;
 
     try {
       let tasks;
 
       if (sectionName === 'overall') {
-        tasks = await Task.find();
+        tasks = await Task.find({ isComplete: false });
+      } else {
+        tasks = await Task.find({ section: sectionName, isComplete: false });
       }
 
-      tasks = await Task.find({ section: sectionName });
       res.json(tasks);
     } catch (e) {
       res.status(500).send(e);

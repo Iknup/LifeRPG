@@ -1,11 +1,17 @@
 import { WEEKDAYS_ENUM, REPEAT_ENUM } from '@/utility/ENUM';
+import { getRequiredExpForLevel } from '@/utility/levelexp';
 
 class TaskClass {
-  expHandler() {
-    this.experience += 2;
-    this.timeCompleted++;
+  rpgClearHandler(isComplete) {
+    // console.log('this:', this);
+    // undo the numbers if true
+    isComplete ? (this.experience -= 2) : (this.experience += 2);
+    isComplete ? this.timeCompleted-- : this.timeCompleted++;
+    // Level check
     if (this.experience >= getRequiredExpForLevel(this.level)) {
       this.level++;
+    } else {
+      this.level--;
     }
   }
 

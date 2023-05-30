@@ -87,7 +87,7 @@ const NewTaskForm = () => {
       newTask.setResetHandler();
     }
 
-    await axios.post('/api/task/tasks', newTask);
+    await axios.post('/api/tasks', newTask);
   };
 
   return (
