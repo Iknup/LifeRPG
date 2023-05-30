@@ -9,9 +9,11 @@ module.exports = {
     extend: {
       backgroundImage: {},
       colors: {
-        primary: '#2e3136',
-        secondary: '#424549',
-        tertiary: '#36393e',
+        primary: '#242528',
+        secondary: '#2F3034',
+        tertiary: '#35373B',
+        quaternary: '#3C3E42',
+        quinary: '#46484C',
         textPrimary: '#ffffff',
         borderPrimary: '#1e2124',
         colorMain: 'rgb(255,197,29)',

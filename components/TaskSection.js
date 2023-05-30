@@ -48,7 +48,7 @@ const TaskSection = ({ sectionName }) => {
       {!isLoaded ? (
         loadingAnimation
       ) : (
-        <div className="grid-cols-1">
+        <div className="flex flex-col">
           {tasks.map(task => (
             <TaskCard task={task} key={task._id} />
           ))}
