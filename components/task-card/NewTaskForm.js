@@ -4,7 +4,8 @@ import { useState, useRef } from 'react';
 import axios from 'axios';
 import { TaskClass } from '../../classes/TaskClass';
 
-const NewTaskForm = () => {
+const NewTaskForm = props => {
+  const { addTaskFormSection } = props;
   const [showOptions, setShowOptions] = useState(false);
   const descriptionRef = useRef();
   const [selectedDays, setSelectedDays] = useState([]);
@@ -87,11 +88,14 @@ const NewTaskForm = () => {
       newTask.setResetHandler();
     }
 
-    await axios.post('/api/tasks', newTask);
+    const taskData = await axios.post('/api/tasks', newTask);
+
+    // adding task to section
+    addTaskFormSection(taskData);
   };
 
   return (
-    <div className=" max-w-screen-md bg-primary rounded-lg mb-3">
+    <div className=" max-w-screen-md bg-primary rounded-lg mb-3 mx-3">
       <form onSubmit={submitTaskHandler} className="flex flex-col p-2">
         <label className="mb-1">
           What do you want to level up in your life?

@@ -71,8 +71,8 @@ const MyCalendar = props => {
   };
 
   return (
-    <div className={`pt-2 ${className} w-auto`}>
-      <div className="max-w-sm md:max-w-4xl md:px-6">
+    <div className={`pt-2 ${className} w-full`}>
+      <div className="max-w-sm md:max-w-4xl">
         <div>
           <div>
             <div className="flex items-center justify-between">

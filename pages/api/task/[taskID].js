@@ -13,6 +13,7 @@ const handle = async (req, res) => {
     try {
       // find task by id
       const task = await Task.findOne({ _id });
+      console.log(isComplete);
       // task: isComplete: false isRPG: true
       // check isRPG
       // console.log('before', task);
@@ -27,6 +28,16 @@ const handle = async (req, res) => {
     } catch (e) {
       res.status(500).send(e);
     }
+  }
+
+  if (method === 'DELETE') {
+    const { taskID: _id } = req.query;
+
+    try {
+      const task = await Task.findOneAndDelete(_id);
+      res.send(task);
+    } catch (e) {}
+    res.status(500).send(e);
   }
 };
 

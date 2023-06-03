@@ -7,10 +7,16 @@ const handle = async (req, res) => {
   await connectDB();
 
   if (method === 'POST') {
-    const task = req.body;
+    try {
+      const task = req.body;
 
-    const taskDoc = await Task.create(task);
-    res.json(taskDoc);
+      const taskDoc = await Task.create(task);
+      console.log(taskDoc);
+      res.json(taskDoc);
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
   }
 
   if (method === 'GET') {
@@ -20,9 +26,9 @@ const handle = async (req, res) => {
       let tasks;
 
       if (sectionName === 'overall') {
-        tasks = await Task.find({ isComplete: false });
+        tasks = await Task.find();
       } else {
-        tasks = await Task.find({ section: sectionName, isComplete: false });
+        tasks = await Task.find({ section: sectionName });
       }
 
       res.json(tasks);

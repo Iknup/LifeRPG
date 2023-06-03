@@ -3,7 +3,8 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const TaskCard = props => {
-  const { task } = props;
+  const { deleteTaskFromSection } = props;
+  const [task, setTask] = useState(props.task);
   const {
     isComplete,
     description,
@@ -23,24 +24,41 @@ const TaskCard = props => {
   const prevLevelExp = getPrevLevelExp(level);
   const clearRate = (timeCompleted / timeGenerated) * 100;
 
-  const expBar = '69%';
+  const expBar = ((experience / nextLevelExp) * 100).toFixed(2) + '%';
   // (experience - prevLevelExp / nextLevelExp - experience) * 100 + '%';
 
-  const onClearHandler = async checked => {
+  const onClearHandler = async () => {
     const updatedData = { isComplete: checked };
 
     try {
       const response = await axios.patch(`/api/task/${_id}`, updatedData);
-      console.log(response);
-      setChecked(prev => setChecked(!prev));
+      const { data } = response;
+      setTask(data);
+      setChecked(prev => !prev);
     } catch (e) {
       console.log('error!');
       console.error(e);
     }
   };
 
-  const onClickHandler = () => {
+  const onChangeHandler = () => {
     onClearHandler();
+  };
+
+  // Delete handler
+  const onDeleteHandler = async () => {
+    try {
+      const response = await axios.delete(`/api/task/${_id}`);
+      console.log(response);
+      deleteTaskFromSection(_id);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Delete handler function by delete button click
+  const onClickDeleteHandler = () => {
+    onDeleteHandler();
   };
 
   // if (level < 10) {
@@ -79,7 +97,7 @@ const TaskCard = props => {
             <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
           </svg>
         </button>
-        <button>
+        <button onClick={onClickDeleteHandler}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -95,19 +113,23 @@ const TaskCard = props => {
         </button>
       </div>
       <div className="flex h-[50%] ml-4">
-        <input type="checkbox" />
+        <input type="checkbox" checked={checked} onChange={onChangeHandler} />
         <p className="flex items-center grow indent-3">{description}</p>
       </div>
-      <div className="flex justify-between mx-3">
-        <p>Lvl {level}</p>
-        <p>{clearRate}%</p>
-      </div>
-      <div className="w-full h-[10%] rounded-b-md bg-primary">
-        <div
-          className="bg-colorMain h-full rounded-bl-md"
-          style={{ width: expBar }}
-        ></div>
-      </div>
+      {isRPG && (
+        <div className="flex justify-between mx-3">
+          <p>Lvl {level}</p>
+          <p>{expBar}</p>
+        </div>
+      )}
+      {isRPG && (
+        <div className="w-full h-[10%] rounded-b-md bg-primary">
+          <div
+            className="bg-colorMain h-full rounded-bl-md"
+            style={{ width: expBar }}
+          ></div>
+        </div>
+      )}
     </div>
   );
 };

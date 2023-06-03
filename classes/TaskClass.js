@@ -1,16 +1,18 @@
 import { WEEKDAYS_ENUM, REPEAT_ENUM } from '@/utility/ENUM';
-import { getRequiredExpForLevel } from '@/utility/levelexp';
+import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
 
 class TaskClass {
   rpgClearHandler(isComplete) {
     // console.log('this:', this);
     // undo the numbers if true
-    isComplete ? (this.experience -= 2) : (this.experience += 2);
+    isComplete
+      ? (this.experience = this.experience - 2)
+      : (this.experience += 2);
     isComplete ? this.timeCompleted-- : this.timeCompleted++;
     // Level check
     if (this.experience >= getRequiredExpForLevel(this.level)) {
       this.level++;
-    } else {
+    } else if (this.experience < getRequiredExpForLevel(this.level)) {
       this.level--;
     }
   }
@@ -26,9 +28,10 @@ class TaskClass {
     switch (repeat) {
       case REPEAT_ENUM.DAILY:
         nextReset = setResetDate(current, 0);
+        ``;
         break;
       case REPEAT_ENUM.WEEKLY:
-        const selectedDay = curReset.getDay();
+        const selectedDay = curReset ? curReset.getDay() : this.selectedDays[0];
         nextReset = getNextResetDate(selectedDay);
         break;
       case REPEAT_ENUM.EVERY_WEEKDAYS:
@@ -62,6 +65,10 @@ class TaskClass {
         break;
     }
     return (this.reset = nextReset);
+  }
+
+  static sortByOption(selectOption, updownOption){
+    
   }
 }
 

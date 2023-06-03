@@ -16,4 +16,13 @@ const WEEKDAYS_ENUM = Object.freeze({
   SATURDAY: 6,
 });
 
-module.exports = { REPEAT_ENUM, WEEKDAYS_ENUM };
+const SORT_OPTIONS_ENUM = Object.freeze({
+  byLvl: 'level',
+  byDueDate: 'due date',
+  byCreatedAt: 'created',
+  byClearRAte: 'clear rate',
+  ascending: true,
+  descending: false,
+});
+
+module.exports = { REPEAT_ENUM, WEEKDAYS_ENUM, SORT_OPTIONS_ENUM };

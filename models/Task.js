@@ -31,6 +31,7 @@ const TaskSchema = new Schema({
   },
   level: {
     type: Number,
+    default: 0,
   },
   experience: {
     type: Number,

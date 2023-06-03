@@ -7,18 +7,19 @@ const handle = async (req, res) => {
   const now = new Date();
 
   if (method === 'PATCH') {
-    const taskNeedsResetUpdate = await Task.find({ reset: { $lte: now } });
-    console.log(taskNeedsResetUpdate);
+    try {
+      const taskNeedsResetUpdate = await Task.find({ reset: { $lte: now } });
 
-    taskNeedsResetUpdate.forEach(async task => {
-      task.timeGenerated++;
-      task.setResetHandler();
-      await task.save();
-    });
+      taskNeedsResetUpdate.forEach(async task => {
+        task.timeGenerated++;
+        task.setResetHandler();
+        await task.save();
+      });
 
-    console.log(taskNeedsResetUpdate);
-
-    res.json(taskNeedsResetUpdate);
+      res.json(taskNeedsResetUpdate);
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 
