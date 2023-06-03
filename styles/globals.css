@@ -13,4 +13,12 @@
     @apply bg-secondary w-[100%]  h-8 
     text-textPrimary place-items-center justify-center duration-300;
   }
+
+  .taskCard-button {
+    @apply w-4 h-4 text-colorMdwhite hover:scale-125 hover:brightness-125 duration-150;
+  }
+
+  .checkbox-button {
+    @apply w-6 h-6;
+  }
 }

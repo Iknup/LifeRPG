@@ -172,7 +172,7 @@ const TaskSection = ({ sectionName }) => {
   return (
     <section className=" min-h-screen w-96 block shadow-sm shadow-black">
       <h1 className="text-center border-b-2 pb-1 mx-2 border-gray-800">{`${sectionName.toUpperCase()}`}</h1>
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-4">
         <select onChange={getSortOptionHandler} className="bg-primary">
           <option>created</option>
           <option>level</option>

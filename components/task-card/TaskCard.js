@@ -1,6 +1,9 @@
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
 import { useState } from 'react';
 import axios from 'axios';
+import Unchecked from '@/icons/jsx/01-yellow/Unchecked';
+import Checked from '@/icons/jsx/01-yellow/checked';
+import Hover from '@/icons/jsx/01-yellow/hover';
 
 const TaskCard = props => {
   const { deleteTaskFromSection } = props;
@@ -19,6 +22,7 @@ const TaskCard = props => {
   } = task;
 
   const [checked, setChecked] = useState(isComplete);
+  const [isHovered, setIsHovered] = useState(false);
 
   const nextLevelExp = getRequiredExpForLevel(level);
   const prevLevelExp = getPrevLevelExp(level);
@@ -60,6 +64,18 @@ const TaskCard = props => {
   const onClickDeleteHandler = () => {
     onDeleteHandler();
   };
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  let checkboxButton = <Unchecked className={'checkbox-button'} />;
+
+  if (isHovered) {
+    checkboxButton = <Hover className={'checkbox-button'} />;
+  }
 
   // if (level < 10) {
   //   expCal = 'bg-green-700 h-full rounded-full';
@@ -70,14 +86,14 @@ const TaskCard = props => {
   // }
 
   return (
-    <div className="h-28 bg-secondary rounded-md my-3 mx-3">
-      <div className="pr-1 pt-1 flex justify-end">
+    <div className="h-28 bg-secondary rounded-md mb-3 mx-3">
+      <div className="pr-1.5 pt-1.5 flex justify-end">
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-4 h-4"
+            className="taskCard-button"
           >
             <path
               fillRule="evenodd"
@@ -91,7 +107,7 @@ const TaskCard = props => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-4 h-4 ml-1"
+            className="taskCard-button ml-1"
           >
             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
             <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
@@ -102,7 +118,7 @@ const TaskCard = props => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-4 h-4 ml-1"
+            className="taskCard-button ml-1"
           >
             <path
               fillRule="evenodd"
@@ -113,17 +129,27 @@ const TaskCard = props => {
         </button>
       </div>
       <div className="flex h-[50%] ml-4">
-        <input type="checkbox" checked={checked} onChange={onChangeHandler} />
-        <p className="flex items-center grow indent-3">{description}</p>
+        <button onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          {checkboxButton}
+        </button>
+        <p className="flex items-center grow indent-3 text-[18px]">
+          {description}
+        </p>
       </div>
+
+      {/* level and exp */}
+
       {isRPG && (
-        <div className="flex justify-between mx-3">
+        <div className="flex justify-between mx-3 text-[15px]">
           <p>Lvl {level}</p>
           <p>{expBar}</p>
         </div>
       )}
+
+      {/* exp bar */}
+
       {isRPG && (
-        <div className="w-full h-[10%] rounded-b-md bg-primary">
+        <div className="w-full h-[7%] rounded-b-md bg-primary">
           <div
             className="bg-colorMain h-full rounded-bl-md"
             style={{ width: expBar }}
