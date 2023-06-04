@@ -12,7 +12,7 @@ class TaskClass {
     // Level check
     if (this.experience >= getRequiredExpForLevel(this.level)) {
       this.level++;
-    } else if (this.experience < getRequiredExpForLevel(this.level)) {
+    } else if (this.experience < getPrevLevelExp(this.level)) {
       this.level--;
     }
   }
@@ -67,9 +67,7 @@ class TaskClass {
     return (this.reset = nextReset);
   }
 
-  static sortByOption(selectOption, updownOption){
-    
-  }
+  static sortByOption(selectOption, updownOption) {}
 }
 
 const setResetDate = (today, resetMonth = 0, resetDay = 1, resetHour = 2) => {

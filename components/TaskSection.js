@@ -9,6 +9,7 @@ const TaskSection = ({ sectionName }) => {
   const [tasks, setTasks] = useState([]);
   const [updown, setUpdown] = useState(false);
   const [sort, setSort] = useState();
+  const [rpgSort, setRpgSort] = useState('All');
   // circle animation until fetching task data
   const loadingAnimation = (
     <div className="  h-screen w-96 flex justify-center items-center">
@@ -63,6 +64,20 @@ const TaskSection = ({ sectionName }) => {
     </svg>
   );
 
+  //api request with section name in a config data
+  useEffect(() => {
+    const getTaskRequest = async () => {
+      const res = await axios.get('/api/tasks', {
+        params: { sectionName },
+      });
+      const tasks = res.data;
+      setIsLoaded(prev => setIsLoaded(!prev));
+      setTasks(tasks);
+    };
+
+    getTaskRequest();
+  }, []);
+
   let updownButton;
 
   if (updown === SORT_OPTIONS_ENUM.ascending) {
@@ -113,17 +128,7 @@ const TaskSection = ({ sectionName }) => {
         break;
     }
 
-    taskList = (
-      <div className="flex flex-col">
-        {sortedTask.map(task => (
-          <TaskCard
-            task={task}
-            key={task._id}
-            deleteTaskFromSection={deleteTaskFromSection}
-          />
-        ))}
-      </div>
-    );
+    taskList = sortedTask;
 
     return;
   };
@@ -137,20 +142,6 @@ const TaskSection = ({ sectionName }) => {
   const getUpdownHandler = () => {
     setUpdown(!updown);
   };
-
-  //api request with section name in a config data
-  useEffect(() => {
-    const getTaskRequest = async () => {
-      const res = await axios.get('/api/tasks', {
-        params: { sectionName },
-      });
-      const tasks = res.data;
-      setIsLoaded(prev => setIsLoaded(!prev));
-      setTasks(tasks);
-    };
-
-    getTaskRequest();
-  }, []);
 
   //updating task list after adding new task
   const addTaskFormSection = data => {
@@ -184,7 +175,19 @@ const TaskSection = ({ sectionName }) => {
         </button>
       </div>
 
-      {!isLoaded ? loadingAnimation : taskList}
+      {!isLoaded ? (
+        loadingAnimation
+      ) : (
+        <div className="flex flex-col">
+          {taskList.map(task => (
+            <TaskCard
+              task={task}
+              key={task._id}
+              deleteTaskFromSection={deleteTaskFromSection}
+            />
+          ))}
+        </div>
+      )}
       <NewTaskForm addTaskFormSection={addTaskFormSection} />
     </section>
   );

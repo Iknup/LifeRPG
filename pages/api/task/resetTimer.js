@@ -13,6 +13,7 @@ const handle = async (req, res) => {
       taskNeedsResetUpdate.forEach(async task => {
         task.timeGenerated++;
         task.setResetHandler();
+        task.isComplete = false;
         await task.save();
       });
 

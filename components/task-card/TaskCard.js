@@ -1,13 +1,15 @@
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
 import { useState } from 'react';
+import Modal from '../Modal';
 import axios from 'axios';
 import Unchecked from '@/icons/jsx/01-yellow/Unchecked';
-import Checked from '@/icons/jsx/01-yellow/checked';
-import Hover from '@/icons/jsx/01-yellow/hover';
+import Checked from '@/icons/jsx/01-yellow/Checked';
+import Hover from '@/icons/jsx/01-yellow/Hover';
 
 const TaskCard = props => {
   const { deleteTaskFromSection } = props;
   const [task, setTask] = useState(props.task);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     isComplete,
     description,
@@ -28,8 +30,11 @@ const TaskCard = props => {
   const prevLevelExp = getPrevLevelExp(level);
   const clearRate = (timeCompleted / timeGenerated) * 100;
 
-  const expBar = ((experience / nextLevelExp) * 100).toFixed(2) + '%';
-  // (experience - prevLevelExp / nextLevelExp - experience) * 100 + '%';
+  const expBar =
+    (
+      ((experience - prevLevelExp) / (nextLevelExp - prevLevelExp)) *
+      100
+    ).toFixed(1) + '%';
 
   const onClearHandler = async () => {
     const updatedData = { isComplete: checked };
@@ -40,19 +45,19 @@ const TaskCard = props => {
       setTask(data);
       setChecked(prev => !prev);
     } catch (e) {
-      console.log('error!');
       console.error(e);
     }
   };
 
-  const onChangeHandler = () => {
+  const onCheckboxClickHandler = () => {
     onClearHandler();
   };
 
   // Delete handler
-  const onDeleteHandler = async () => {
+  const onDeleteHandler = async taskId => {
     try {
-      const response = await axios.delete(`/api/task/${_id}`);
+      console.log(taskId);
+      const response = await axios.delete(`/api/task/${taskId}`);
       console.log(response);
       deleteTaskFromSection(_id);
     } catch (e) {
@@ -62,7 +67,7 @@ const TaskCard = props => {
 
   // Delete handler function by delete button click
   const onClickDeleteHandler = () => {
-    onDeleteHandler();
+    onDeleteHandler(_id);
   };
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -71,11 +76,24 @@ const TaskCard = props => {
     setIsHovered(false);
   };
 
-  let checkboxButton = <Unchecked className={'checkbox-button'} />;
+  let checkboxButton = checked ? (
+    <Checked className={'checkbox-button'} />
+  ) : (
+    <Unchecked className={'checkbox-button'} />
+  );
 
   if (isHovered) {
     checkboxButton = <Hover className={'checkbox-button'} />;
   }
+
+  //modal open and close functions
+  const modalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const modalClose = () => {
+    setIsModalOpen(false);
+  };
 
   // if (level < 10) {
   //   expCal = 'bg-green-700 h-full rounded-full';
@@ -86,8 +104,13 @@ const TaskCard = props => {
   // }
 
   return (
-    <div className="h-28 bg-secondary rounded-md mb-3 mx-3">
+    <div
+      className={`h-28 bg-secondary rounded-md mb-3 mx-3 relative    
+      `}
+    >
+      {/* Interaction menu button */}
       <div className="pr-1.5 pt-1.5 flex justify-end">
+        {/* clear rate button */}
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -102,6 +125,7 @@ const TaskCard = props => {
             />
           </svg>
         </button>
+        {/* edit button */}
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +137,8 @@ const TaskCard = props => {
             <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
           </svg>
         </button>
-        <button onClick={onClickDeleteHandler}>
+        {/* delete button */}
+        <button onClick={modalOpen}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -128,33 +153,41 @@ const TaskCard = props => {
           </svg>
         </button>
       </div>
+      {/* Check box and task description */}
       <div className="flex h-[50%] ml-4">
-        <button onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <button
+          onClick={onCheckboxClickHandler}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           {checkboxButton}
         </button>
         <p className="flex items-center grow indent-3 text-[18px]">
           {description}
         </p>
       </div>
-
       {/* level and exp */}
-
       {isRPG && (
         <div className="flex justify-between mx-3 text-[15px]">
           <p>Lvl {level}</p>
           <p>{expBar}</p>
         </div>
       )}
-
       {/* exp bar */}
-
       {isRPG && (
-        <div className="w-full h-[7%] rounded-b-md bg-primary">
+        <div className="w-full h-[7%] rounded-b-md bg-primary overflow-hidden">
           <div
             className="bg-colorMain h-full rounded-bl-md"
             style={{ width: expBar }}
           ></div>
         </div>
+      )}
+      {isModalOpen && (
+        <Modal
+          confirm={onClickDeleteHandler}
+          reject={modalClose}
+          message={'Do you wish to delete?'}
+        />
       )}
     </div>
   );

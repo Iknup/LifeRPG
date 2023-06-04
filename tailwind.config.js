@@ -19,6 +19,8 @@ module.exports = {
         borderPrimary: '#1e2124',
         colorMain: 'rgb(255,197,29)',
         colorSub: 'rgb(38,181,119)',
+        btnConfirm: '#B5F1CC',
+        btnReject: '#FD8A8A',
       },
     },
   },

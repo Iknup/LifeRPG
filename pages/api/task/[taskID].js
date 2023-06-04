@@ -34,10 +34,11 @@ const handle = async (req, res) => {
     const { taskID: _id } = req.query;
 
     try {
-      const task = await Task.findOneAndDelete(_id);
+      const task = await Task.findOneAndDelete({ _id });
       res.send(task);
-    } catch (e) {}
-    res.status(500).send(e);
+    } catch (e) {
+      res.status(500).send(e);
+    }
   }
 };
 

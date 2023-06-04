@@ -90,6 +90,7 @@ const NewTaskForm = props => {
 
     const taskData = await axios.post('/api/tasks', newTask);
 
+    console.log(taskData);
     // adding task to section
     addTaskFormSection(taskData);
   };
