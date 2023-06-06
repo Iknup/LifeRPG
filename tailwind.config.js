@@ -22,7 +22,17 @@ module.exports = {
         btnConfirm: '#B5F1CC',
         btnReject: '#FD8A8A',
       },
+      animation: {
+        bounceOnce: 'bounceOnce',
+      },
+      keyframes: {
+        bounceOnce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translate(20px)' },
+        },
+      },
     },
   },
+
   plugins: [],
 };

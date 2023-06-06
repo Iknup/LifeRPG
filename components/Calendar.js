@@ -30,8 +30,10 @@ function classNames(...classes) {
 }
 
 const MyCalendar = props => {
+  const { todayOn } = props;
   const today = startOfToday();
-  const [selectedDays, setSelectedDays] = useState([]);
+  const todayOnCheck = todayOn ? today : null;
+  const [selectedDays, setSelectedDays] = useState([todayOnCheck]);
   const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
   const { className, getDaysHandler } = props;

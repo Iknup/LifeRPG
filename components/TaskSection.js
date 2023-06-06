@@ -10,6 +10,7 @@ const TaskSection = ({ sectionName }) => {
   const [updown, setUpdown] = useState(false);
   const [sort, setSort] = useState();
   const [rpgSort, setRpgSort] = useState('All');
+
   // circle animation until fetching task data
   const loadingAnimation = (
     <div className="  h-screen w-96 flex justify-center items-center">
@@ -89,7 +90,7 @@ const TaskSection = ({ sectionName }) => {
   let taskList;
 
   // sorting by select option
-  const taskComponenteGenerate = selectOption => {
+  const taskComponenteGenerate = (selectOption, updown) => {
     let sortedTask = [...tasks];
 
     switch (selectOption) {
@@ -114,16 +115,16 @@ const TaskSection = ({ sectionName }) => {
       case SORT_OPTIONS_ENUM.byDueDate:
         sortedTask.sort((a, b) =>
           updown === SORT_OPTIONS_ENUM.ascending
-            ? a.reset - b.reset
-            : b.reset - a.reset
+            ? Date.parse(a.reset) - Date.parse(b.reset)
+            : Date.parse(b.reset) - Date.parse(a.reset)
         );
         break;
 
       default:
         sortedTask.sort((a, b) =>
           updown === SORT_OPTIONS_ENUM.ascending
-            ? a.createdAt - b.createdAt
-            : b.createdAt - a.createdAt
+            ? Date.parse(a.createdAt) - Date.parse(b.createdAt)
+            : Date.parse(b.createdAt) - Date.parse(a.createdAt)
         );
         break;
     }
@@ -158,7 +159,7 @@ const TaskSection = ({ sectionName }) => {
     setTasks(newTasks);
   };
 
-  taskComponenteGenerate(sort);
+  taskComponenteGenerate(sort, updown);
   //return tasks.map(<TaskCard>)
   return (
     <section className=" min-h-screen w-96 block shadow-sm shadow-black">

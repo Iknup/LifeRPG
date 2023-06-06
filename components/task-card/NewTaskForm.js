@@ -1,7 +1,8 @@
-import TaskFormOptions from './TaskFormOptions';
-import MyCalendar from '../Calendar';
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import TaskCardAnimation from '../animation/TaskCardAnimation';
+import TaskFormOptions from './TaskFormOptions';
+import MyCalendar from '../Calendar';
 import { TaskClass } from '../../classes/TaskClass';
 
 const NewTaskForm = props => {
@@ -96,48 +97,54 @@ const NewTaskForm = props => {
   };
 
   return (
-    <div className=" max-w-screen-md bg-primary rounded-lg mb-3 mx-3">
-      <form onSubmit={submitTaskHandler} className="flex flex-col p-2">
-        <label className="mb-1">
-          What do you want to level up in your life?
-        </label>
-        <input
-          type="text"
-          placeholder="FC wut do?"
-          ref={descriptionRef}
-          className="bg-tertiary outline-none h-8 px-1 rounded-lg border-white"
-        />
-        <br />
-        <button
-          type="submit"
-          className="ml-auto bg-green-700 py-[2px] px-[4px] rounded-lg mb-2"
-        >
-          Submit
-        </button>
-
-        <button
-          onClick={e => {
-            e.preventDefault();
-            setShowOptions(prevState => {
-              setShowOptions(!prevState);
-            });
-          }}
-          className="flex w-fit bg-tertiary items-center ml-auto px-3 p-[3px] rounded-lg"
-        >
-          {!showOptions ? 'More options' : 'Close options'}
-          {!showOptions ? btnArrowDown : btnArrowUp}
-        </button>
-      </form>
-      {showOptions && (
-        <div className="flex">
-          <MyCalendar getDaysHandler={getDaysHandler} className="grow-0" />
-          <TaskFormOptions
-            getOptionHandler={getOptionHandler}
-            className="grow"
+    <TaskCardAnimation>
+      <div className=" max-w-screen-md bg-primary rounded-lg mb-3 mx-3">
+        <form onSubmit={submitTaskHandler} className="flex flex-col p-2">
+          <label className="mb-1">
+            What do you want to level up in your life?
+          </label>
+          <input
+            type="text"
+            placeholder="FC wut do?"
+            ref={descriptionRef}
+            className="bg-tertiary outline-none h-8 px-1 rounded-lg border-white"
           />
-        </div>
-      )}
-    </div>
+          <br />
+          <button
+            type="submit"
+            className="ml-auto bg-green-700 py-[2px] px-[4px] rounded-lg mb-2"
+          >
+            Submit
+          </button>
+
+          <button
+            onClick={e => {
+              e.preventDefault();
+              setShowOptions(prevState => {
+                setShowOptions(!prevState);
+              });
+            }}
+            className="flex w-fit bg-tertiary items-center ml-auto px-3 p-[3px] rounded-lg"
+          >
+            {!showOptions ? 'More options' : 'Close options'}
+            {!showOptions ? btnArrowDown : btnArrowUp}
+          </button>
+        </form>
+        {showOptions && (
+          <div className="flex">
+            <MyCalendar
+              getDaysHandler={getDaysHandler}
+              todayOn={true}
+              className="grow-0"
+            />
+            <TaskFormOptions
+              getOptionHandler={getOptionHandler}
+              className="grow"
+            />
+          </div>
+        )}
+      </div>
+    </TaskCardAnimation>
   );
 };
 
