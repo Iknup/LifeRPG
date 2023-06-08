@@ -139,7 +139,8 @@ const TaskSection = ({ sectionName }) => {
       <div className="flex justify-end mb-4 mx-2">
         <select
           onChange={getSortOptionHandler}
-          className="bg-quaternary rounded-lg "
+          className="bg-gradient-to-r from-secondary via-tertiary to-colorMdwhite border-solid border-[1px] text-center 
+          border-tiertiary rounded-xl appearance-none mr-1 "
         >
           <option>created</option>
           <option>level</option>
