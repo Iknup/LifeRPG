@@ -14,7 +14,11 @@ const TaskCardAnimation = ({ children }) => {
   return (
     <AnimatePresence>
       <motion.div
-        animate={{ y: ['-20%', '20%', '0%'], rotate: [0, -2, 2, 0] }}
+        animate={{
+          x: ['10%', '-10%', '0%'],
+          y: ['-20%', '20%', '0%'],
+          rotate: [0, 2, -2, 0],
+        }}
         exit={{ opacity: 0, y: ['-100%'] }}
         transition={bounceTransition}
       >

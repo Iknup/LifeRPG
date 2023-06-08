@@ -20,17 +20,9 @@ const handle = async (req, res) => {
   }
 
   if (method === 'GET') {
-    const { sectionName } = req.query;
-
+    console.log('GET!');
     try {
-      let tasks;
-
-      if (sectionName === 'overall') {
-        tasks = await Task.find();
-      } else {
-        tasks = await Task.find({ section: sectionName });
-      }
-
+      const tasks = await Task.find();
       res.json(tasks);
     } catch (e) {
       res.status(500).send(e);

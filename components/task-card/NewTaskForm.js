@@ -4,13 +4,15 @@ import TaskCardAnimation from '../animation/TaskCardAnimation';
 import TaskFormOptions from './TaskFormOptions';
 import MyCalendar from '../Calendar';
 import { TaskClass } from '../../classes/TaskClass';
+import { taskActions } from '@/slices/taskSlice';
+import { useDispatch } from 'react-redux';
 
 const NewTaskForm = props => {
-  const { addTaskFormSection } = props;
   const [showOptions, setShowOptions] = useState(false);
   const descriptionRef = useRef();
   const [selectedDays, setSelectedDays] = useState([]);
   const [options, setOptions] = useState({});
+  const dispatch = useDispatch();
 
   const btnArrowDown = (
     <svg
@@ -91,9 +93,8 @@ const NewTaskForm = props => {
 
     const taskData = await axios.post('/api/tasks', newTask);
 
-    console.log(taskData);
     // adding task to section
-    addTaskFormSection(taskData);
+    dispatch(taskActions.addTasks(taskData.data));
   };
 
   return (

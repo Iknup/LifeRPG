@@ -14,7 +14,7 @@ const Modal = props => {
   return (
     <motion.div
       initial={{ opacity: 0, y: '-10%' }}
-      animate={{ opacity: 1, y:  0 }}
+      animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: '-10%' }}
       transition={{ type: 'tween', duration: 0.5 }}
       className="w-full h-full place-content-center inset-0 

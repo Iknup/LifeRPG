@@ -1,6 +1,8 @@
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { taskActions } from '@/slices/taskSlice';
+import { useDispatch } from 'react-redux';
 import Modal from '../Modal';
 import axios from 'axios';
 import TaskCardAnimation from '../animation/TaskCardAnimation';
@@ -15,6 +17,8 @@ const TaskCard = props => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [checked, setChecked] = useState(task.isComplete);
   const [isHovered, setIsHovered] = useState(false);
+
+  const dispatch = useDispatch();
 
   //// needs to be added.////
   const { repeat, selectedDays } = task;
@@ -57,12 +61,12 @@ const TaskCard = props => {
 
   const onCheckboxClickHandler = () => {
     onClearHandler(task._id);
+    dispatch(taskActions.updateTasks(task));
   };
 
   // Delete handler
   const onDeleteHandler = async taskId => {
     try {
-      console.log(taskId);
       const response = await axios.delete(`/api/task/${taskId}`);
       console.log(response);
       deleteTaskFromSection(task._id);
@@ -74,6 +78,7 @@ const TaskCard = props => {
   // Delete handler function by delete button click
   const onClickDeleteHandler = () => {
     onDeleteHandler(task._id);
+    dispatch(taskActions.deleteTasks(task._id));
   };
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -176,7 +181,7 @@ const TaskCard = props => {
         )}
         {/* exp bar */}
         {task.isRPG && (
-          <div className="w-full h-[7%] rounded-b-md bg-primary overflow-hidden">
+          <div className="w-full h-[7%] rounded-b-md bg-primary overflow-hidden absolute bottom-0">
             <div
               className="bg-colorMain h-full rounded-bl-md"
               style={{ width: expBar }}
