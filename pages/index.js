@@ -15,7 +15,7 @@ export default function Home({ data }) {
   }, []);
 
   return (
-    <div className="text-textPrimary flex flex-col">
+    <div className="flex flex-col">
       {sectionNames.map(sectionName => (
         <TaskSection sectionName={sectionName} key={sectionName} />
       ))}

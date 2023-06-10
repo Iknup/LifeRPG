@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
-import Modal from '../Modal';
+import ConfirmModal from '../ConfirmModal';
 import axios from 'axios';
 import TaskCardAnimation from '../animation/TaskCardAnimation';
 import Unchecked from '@/icons/jsx/01-yellow/Unchecked';
@@ -54,6 +54,7 @@ const TaskCard = props => {
       const { data } = response;
       setTask(data);
       setChecked(prev => !prev);
+      dispatch(taskActions.updateTasks(data));
     } catch (e) {
       console.error(e);
     }
@@ -61,7 +62,6 @@ const TaskCard = props => {
 
   const onCheckboxClickHandler = () => {
     onClearHandler(task._id);
-    dispatch(taskActions.updateTasks(task));
   };
 
   // Delete handler
@@ -107,8 +107,8 @@ const TaskCard = props => {
   return (
     <TaskCardAnimation>
       <div
-        className={`h-28 bg-secondary rounded-md mb-3 mx-3 relative   
-      `}
+        className={`h-28 bg-ColorTwo rounded-md mb-3 mx-3 relative   
+      z-0`}
       >
         {/* Interaction menu button */}
         <div className="pr-1.5 pt-1.5 flex justify-end">
@@ -168,6 +168,7 @@ const TaskCard = props => {
             {task.description}
           </p>
           <Repeat
+            key={task._id}
             repeat={task.repeat}
             selectedDays={task.selectedDays ? task.selectedDays : null}
           />
@@ -175,7 +176,7 @@ const TaskCard = props => {
         {/* level and exp */}
         {task.isRPG && (
           <div className="flex justify-between mx-3 text-[15px]">
-            <p>Lvl {task.level}</p>
+            <p>Lv {task.level}</p>
             <p>{expBar}</p>
           </div>
         )}
@@ -190,7 +191,7 @@ const TaskCard = props => {
         )}
         <AnimatePresence>
           {isModalOpen && (
-            <Modal
+            <ConfirmModal
               confirm={onClickDeleteHandler}
               reject={modalClose}
               message={'Do you wish to delete?'}

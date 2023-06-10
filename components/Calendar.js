@@ -73,7 +73,7 @@ const MyCalendar = props => {
   };
 
   return (
-    <div className={`pt-2 ${className} w-full`}>
+    <div className={`pt-2 ${className}`}>
       <div className="max-w-sm md:max-w-4xl">
         <div>
           <div>

@@ -14,40 +14,6 @@ const NewTaskForm = props => {
   const [options, setOptions] = useState({});
   const dispatch = useDispatch();
 
-  const btnArrowDown = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="ml-2 w-5 h-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-      />
-    </svg>
-  );
-
-  const btnArrowUp = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="ml-2 w-5 h-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.5 15.75l7.5-7.5 7.5 7.5"
-      />
-    </svg>
-  );
-
   const getDaysHandler = days => {
     // make a limit of the repeating days
     setSelectedDays(days);
@@ -58,8 +24,11 @@ const NewTaskForm = props => {
     setShowOptions(prevState => setShowOptions(!prevState));
   };
 
-  const submitTaskHandler = async e => {
-    e.preventDefault();
+  const showOptionsHandler = () => {
+    setShowOptions(!showOptions);
+  };
+
+  const submitTaskHandler = async () => {
     const descriptionValue = descriptionRef.current.value;
     const { repeat, isRPG } = options;
     const selectedDaysInteger = selectedDays?.map(day => day.getDay());
@@ -97,54 +66,83 @@ const NewTaskForm = props => {
     dispatch(taskActions.addTasks(taskData.data));
   };
 
+  const buttonSubmitHandler = () => {
+    submitTaskHandler();
+  };
+
   return (
     <TaskCardAnimation>
-      <div className=" max-w-screen-md bg-primary rounded-lg mb-3 mx-3">
-        <form onSubmit={submitTaskHandler} className="flex flex-col p-2">
-          <label className="mb-1">
-            What do you want to level up in your life?
-          </label>
-          <input
-            type="text"
-            placeholder="FC wut do?"
-            ref={descriptionRef}
-            className="bg-tertiary outline-none h-8 px-1 rounded-lg border-white"
-          />
-          <br />
-          <button
-            type="submit"
-            className="ml-auto bg-green-700 py-[2px] px-[4px] rounded-lg mb-2"
-          >
-            Submit
+      <div
+        className="h-[56px] bg-ColorThree mb-3 mx-3 rounded-md flex
+      "
+      >
+        <input
+          className="grow bg-ColorThree mx-1 h-1/2 self-center ml-3 
+          text-colorMain placeholder:text-TextColor placeholder:text-sm"
+          placeholder="Add a new task here... FC WUT DO?!"
+          ref={descriptionRef}
+        />
+        <div className="ml-auto flex">
+          {/* RPG Checkbox */}
+          <button className="ml-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+              />
+            </svg>
           </button>
-
-          <button
-            onClick={e => {
-              e.preventDefault();
-              setShowOptions(prevState => {
-                setShowOptions(!prevState);
-              });
-            }}
-            className="flex w-fit bg-tertiary items-center ml-auto px-3 p-[3px] rounded-lg"
-          >
-            {!showOptions ? 'More options' : 'Close options'}
-            {!showOptions ? btnArrowDown : btnArrowUp}
+          {/* Calendar Button */}
+          <button className="ml-1" onClick={showOptionsHandler}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
           </button>
-        </form>
-        {showOptions && (
-          <div className="flex">
-            <MyCalendar
-              getDaysHandler={getDaysHandler}
-              todayOn={true}
-              className="grow-0"
-            />
-            <TaskFormOptions
-              getOptionHandler={getOptionHandler}
-              className="grow"
-            />
-          </div>
-        )}
+          {/* Submit Button */}
+          <button onClick={buttonSubmitHandler} className="ml-1 mr-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
+      {showOptions && (
+        <TaskFormOptions
+          getOptionHandler={getOptionHandler}
+          getDaysHandler={getDaysHandler}
+          className="absolute top-0 z-40 translate-x-[90%]"
+        />
+      )}
     </TaskCardAnimation>
   );
 };

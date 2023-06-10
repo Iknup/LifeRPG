@@ -1,14 +1,20 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-const NavBar = () => {
+const NavBar = props => {
   const router = useRouter();
   const { pathname } = router;
 
+  const menuButtonHanlder = () => {
+    console.log('showButton');
+    props.menuShowHandler();
+  };
+
   return (
-    <div className="bg-primary h-9 min-h-full flex justify-between">
+    <div className="bg-primary h-9 min-h-full flex justify-between ">
       <div className="flex text-white text-lg min-h-full items-center">
-        <button className="mr-1">
+        <button onClick={menuButtonHanlder} className="mr-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

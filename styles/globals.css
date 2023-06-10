@@ -5,7 +5,10 @@
 @layer base {
   html {
     /* font-family: SUITE-Regular; */
-    font-family: Dovemayo_gothic;
+    /* font-family: Dovemayo_gothic; */
+    /* font-family: 'Noto Sans KR', sans-serif; */
+    /* font-family: 'SeoulNamsanM'; */
+    font-family: 'NEXON Lv1 Gothic OTF';
   }
 }
 
@@ -22,7 +25,7 @@
   }
 
   .taskCard-button {
-    @apply w-4 h-4 text-colorMdwhite hover:scale-125 hover:brightness-125 duration-150;
+    @apply w-4 h-4 text-ColorSix hover:scale-125 hover:brightness-125 duration-150;
   }
 
   .checkbox-button {
@@ -37,5 +40,13 @@
   .btn-no {
     @apply w-12 h-9 rounded-md border-solid border-[3px] border-btnReject font-bold 
     text-btnReject hover:bg-btnReject hover:text-primary;
+  }
+
+  .custom-background {
+    @apply bg-gradient-to-br  
+    from-ColorThree 
+    from-80%
+    via-ColorTwo
+    via-85%;
   }
 }
