@@ -1,8 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   tasks: [],
 };
+
+// const postTask = createAsyncThunk('tasks/postTaskStatus', async(postData, {}))
 
 const taskSlice = createSlice({
   name: 'tasks',

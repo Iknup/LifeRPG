@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
-import ConfirmModal from '../ConfirmModal';
+import ConfirmModal from '../Modals/ConfirmModal';
 import axios from 'axios';
 import TaskCardAnimation from '../animation/TaskCardAnimation';
 import Unchecked from '@/icons/jsx/01-yellow/Unchecked';
@@ -69,7 +69,6 @@ const TaskCard = props => {
     try {
       const response = await axios.delete(`/api/task/${taskId}`);
       console.log(response);
-      deleteTaskFromSection(task._id);
     } catch (e) {
       console.error(e);
     }
@@ -112,21 +111,6 @@ const TaskCard = props => {
       >
         {/* Interaction menu button */}
         <div className="pr-1.5 pt-1.5 flex justify-end">
-          {/* clear rate button */}
-          <button>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="taskCard-button"
-            >
-              <path
-                fillRule="evenodd"
-                d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
           {/* edit button */}
           <button>
             <svg

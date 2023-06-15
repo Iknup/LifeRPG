@@ -23,17 +23,17 @@ class TaskClass {
     // If문 대신 switch로 변경
     const curReset = this.reset;
     const current = new Date();
+    console.log('this', this);
     let nextReset;
     const repeat = this.repeat;
     switch (repeat) {
       case REPEAT_ENUM.DAILY:
         nextReset = setResetDate(current, 0);
-        ``;
-        break;
+        return (this.reset = nextReset);
       case REPEAT_ENUM.WEEKLY:
         const selectedDay = curReset ? curReset.getDay() : this.selectedDays[0];
         nextReset = getNextResetDate(selectedDay);
-        break;
+        return (this.reset = nextReset);
       case REPEAT_ENUM.EVERY_WEEKDAYS:
         if (
           current.getDay() === WEEKDAYS_ENUM.SUNDAY ||
@@ -43,28 +43,40 @@ class TaskClass {
         } else {
           nextReset = setResetDate(current, 0);
         }
-        break;
+        return (this.reset = nextReset);
       case REPEAT_ENUM.MONTHLY:
         const selectedDate = curReset.getDate();
         nextReset = getNextMonthResetDate(selectedDate);
-        break;
+        return (this.reset = nextReset);
       case REPEAT_ENUM.EVERY_SELECTED_DAY:
         const day = current.getDay();
+        console.log('day', day);
         // days = 0,1,2,3,4,5,6
         //selectedDays = [1,3,5] selectedDays in number by getDay()
         const { selectedDays } = this;
-        const nextResetDay = selectedDays.find(
+        console.log('selected', selectedDays);
+        const nextResetDay = selectedDays.filter(
           selectedDay => selectedDay >= day
         );
-        if (!nextResetDay) {
-          const min = Math.min(selectedDays);
-          nextReset = getNextResetDate(min);
-        } else {
-          nextReset = getNextResetDate(nextResetDay);
-        }
-        break;
+
+        nextReset =
+          nextResetDay.length > 0
+            ? getNextResetDate(Math.min(...nextResetDay))
+            : getNextResetDate(Math.min(...selectedDays));
+
+        // if (nextResetDay.length !== 0) {
+        //   const min = Math.min(...nextResetDay);
+        //   console.log('min', min);
+        //   nextReset = getNextResetDate(min);
+        // } else {
+        //   const min = Math.min(...selectedDays);
+        //   console.log('min', min);
+        //   nextReset = getNextResetDate(min);
+        // }
+        return (this.reset = nextReset);
+      default:
+      //set to delete
     }
-    return (this.reset = nextReset);
   }
 
   static sortByOption(selectOption, updownOption) {}
@@ -85,7 +97,7 @@ const getNextResetDate = (resetDay, resetHour = 2) => {
   const now = new Date();
   const day = now.getDay();
   const daysUntilReset = (resetDay - day + 7) % 7;
-  const nextReset = setResetDate(now, 0, daysUntilReset, resetHour);
+  const nextReset = setResetDate(now, 0, daysUntilReset + 1, resetHour);
   return nextReset;
 };
 
@@ -106,4 +118,4 @@ const getNextMonthResetDate = (resetDate, resetHour = 2) => {
   return nextReset;
 };
 
-module.exports = { TaskClass };
+module.exports = { TaskClass, setResetDate };

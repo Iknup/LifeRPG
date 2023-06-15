@@ -13,6 +13,7 @@ import {
   add,
   startOfWeek,
 } from 'date-fns';
+import { setResetDate } from '@/classes/TaskClass';
 import { useState, useEffect } from 'react';
 
 let colStartClasses = [
@@ -30,16 +31,19 @@ function classNames(...classes) {
 }
 
 const MyCalendar = props => {
-  const { todayOn } = props;
+  const { className, getSelectedDaysHandler, todayOn, nextWeekOn } = props;
   const today = startOfToday();
+  const nextWeek = setResetDate(today, 0, 7);
   const todayOnCheck = todayOn ? today : null;
-  const [selectedDays, setSelectedDays] = useState([todayOnCheck]);
+  const nextWeekCheck = nextWeekOn ? nextWeek : null;
+  const defaultSelectedDays = [todayOnCheck, nextWeekCheck];
+  // const [todayOnCheck, setTodayOnCheck] = useState(false);
+  const [selectedDays, setSelectedDays] = useState(defaultSelectedDays);
   const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
-  const { className, getDaysHandler } = props;
 
   useEffect(() => {
-    getDaysHandler(selectedDays);
+    getSelectedDaysHandler(selectedDays);
   }, [selectedDays]);
 
   const newDays = eachDayOfInterval({

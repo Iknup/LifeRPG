@@ -1,51 +1,108 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import MyCalendar from '../Calendar';
 import CalendarUnchecked from '@/icons/jsx/01-yellow/CalendarUnchecked';
 import CalendarChecked from '@/icons/jsx/01-yellow/CalendarChecked';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 
+const OPTIONS = Object.freeze({
+  TODAY_CHECK: 'today check',
+  NEXTWEEK_CHECK: 'nextweek check',
+  REPEAT_OPTION: 'repeat option',
+  SELECTED_DAYS: 'selected days',
+});
+
+const reducer = (state, action) => {
+  const newState = { ...state };
+  const showSuggestWeeklyOnHandler = () => {
+    if (newState.isTodayChecked && newState.isNextWeekChecked) {
+      newState.showSuggest = true;
+      newState.repeatOption = REPEAT_ENUM.WEEKLY;
+    } else {
+      newState.showSuggest = false;
+    }
+  };
+  switch (action.type) {
+    case OPTIONS.TODAY_CHECK:
+      newState.isTodayChecked = !state.isTodayChecked;
+      showSuggestWeeklyOnHandler();
+      return newState;
+    case OPTIONS.NEXTWEEK_CHECK:
+      newState.isNextWeekChecked = !state.isNextWeekChecked;
+      showSuggestWeeklyOnHandler();
+      return newState;
+    case OPTIONS.REPEAT_OPTION:
+      if (action.payload !== REPEAT_ENUM.WEEKLY && newState.showSuggest) {
+        newState.showSuggest = false;
+        newState.isNextWeekChecked = false;
+      }
+
+      newState.repeatOption = action.payload;
+      return newState;
+    case OPTIONS.SELECTED_DAYS:
+      newState.selectedDays = action.payload;
+
+    default:
+      return state;
+  }
+};
+
 const TaskFormOptions = props => {
   const { className, getOptionHandler, getDaysHandler } = props;
-  const [repeatOption, setRepeatOption] = useState('None');
+  const [state, dispatch] = useReducer(reducer, {
+    repeatOption: 'None',
+    isTodayChecked: false,
+    isNextWeekChecked: false,
+    showSuggest: false,
+    selectedDays: [],
+  });
   const [isChecked, setIsChecked] = useState(false);
-  const [isTodayChecked, setIsTodayChecked] = useState(false);
 
   const handleSelectChange = event => {
-    setRepeatOption(event.target.value);
-  };
-
-  const handleRPGCheckChange = () => {
-    setIsChecked(!isChecked);
+    dispatch({ type: OPTIONS.REPEAT_OPTION, payload: event.target.value });
   };
 
   const handleSubmit = () => {
-    getOptionHandler({ repeat: repeatOption, isRPG: isChecked });
+    getOptionHandler({ repeat: state.repeatOption });
   };
 
   let repeatStyle;
 
-  if (repeatOption === 'None') {
+  if (state.repeatOption === 'None') {
     repeatStyle = 'bg-testColor';
   } else {
     repeatStyle = 'bg-testColorTwo';
   }
 
-  // text-orange-700
+  const todayButtonHandler = () => {
+    dispatch({ type: OPTIONS.TODAY_CHECK });
+  };
+
+  const nextWeekButtonHandler = () => {
+    dispatch({ type: OPTIONS.NEXTWEEK_CHECK });
+  };
+
+  const getSelectedDaysHandler = days => {
+    dispatch({ type: OPTIONS.SELECTED_DAYS, payload: days });
+  };
 
   return (
     <div className={`${className} flex bg-primary w-[430px] p-3 rounded-lg`}>
       <MyCalendar
-        getDaysHandler={getDaysHandler}
-        todayOn={false}
+        getSelectedDaysHandler={getSelectedDaysHandler}
+        todayOn={state.isTodayChecked}
+        nextWeekOn={state.isNextWeekChecked}
         className="pr-1"
       />
+      {/* Days and repeat options */}
       <div
         className={`border-l-2 border-l-secondary relative w-1/2 max-w-1/2 pl-1 pt-2`}
       >
         <div className="mb-2">
+          {/* Today */}
           <button
-            className="flex place-items-center justify-between w-full h-6 hover:bg-ColorTwo
-          px-1 py-2"
+            onClick={todayButtonHandler}
+            className="flex h-fit place-items-center justify-between w-full hover:bg-ColorTwo
+          px-1 py-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,13 +119,26 @@ const TaskFormOptions = props => {
               />
             </svg>
             <p className="text-lg mr-auto">Today</p>
-            {isTodayChecked ? (
+            {state.isTodayChecked ? (
               <CalendarChecked className="w-[14px] h-[14px]" />
             ) : (
               <CalendarUnchecked className="w-[14px] h-[14px]" />
             )}
           </button>
-
+          {/* Next Week */}
+          <button
+            onClick={nextWeekButtonHandler}
+            className="flex h-fit place-items-center justify-between w-full hover:bg-ColorTwo
+          px-1 py-1"
+          >
+            <p className="text-lg mr-auto">Next Week</p>
+            {state.isNextWeekChecked ? (
+              <CalendarChecked className="w-[14px] h-[14px]" />
+            ) : (
+              <CalendarUnchecked className="w-[14px] h-[14px]" />
+            )}
+          </button>
+          {/* Next Month */}
           <div className="mt-2  flex px-1 py-1 place-items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +158,7 @@ const TaskFormOptions = props => {
           </div>
 
           <select
+            value={state.repeatOption}
             onChange={handleSelectChange}
             className={`${repeatStyle} text-md ml-6 pr-1 w-fit appearance-none
               indent-2 rounded-md`}
@@ -97,9 +168,6 @@ const TaskFormOptions = props => {
             </option>
             <option value={REPEAT_ENUM.DAILY} className="bg-primary">
               Daily
-            </option>
-            <option value={REPEAT_ENUM.WEEKLY} className="bg-primary">
-              Weekly
             </option>
             <option value={REPEAT_ENUM.EVERY_WEEKDAYS} className="bg-primary">
               Every Weekdays
@@ -114,32 +182,12 @@ const TaskFormOptions = props => {
               Monthly
             </option>
           </select>
+          {state.showSuggest && (
+            <p className="mt-2 mx-2 text-colorMain text-xs text-end">
+              Do you wish to repeat weekly?
+            </p>
+          )}
         </div>
-        {/* <div className="flex mb-2">
-          <input
-            onChange={handleRPGCheckChange}
-            type="checkbox"
-            className="mr-2"
-          />
-          <div className="flex items-center">
-            <p>RPG task?</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-5 h-5 ml-1 cursor-pointer"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-              />
-            </svg>
-          </div>
-        </div> */}
-
         <button
           onClick={handleSubmit}
           className="ml-auto bg-testColorTwo py-[2px] px-[4px] rounded-lg mb-2 absolute bottom-0 right-0

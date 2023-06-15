@@ -7,13 +7,13 @@ import { store } from '../store';
 import { Provider } from 'react-redux';
 
 export default function App({ Component, pageProps }) {
-  useEffect(() => {
-    const updateResetTimer = async () => {
-      await axios.patch('/api/task/resetTimer');
-    };
+  // useEffect(() => {
+  //   const updateResetTimer = async () => {
+  //     await axios.patch('/api/task/resetTimer');
+  //   };
 
-    updateResetTimer();
-  }, []);
+  //   updateResetTimer();
+  // }, []);
 
   return (
     <Provider store={store}>

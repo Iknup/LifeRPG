@@ -39,6 +39,7 @@ export const getServerSideProps = async () => {
   //     task.reset = task.reset.toISOString();
   //   }
   // });
+  await axios.patch(`${process.env.DOMAIN}/api/task/resetTimer`);
 
   const res = await axios.get(`${process.env.DOMAIN}/api/tasks`);
   const taskData = res.data;

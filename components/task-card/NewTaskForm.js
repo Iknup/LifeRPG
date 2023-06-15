@@ -6,12 +6,14 @@ import MyCalendar from '../Calendar';
 import { TaskClass } from '../../classes/TaskClass';
 import { taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
+import { REPEAT_ENUM } from '@/utility/ENUM';
 
 const NewTaskForm = props => {
   const [showOptions, setShowOptions] = useState(false);
   const descriptionRef = useRef();
   const [selectedDays, setSelectedDays] = useState([]);
   const [options, setOptions] = useState({});
+  const [isRPG, setIsRPG] = useState(false);
   const dispatch = useDispatch();
 
   const getDaysHandler = days => {
@@ -19,6 +21,7 @@ const NewTaskForm = props => {
     setSelectedDays(days);
   };
 
+  // getting an option from TaskFormOptions
   const getOptionHandler = options => {
     setOptions(options);
     setShowOptions(prevState => setShowOptions(!prevState));
@@ -28,28 +31,32 @@ const NewTaskForm = props => {
     setShowOptions(!showOptions);
   };
 
+  const setRPGHandler = () => {
+    setIsRPG(prev => setIsRPG(!prev));
+  };
+
   const submitTaskHandler = async () => {
-    const descriptionValue = descriptionRef.current.value;
-    const { repeat, isRPG } = options;
+    const descriptionValueRef = descriptionRef.current.value;
+    const { repeat } = options;
     const selectedDaysInteger = selectedDays?.map(day => day.getDay());
     let taskOptions = {};
 
-    if (repeat !== 'None') {
-      if (isRPG) {
-        taskOptions = {
-          level: 1,
-          experience: 0,
-          selectedDays: selectedDaysInteger,
-        };
-      } else {
-        taskOptions = {
-          selectedDays: selectedDaysInteger,
-        };
-      }
+    if (isRPG) {
+      taskOptions = {
+        level: 1,
+        experience: 0,
+        selectedDays: selectedDaysInteger || [],
+        repeat: !repeat ? REPEAT_ENUM.DAILY : repeat,
+      };
+    } else {
+      taskOptions = {
+        selectedDays: selectedDaysInteger,
+        repeat,
+      };
     }
 
     const newTask = {
-      description: descriptionValue,
+      description: descriptionValueRef,
       repeat,
       isRPG,
       ...taskOptions,
@@ -68,6 +75,8 @@ const NewTaskForm = props => {
 
   const buttonSubmitHandler = () => {
     submitTaskHandler();
+
+    descriptionRef.current.value = '';
   };
 
   return (
@@ -84,14 +93,14 @@ const NewTaskForm = props => {
         />
         <div className="ml-auto flex">
           {/* RPG Checkbox */}
-          <button className="ml-3">
+          <button onClick={setRPGHandler} className="ml-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4"
+              className={`w-4 h-4 ${isRPG ? 'bg-ColorSix rounded-lg' : null}`}
             >
               <path
                 strokeLinecap="round"

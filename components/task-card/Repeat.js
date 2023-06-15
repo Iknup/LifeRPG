@@ -31,7 +31,7 @@ const Repeat = props => {
       // or
       // only showing days and full name on tooltip on hover
       const daysContent = days.map(day => (
-        <div className="flex justify-end mt-1 mr-[2px] group">
+        <div key={day} className="flex justify-end mt-1 mr-[2px] group">
           <p
             data-tool
             className={`px-1 text-center text-[7px] font-semibold border-solid border-[2px]
