@@ -10,19 +10,14 @@ import { REPEAT_ENUM } from '@/utility/ENUM';
 
 const NewTaskForm = props => {
   const [showOptions, setShowOptions] = useState(false);
-  const descriptionRef = useRef();
-  const [selectedDays, setSelectedDays] = useState([]);
+  const [description, setDescription] = useState('');
+  const [validate, setValidate] = useState(false);
   const [options, setOptions] = useState({});
   const [isRPG, setIsRPG] = useState(false);
   const dispatch = useDispatch();
 
-  const getDaysHandler = days => {
-    // make a limit of the repeating days
-    setSelectedDays(days);
-  };
-
   // getting an option from TaskFormOptions
-  const getOptionHandler = options => {
+  const getOptionAndDaysHandler = options => {
     setOptions(options);
     setShowOptions(prevState => setShowOptions(!prevState));
   };
@@ -35,9 +30,16 @@ const NewTaskForm = props => {
     setIsRPG(prev => setIsRPG(!prev));
   };
 
+  const onChangeDescriptionHandler = e => {
+    setDescription(e.target.value);
+    if (e.target.value > 1) {
+      setValidate(true);
+    } else setValidate(false);
+  };
+
   const submitTaskHandler = async () => {
-    const descriptionValueRef = descriptionRef.current.value;
-    const { repeat } = options;
+    const descriptionValue = description;
+    const { repeat, selectedDays } = options;
     const selectedDaysInteger = selectedDays?.map(day => day.getDay());
     let taskOptions = {};
 
@@ -55,8 +57,12 @@ const NewTaskForm = props => {
       };
     }
 
+    if (repeat === REPEAT_ENUM.MONTHLY) {
+      taskOptions.selectedDate = selectedDays[0];
+    }
+
     const newTask = {
-      description: descriptionValueRef,
+      description: descriptionValue,
       repeat,
       isRPG,
       ...taskOptions,
@@ -76,7 +82,7 @@ const NewTaskForm = props => {
   const buttonSubmitHandler = () => {
     submitTaskHandler();
 
-    descriptionRef.current.value = '';
+    setDescription('');
   };
 
   return (
@@ -86,10 +92,11 @@ const NewTaskForm = props => {
       "
       >
         <input
-          className="grow bg-ColorThree mx-1 h-1/2 self-center ml-3 
-          text-colorMain placeholder:text-TextColor placeholder:text-sm"
+          className={`grow bg-ColorThree mx-1 h-1/2 self-center ml-3 
+          text-colorMain placeholder:text-TextColor placeholder:text-sm `}
           placeholder="Add a new task here... FC WUT DO?!"
-          ref={descriptionRef}
+          onChange={onChangeDescriptionHandler}
+          value={description}
         />
         <div className="ml-auto flex">
           {/* RPG Checkbox */}
@@ -127,14 +134,21 @@ const NewTaskForm = props => {
             </svg>
           </button>
           {/* Submit Button */}
-          <button onClick={buttonSubmitHandler} className="ml-1 mr-3">
+          <button
+            onClick={buttonSubmitHandler}
+            disabled={validate}
+            className={`ml-1 ${validate ? 'mr-2' : 'mr-3'} h-fit self-center ${
+              validate &&
+              'bg-colorSub rounded-md border-solid border-2 border-testColorTwo scale-110 '
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4"
+              className={validate ? 'w-[18px] h-[18px]' : 'w-4 h-4'}
             >
               <path
                 strokeLinecap="round"
@@ -147,8 +161,7 @@ const NewTaskForm = props => {
       </div>
       {showOptions && (
         <TaskFormOptions
-          getOptionHandler={getOptionHandler}
-          getDaysHandler={getDaysHandler}
+          getOptionAndDaysHandler={getOptionAndDaysHandler}
           className="absolute top-0 z-40 translate-x-[90%]"
         />
       )}

@@ -1,5 +1,6 @@
 import { WEEKDAYS_ENUM, REPEAT_ENUM } from '@/utility/ENUM';
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
+import { addDays, addMonths, setHours, setDate, getDate, set } from 'date-fns';
 
 class TaskClass {
   rpgClearHandler(isComplete) {
@@ -26,31 +27,36 @@ class TaskClass {
     console.log('this', this);
     let nextReset;
     const repeat = this.repeat;
+    const getDaysUntilReset = resetDay => {
+      return (resetDay - current.getDay() + 7) % 7;
+    };
     switch (repeat) {
       case REPEAT_ENUM.DAILY:
-        nextReset = setResetDate(current, 0);
-        return (this.reset = nextReset);
-      case REPEAT_ENUM.WEEKLY:
-        const selectedDay = curReset ? curReset.getDay() : this.selectedDays[0];
-        nextReset = getNextResetDate(selectedDay);
-        return (this.reset = nextReset);
+        nextReset = addDays(current, 1);
+        break;
+      // return (this.reset = setHours(nextReset, 2));
       case REPEAT_ENUM.EVERY_WEEKDAYS:
         if (
           current.getDay() === WEEKDAYS_ENUM.SUNDAY ||
           current.getDay() === WEEKDAYS_ENUM.SATURDAY
         ) {
-          nextReset = getNextResetDate(WEEKDAYS_ENUM.MONDAY);
+          nextReset = addDays(current, getDaysUntilReset(WEEKDAYS_ENUM.MONDAY));
+
+          // nextReset = getNextResetDate(WEEKDAYS_ENUM.MONDAY);
         } else {
-          nextReset = setResetDate(current, 0);
+          nextReset = addDays(current, 1);
         }
-        return (this.reset = nextReset);
+        // return (this.reset = setHours(nextReset, 2));
+        break;
       case REPEAT_ENUM.MONTHLY:
-        const selectedDate = curReset.getDate();
-        nextReset = getNextMonthResetDate(selectedDate);
-        return (this.reset = nextReset);
+        const { selectedDate } = this;
+        const date = getDate(selectedDate);
+        nextReset = setDate(addMonths(current, 1), date);
+        ``;
+        // return (this.reset = setHours(nextReset, 2));
+        break;
       case REPEAT_ENUM.EVERY_SELECTED_DAY:
         const day = current.getDay();
-        console.log('day', day);
         // days = 0,1,2,3,4,5,6
         //selectedDays = [1,3,5] selectedDays in number by getDay()
         const { selectedDays } = this;
@@ -61,8 +67,11 @@ class TaskClass {
 
         nextReset =
           nextResetDay.length > 0
-            ? getNextResetDate(Math.min(...nextResetDay))
-            : getNextResetDate(Math.min(...selectedDays));
+            ? addDays(current, getDaysUntilReset(Math.min(...nextResetDay)) + 1)
+            : addDays(
+                current,
+                getDaysUntilReset(Math.min(...selectedDays)) + 1
+              );
 
         // if (nextResetDay.length !== 0) {
         //   const min = Math.min(...nextResetDay);
@@ -73,10 +82,12 @@ class TaskClass {
         //   console.log('min', min);
         //   nextReset = getNextResetDate(min);
         // }
-        return (this.reset = nextReset);
-      default:
+        // return (this.reset = setHours(nextReset, 2));
+        break;
+
       //set to delete
     }
+    return (this.reset = setConfigHour(nextReset));
   }
 
   static sortByOption(selectOption, updownOption) {}
@@ -93,29 +104,33 @@ const setResetDate = (today, resetMonth = 0, resetDay = 1, resetHour = 2) => {
   );
 };
 
-const getNextResetDate = (resetDay, resetHour = 2) => {
-  const now = new Date();
-  const day = now.getDay();
-  const daysUntilReset = (resetDay - day + 7) % 7;
-  const nextReset = setResetDate(now, 0, daysUntilReset + 1, resetHour);
-  return nextReset;
+const setConfigHour = date => {
+  set(date, { hours: 2, minutes: 0, seconds: 0 });
 };
 
-const getNextMonthResetDate = (resetDate, resetHour = 2) => {
-  const now = new Date();
-  const date = now.getDate();
-  let nextReset;
-  if (resetDate >= date) {
-    nextReset = new Date(now.getFullYear, now.getMonth, resetDate, resetHour);
-  } else {
-    nextReset = new Date(
-      now.getFullYear,
-      now.getMonth + 1,
-      resetDate,
-      resetHour
-    );
-  }
-  return nextReset;
-};
+// const getNextResetDate = (resetDay, resetHour = 2) => {
+//   const now = new Date();
+//   const day = now.getDay();
+//   const daysUntilReset = (resetDay - day + 7) % 7;
+//   const nextReset = setResetDate(now, 0, daysUntilReset + 1, resetHour);
+//   return nextReset;
+// };
+
+// const getNextMonthResetDate = (resetDate, resetHour = 2) => {
+//   const now = new Date();
+//   const date = now.getDate();
+//   let nextReset;
+//   if (resetDate >= date) {
+//     nextReset = new Date(now.getFullYear, now.getMonth, resetDate, resetHour);
+//   } else {
+//     nextReset = new Date(
+//       now.getFullYear,
+//       now.getMonth + 1,
+//       resetDate,
+//       resetHour
+//     );
+//   }
+//   return nextReset;
+// };
 
 module.exports = { TaskClass, setResetDate };

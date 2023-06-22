@@ -47,7 +47,7 @@ const reducer = (state, action) => {
 };
 
 const TaskFormOptions = props => {
-  const { className, getOptionHandler, getDaysHandler } = props;
+  const { className, getOptionAndDaysHandler } = props;
   const [state, dispatch] = useReducer(reducer, {
     repeatOption: 'None',
     isTodayChecked: false,
@@ -62,7 +62,10 @@ const TaskFormOptions = props => {
   };
 
   const handleSubmit = () => {
-    getOptionHandler({ repeat: state.repeatOption });
+    getOptionAndDaysHandler({
+      repeat: state.repeatOption,
+      selectedDays: state.selectedDays,
+    });
   };
 
   let repeatStyle;

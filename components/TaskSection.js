@@ -65,7 +65,6 @@ const TaskSection = ({ sectionName }) => {
       />
     </svg>
   );
-  console.log(tasks);
 
   let updownButton;
 
@@ -87,7 +86,6 @@ const TaskSection = ({ sectionName }) => {
     }
 
     if (completedSort === 'Unclear') {
-      console.log(completedSort);
       sortedTask = sortedTask.filter(task => task.isComplete === false);
     } else {
       sortedTask = [...tasks];

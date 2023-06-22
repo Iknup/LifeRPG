@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { TaskClass } from '@/classes/TaskClass';
+import { REPEAT_ENUM } from '@/utility/ENUM';
 
 const TaskSchema = new Schema({
   description: {
@@ -50,9 +51,15 @@ const TaskSchema = new Schema({
   selectedDays: {
     type: [],
   },
+  selectedDate: {
+    type: Date,
+  },
   section: {
     type: String,
     default: 'user_data_name',
+  },
+  deleteDate: {
+    type: Date,
   },
 });
 
@@ -65,5 +72,19 @@ try {
 } catch (e) {
   Task = mongoose.model('Task', TaskSchema);
 }
+
+TaskSchema.pre('create', function (next) {
+  try {
+    if (this.repeat === REPEAT_ENUM.MONTHLY) {
+      if (this.selectedDays.length > 1) {
+        throw new Error();
+      }
+    }
+
+    next();
+  } catch (e) {
+    res.status(400).send({ error: 'Monthly repeat can only have 1 date' });
+  }
+});
 
 module.exports = { Task };
