@@ -4,7 +4,6 @@ import { addDays, addMonths, setHours, setDate, getDate, set } from 'date-fns';
 
 class TaskClass {
   rpgClearHandler(isComplete) {
-    // console.log('this:', this);
     // undo the numbers if true
     isComplete
       ? (this.experience = this.experience - 2)
@@ -87,7 +86,8 @@ class TaskClass {
 
       //set to delete
     }
-    return (this.reset = setConfigHour(nextReset));
+    const updatedResetTime = setConfigHour(nextReset);
+    return (this.reset = updatedResetTime);
   }
 
   static sortByOption(selectOption, updownOption) {}
@@ -105,7 +105,7 @@ const setResetDate = (today, resetMonth = 0, resetDay = 1, resetHour = 2) => {
 };
 
 const setConfigHour = date => {
-  set(date, { hours: 2, minutes: 0, seconds: 0 });
+  return set(date, { hours: 2, minutes: 0, seconds: 0 });
 };
 
 // const getNextResetDate = (resetDay, resetHour = 2) => {

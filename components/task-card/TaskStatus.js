@@ -52,8 +52,9 @@ const TaskStatus = props => {
   return (
     <DropAnimation>
       <div className="w-100% h-[150px] bg-ColorThree mx-3 rounded-b-md">
-        <div className="flex w-full justify-between text-center">
-          <div className="ml-1 flex">
+        <div className="flex w-full justify-between text-center pt-3">
+          {/* Chart Data */}
+          <div className="ml-3 flex">
             <div className="p-1 flex flex-col place-items-center mr-1">
               <h3>Exp</h3>
               <div className="w-[60px] h-[60px]">
@@ -75,7 +76,8 @@ const TaskStatus = props => {
               </p>
             </div>
           </div>
-          <div className="text-center">
+          {/* BirthDay Data */}
+          <div className="text-center mr-2">
             <h3 className="text-sm p-1 mt-1 mr-2 flex justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

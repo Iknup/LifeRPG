@@ -19,26 +19,11 @@ export default function Home({ data }) {
       {sectionNames.map(sectionName => (
         <TaskSection sectionName={sectionName} key={sectionName} />
       ))}
-      {/* <NewTaskForm />
-      {DUMMY_TASKS.map(task => (
-        <TaskCard task={task} key={task._id} />
-      ))} */}
     </div>
   );
 }
 
 export const getServerSideProps = async () => {
-  // await connectDB();
-
-  // const tasks = await Task.find();
-  // // console.log(tasks);
-  // const taskData = tasks.forEach(task => {
-  //   task._id = task._id.toString();
-  //   task.createdAt = task.createdAt.toISOString();
-  //   if (task.reset) {
-  //     task.reset = task.reset.toISOString();
-  //   }
-  // });
   await axios.patch(`${process.env.DOMAIN}/api/task/resetTimer`);
 
   const res = await axios.get(`${process.env.DOMAIN}/api/tasks`);

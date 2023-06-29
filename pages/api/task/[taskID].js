@@ -8,23 +8,35 @@ const handle = async (req, res) => {
 
   if (method === 'PATCH') {
     const { taskID: _id } = req.query;
-    const { isComplete } = req.body;
-
+    // find task by id
+    const task = await Task.findOne({ _id });
     try {
-      // find task by id
-      const task = await Task.findOne({ _id });
-      console.log(isComplete);
-      // task: isComplete: false isRPG: true
-      // check isRPG
-      // console.log('before', task);
-      if (task.isRPG) {
-        task.rpgClearHandler(isComplete);
+      if (req.body.isEdit) {
+        const { taskData } = req.body;
+        task.description = taskData.description;
+        task.experience = taskData.experience;
+        task.isRPG = taskData.isRPG;
+        task.level = taskData.level;
+        task.repeat = taskData.repeat;
+        task.selectedDays = taskData.selectedDays;
+
+        const taskDoc = await task.save();
+        res.send(taskDoc);
+      } else {
+        const { isComplete } = req.body;
+
+        // task: isComplete: false isRPG: true
+        // check isRPG
+        // console.log('before', task);
+        if (task.isRPG) {
+          task.rpgClearHandler(isComplete);
+        }
+        // switch isComplete
+        task.isComplete = !isComplete;
+        // console.log('after', task);
+        const taskDoc = await task.save();
+        res.send(taskDoc);
       }
-      // switch isComplete
-      task.isComplete = !isComplete;
-      // console.log('after', task);
-      const taskDoc = await task.save();
-      res.send(taskDoc);
     } catch (e) {
       res.status(500).send(e);
     }

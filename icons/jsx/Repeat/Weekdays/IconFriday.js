@@ -4,8 +4,8 @@ function IconFriday() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="14.5"
-      height="14.5"
+      width="18"
+      height="18"
       x="0"
       y="0"
       version="1.1"

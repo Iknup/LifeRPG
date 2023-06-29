@@ -1,10 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+const API_URL = process.env.DOMAIN;
 
 const initialState = {
   tasks: [],
 };
 
-// const postTask = createAsyncThunk('tasks/postTaskStatus', async(postData, {}))
+export const editTask = createAsyncThunk('tasks/editTask', async () => {
+  try {
+  } catch (e) {
+    return e.message;
+  }
+});
 
 const taskSlice = createSlice({
   name: 'tasks',

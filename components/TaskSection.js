@@ -4,6 +4,7 @@ import NewTaskForm from './task-card/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
 import { useSelector } from 'react-redux';
 import TaskCardAnimation from './animation/TaskCardAnimation';
+import { AnimatePresence } from 'framer-motion';
 
 const TaskSection = ({ sectionName }) => {
   const tasks = useSelector(state => state.tasks.tasks);
@@ -197,11 +198,13 @@ const TaskSection = ({ sectionName }) => {
       </div>
       <NewTaskForm />
       {/* Task Card */}
-      <div className="flex flex-col">
-        {sortedTasks.map(task => (
-          <TaskCard task={task} key={task._id} />
-        ))}
-      </div>
+      <AnimatePresence>
+        <div className="flex flex-col">
+          {sortedTasks.map(task => (
+            <TaskCard task={task} key={task._id} />
+          ))}
+        </div>
+      </AnimatePresence>
     </section>
   );
 };

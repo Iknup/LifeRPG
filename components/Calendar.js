@@ -12,8 +12,8 @@ import {
   endOfWeek,
   add,
   startOfWeek,
+  addDays,
 } from 'date-fns';
-import { setResetDate } from '@/classes/TaskClass';
 import { useState, useEffect } from 'react';
 
 let colStartClasses = [
@@ -31,14 +31,17 @@ function classNames(...classes) {
 }
 
 const MyCalendar = props => {
-  const { className, getSelectedDaysHandler, todayOn, nextWeekOn } = props;
+  const {
+    className,
+    getSelectedDaysHandler,
+    todayOn,
+    nextWeekOn,
+    preSelectedDays,
+  } = props;
   const today = startOfToday();
-  const nextWeek = setResetDate(today, 0, 7);
-  const todayOnCheck = todayOn ? today : null;
-  const nextWeekCheck = nextWeekOn ? nextWeek : null;
-  const defaultSelectedDays = [todayOnCheck, nextWeekCheck];
+  const nextWeek = addDays(today, 7);
   // const [todayOnCheck, setTodayOnCheck] = useState(false);
-  const [selectedDays, setSelectedDays] = useState(defaultSelectedDays);
+  const [selectedDays, setSelectedDays] = useState(preSelectedDays || []);
   const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
 
@@ -46,6 +49,33 @@ const MyCalendar = props => {
     getSelectedDaysHandler(selectedDays);
   }, [selectedDays]);
 
+  useEffect(() => {
+    let updatedSelectedDays = selectedDays;
+    if (todayOn) {
+      updatedSelectedDays = [today];
+    } else if (nextWeekOn) {
+      updatedSelectedDays = [nextWeek];
+    } else if (todayOn && nextWeekOn) {
+      updatedSelectedDays = [today, nextWeek];
+    }
+
+    setSelectedDays(updatedSelectedDays);
+
+    return () => {
+      let updatedSelectedDays = selectedDays;
+      if (!todayOn) {
+        setSelectedDays(updatedSelectedDays.filter(day => day !== today));
+      } else if (!nextWeekOn) {
+        setSelectedDays(updatedSelectedDays.filter(day => day !== nextWeek));
+      } else if (!todayOn && !nextWeekOn) {
+        setSelectedDays(
+          updatedSelectedDays.filter(day => {
+            return day !== today && day !== nextWeek;
+          })
+        );
+      }
+    };
+  }, [todayOn, nextWeekOn]);
   const newDays = eachDayOfInterval({
     start: startOfWeek(firstDayCurrentMonth),
     end: endOfWeek(endOfMonth(firstDayCurrentMonth)),

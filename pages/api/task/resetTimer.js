@@ -9,6 +9,10 @@ const handle = async (req, res) => {
   if (method === 'PATCH') {
     try {
       const taskNeedsResetUpdate = await Task.find({ reset: { $lte: now } });
+      // const taskNeedsResetUpdate = await Task.find({
+      //   isRPG: true,
+      //   repeat: 'Daily',
+      // });
       if (taskNeedsResetUpdate) {
         taskNeedsResetUpdate.forEach(async task => {
           task.setResetHandler();

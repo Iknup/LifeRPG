@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "^13.4.4",
     "@reduxjs/toolkit": "^1.9.5",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
@@ -24,7 +23,6 @@
     "next-transpile-modules": "^10.0.0",
     "postcss": "8.4.23",
     "react": "18.2.0",
-    "react-calendar": "^4.2.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.7",

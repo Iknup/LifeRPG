@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import TaskCardAnimation from '../animation/TaskCardAnimation';
 import TaskFormOptions from './TaskFormOptions';
-import MyCalendar from '../Calendar';
 import { TaskClass } from '../../classes/TaskClass';
 import { taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
@@ -19,11 +18,15 @@ const NewTaskForm = props => {
   // getting an option from TaskFormOptions
   const getOptionAndDaysHandler = options => {
     setOptions(options);
-    setShowOptions(prevState => setShowOptions(!prevState));
+    closeOptionHandler();
   };
 
   const showOptionsHandler = () => {
     setShowOptions(!showOptions);
+  };
+
+  const closeOptionHandler = () => {
+    setShowOptions(false);
   };
 
   const setRPGHandler = () => {
@@ -32,7 +35,7 @@ const NewTaskForm = props => {
 
   const onChangeDescriptionHandler = e => {
     setDescription(e.target.value);
-    if (e.target.value > 1) {
+    if (e.target.value.length > 1) {
       setValidate(true);
     } else setValidate(false);
   };
@@ -41,18 +44,19 @@ const NewTaskForm = props => {
     const descriptionValue = description;
     const { repeat, selectedDays } = options;
     const selectedDaysInteger = selectedDays?.map(day => day.getDay());
+    const selectedDaysIntSorted = selectedDaysInteger?.sort((a, b) => a - b);
     let taskOptions = {};
 
     if (isRPG) {
       taskOptions = {
         level: 1,
         experience: 0,
-        selectedDays: selectedDaysInteger || [],
+        selectedDays: selectedDaysIntSorted || [],
         repeat: !repeat ? REPEAT_ENUM.DAILY : repeat,
       };
     } else {
       taskOptions = {
-        selectedDays: selectedDaysInteger,
+        selectedDays: selectedDaysIntSorted || [],
         repeat,
       };
     }
@@ -81,8 +85,9 @@ const NewTaskForm = props => {
 
   const buttonSubmitHandler = () => {
     submitTaskHandler();
-
+    setValidate(false);
     setDescription('');
+    setOptions({});
   };
 
   return (
@@ -136,7 +141,7 @@ const NewTaskForm = props => {
           {/* Submit Button */}
           <button
             onClick={buttonSubmitHandler}
-            disabled={validate}
+            disabled={!validate}
             className={`ml-1 ${validate ? 'mr-2' : 'mr-3'} h-fit self-center ${
               validate &&
               'bg-colorSub rounded-md border-solid border-2 border-testColorTwo scale-110 '
@@ -163,6 +168,8 @@ const NewTaskForm = props => {
         <TaskFormOptions
           getOptionAndDaysHandler={getOptionAndDaysHandler}
           className="absolute top-0 z-40 translate-x-[90%]"
+          closeOptionHandler={closeOptionHandler}
+          options={options}
         />
       )}
     </TaskCardAnimation>

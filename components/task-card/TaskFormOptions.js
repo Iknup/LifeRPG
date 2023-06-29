@@ -3,6 +3,7 @@ import MyCalendar from '../Calendar';
 import CalendarUnchecked from '@/icons/jsx/01-yellow/CalendarUnchecked';
 import CalendarChecked from '@/icons/jsx/01-yellow/CalendarChecked';
 import { REPEAT_ENUM } from '@/utility/ENUM';
+import Nextweek from '@/icons/jsx/Nextweek';
 
 const OPTIONS = Object.freeze({
   TODAY_CHECK: 'today check',
@@ -16,7 +17,7 @@ const reducer = (state, action) => {
   const showSuggestWeeklyOnHandler = () => {
     if (newState.isTodayChecked && newState.isNextWeekChecked) {
       newState.showSuggest = true;
-      newState.repeatOption = REPEAT_ENUM.WEEKLY;
+      newState.repeatOption = REPEAT_ENUM.EVERY_SELECTED_DAY;
     } else {
       newState.showSuggest = false;
     }
@@ -40,22 +41,22 @@ const reducer = (state, action) => {
       return newState;
     case OPTIONS.SELECTED_DAYS:
       newState.selectedDays = action.payload;
-
+      return newState;
     default:
       return state;
   }
 };
 
 const TaskFormOptions = props => {
-  const { className, getOptionAndDaysHandler } = props;
+  const { className, getOptionAndDaysHandler, closeOptionHandler } = props;
+  const { repeat, selectedDays } = props.options;
   const [state, dispatch] = useReducer(reducer, {
-    repeatOption: 'None',
+    repeatOption: repeat || 'None',
     isTodayChecked: false,
     isNextWeekChecked: false,
     showSuggest: false,
-    selectedDays: [],
+    selectedDays: selectedDays || [],
   });
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleSelectChange = event => {
     dispatch({ type: OPTIONS.REPEAT_OPTION, payload: event.target.value });
@@ -88,18 +89,44 @@ const TaskFormOptions = props => {
     dispatch({ type: OPTIONS.SELECTED_DAYS, payload: days });
   };
 
+  const closeOption = () => {
+    closeOptionHandler();
+  };
+
+  const resetHandler = () => {
+    getOptionAndDaysHandler({});
+  };
+
   return (
     <div className={`${className} flex bg-primary w-[430px] p-3 rounded-lg`}>
       <MyCalendar
         getSelectedDaysHandler={getSelectedDaysHandler}
         todayOn={state.isTodayChecked}
         nextWeekOn={state.isNextWeekChecked}
+        preSelectedDays={selectedDays}
         className="pr-1"
       />
       {/* Days and repeat options */}
       <div
         className={`border-l-2 border-l-secondary relative w-1/2 max-w-1/2 pl-1 pt-2`}
       >
+        <button onClick={closeOption} className="absolute -top-2 -right-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5 hover:scale-110"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+
         <div className="mb-2">
           {/* Today */}
           <button
@@ -134,7 +161,8 @@ const TaskFormOptions = props => {
             className="flex h-fit place-items-center justify-between w-full hover:bg-ColorTwo
           px-1 py-1"
           >
-            <p className="text-lg mr-auto">Next Week</p>
+            <Nextweek />
+            <p className="text-lg  ml-1 mr-auto">Next Week</p>
             {state.isNextWeekChecked ? (
               <CalendarChecked className="w-[14px] h-[14px]" />
             ) : (
@@ -166,22 +194,22 @@ const TaskFormOptions = props => {
             className={`${repeatStyle} text-md ml-6 pr-1 w-fit appearance-none
               indent-2 rounded-md`}
           >
-            <option value={'None'} className="indent-2 bg-primary">
+            <option value={'None'} className=" bg-primary">
               None
             </option>
-            <option value={REPEAT_ENUM.DAILY} className="bg-primary">
+            <option value={REPEAT_ENUM.DAILY} className=" bg-primary">
               Daily
             </option>
-            <option value={REPEAT_ENUM.EVERY_WEEKDAYS} className="bg-primary">
+            <option value={REPEAT_ENUM.EVERY_WEEKDAYS} className=" bg-primary">
               Every Weekdays
             </option>
             <option
               value={REPEAT_ENUM.EVERY_SELECTED_DAY}
-              className="bg-primary"
+              className=" bg-primary"
             >
               Every selected day
             </option>
-            <option value={REPEAT_ENUM.MONTHLY} className="bg-primary">
+            <option value={REPEAT_ENUM.MONTHLY} className=" bg-primary">
               Monthly
             </option>
           </select>
@@ -191,13 +219,21 @@ const TaskFormOptions = props => {
             </p>
           )}
         </div>
-        <button
-          onClick={handleSubmit}
-          className="ml-auto bg-testColorTwo py-[2px] px-[4px] rounded-lg mb-2 absolute bottom-0 right-0
+        <div className="absolute bottom-0 right-0">
+          <button
+            onClick={resetHandler}
+            className="py-[2px] px-[5px] rounded-lg mb-2 bg-testColor mr-2"
+          >
+            Reset
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="ml-auto bg-testColorTwo py-[2px] px-[4px] rounded-lg mb-2 
         mr-3"
-        >
-          Confirm
-        </button>
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   );
