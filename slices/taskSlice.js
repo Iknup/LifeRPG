@@ -1,18 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = process.env.DOMAIN;
-
 const initialState = {
   tasks: [],
 };
 
-export const editTask = createAsyncThunk('tasks/editTask', async () => {
-  try {
-  } catch (e) {
-    return e.message;
+export const editTask = createAsyncThunk(
+  'tasks/editTask',
+  async (taskData, isEdit) => {
+    try {
+      const { taskID } = taskData;
+      const response = await axios.patch(`api/task/${taskID}`, {
+        taskData,
+        isEdit,
+      });
+      return response.data;
+    } catch (e) {
+      return { message: e.message };
+    }
   }
-});
+);
 
 const taskSlice = createSlice({
   name: 'tasks',
@@ -43,6 +50,16 @@ const taskSlice = createSlice({
         task => (task.clearRate = task.timeCompleted / task.timeGenerated)
       );
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(editTask.fulfilled, (state, action) => {
+      const taskindex = state.tasks.findIndex(
+        task => task._id === action.payload._id
+      );
+      const updatedTask = action.payload;
+      state.tasks[taskindex] = updatedTask;
+      console.log(updatedTask);
+    });
   },
 });
 

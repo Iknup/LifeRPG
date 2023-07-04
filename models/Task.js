@@ -1,3 +1,4 @@
+import connectDB from '@/lib/mongoose';
 import mongoose, { Schema } from 'mongoose';
 import { TaskClass } from '@/classes/TaskClass';
 import { REPEAT_ENUM } from '@/utility/ENUM';
@@ -60,6 +61,11 @@ const TaskSchema = new Schema({
   },
   deleteDate: {
     type: Date,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    require: true,
   },
 });
 

@@ -21,8 +21,10 @@ const handle = async (req, res) => {
 
   if (method === 'GET') {
     console.log('GET!');
+    const userId = req.query.userId;
+
     try {
-      const tasks = await Task.find();
+      const tasks = await Task.find({ user: userId }).populate('user');
       res.json(tasks);
     } catch (e) {
       res.status(500).send(e);

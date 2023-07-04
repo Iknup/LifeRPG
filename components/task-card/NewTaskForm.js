@@ -4,8 +4,12 @@ import TaskCardAnimation from '../animation/TaskCardAnimation';
 import TaskFormOptions from './TaskFormOptions';
 import { TaskClass } from '../../classes/TaskClass';
 import { taskActions } from '@/slices/taskSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { REPEAT_ENUM } from '@/utility/ENUM';
+import RPGCheck from '@/icons/jsx/RPGCheck';
+import TaskPlus from '@/icons/jsx/TaskPlus';
+import TaskPlusAble from '@/icons/jsx/TaskPlusAble';
+import useClickOutside from '@/hooks/useClickOutSide';
 
 const NewTaskForm = props => {
   const [showOptions, setShowOptions] = useState(false);
@@ -13,6 +17,7 @@ const NewTaskForm = props => {
   const [validate, setValidate] = useState(false);
   const [options, setOptions] = useState({});
   const [isRPG, setIsRPG] = useState(false);
+  const user = useSelector(state => state.users.user);
   const dispatch = useDispatch();
 
   // getting an option from TaskFormOptions
@@ -28,6 +33,10 @@ const NewTaskForm = props => {
   const closeOptionHandler = () => {
     setShowOptions(false);
   };
+
+  const domNode = useClickOutside(() => {
+    setShowOptions(false);
+  });
 
   const setRPGHandler = () => {
     setIsRPG(prev => setIsRPG(!prev));
@@ -69,6 +78,7 @@ const NewTaskForm = props => {
       description: descriptionValue,
       repeat,
       isRPG,
+      user: user._id,
       ...taskOptions,
     };
 
@@ -93,6 +103,7 @@ const NewTaskForm = props => {
   return (
     <TaskCardAnimation>
       <div
+        ref={domNode}
         className="h-[56px] bg-ColorThree mb-3 mx-3 rounded-md flex
       "
       >
@@ -105,21 +116,11 @@ const NewTaskForm = props => {
         />
         <div className="ml-auto flex">
           {/* RPG Checkbox */}
-          <button onClick={setRPGHandler} className="ml-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className={`w-4 h-4 ${isRPG ? 'bg-ColorSix rounded-lg' : null}`}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-              />
-            </svg>
+          <button
+            onClick={setRPGHandler}
+            className={`ml-3 ${isRPG && 'scale-125'}`}
+          >
+            <RPGCheck active={isRPG} />
           </button>
           {/* Calendar Button */}
           <button className="ml-1" onClick={showOptionsHandler}>
@@ -147,31 +148,19 @@ const NewTaskForm = props => {
               'bg-colorSub rounded-md border-solid border-2 border-testColorTwo scale-110 '
             }`}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className={validate ? 'w-[18px] h-[18px]' : 'w-4 h-4'}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
+            {!validate ? <TaskPlus /> : <TaskPlusAble />}
           </button>
         </div>
+        {showOptions && (
+          <TaskFormOptions
+            getOptionAndDaysHandler={getOptionAndDaysHandler}
+            className="absolute top-0 left-0 z-50 translate-x-[90%]"
+            closeOptionHandler={closeOptionHandler}
+            options={options}
+            ref={domNode}
+          />
+        )}
       </div>
-      {showOptions && (
-        <TaskFormOptions
-          getOptionAndDaysHandler={getOptionAndDaysHandler}
-          className="absolute top-0 z-40 translate-x-[90%]"
-          closeOptionHandler={closeOptionHandler}
-          options={options}
-        />
-      )}
     </TaskCardAnimation>
   );
 };

@@ -2,7 +2,7 @@ import SaveIcon from '@/icons/jsx/SaveIcon';
 import TaskCardUI from '../UI/TaskCardUI';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { taskActions } from '@/slices/taskSlice';
+import { editTask } from '@/slices/taskSlice';
 import Repeat from './Repeat';
 import TaskFormOptions from './TaskFormOptions';
 import { REPEAT_ENUM } from '@/utility/ENUM';
@@ -75,6 +75,7 @@ const TaskEdit = props => {
       description: descriptionValue,
       repeat,
       isRPG,
+      taskID: task._id,
       ...taskOptions,
     };
 
@@ -83,16 +84,7 @@ const TaskEdit = props => {
       newTask.setResetHandler();
     }
 
-    const taskID = task._id;
-
-    const taskData = await axios.patch(`/api/task/${taskID}`, {
-      taskData: newTask,
-      isEdit: true,
-    });
-
-    // editing task to section
-    dispatch(taskActions.updateTasks(taskData.data));
-    getUpdatedTaskHandler(taskData.data);
+    dispatch(editTask(newTask, true));
   };
 
   const updateTaskHandler = () => {
