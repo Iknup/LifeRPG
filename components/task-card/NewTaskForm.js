@@ -9,7 +9,7 @@ import { REPEAT_ENUM } from '@/utility/ENUM';
 import RPGCheck from '@/icons/jsx/RPGCheck';
 import TaskPlus from '@/icons/jsx/TaskPlus';
 import TaskPlusAble from '@/icons/jsx/TaskPlusAble';
-import useClickOutside from '@/hooks/useClickOutSide';
+import useClickOutside from '@/hooks/useClickOutside';
 
 const NewTaskForm = props => {
   const [showOptions, setShowOptions] = useState(false);
@@ -87,7 +87,7 @@ const NewTaskForm = props => {
       newTask.setResetHandler();
     }
 
-    const taskData = await axios.post('/api/tasks', newTask);
+    const taskData = await axios.post('/api/task', newTask);
 
     // adding task to section
     dispatch(taskActions.addTasks(taskData.data));
@@ -148,7 +148,7 @@ const NewTaskForm = props => {
               'bg-colorSub rounded-md border-solid border-2 border-testColorTwo scale-110 '
             }`}
           >
-            {!validate ? <TaskPlus /> : <TaskPlusAble />}
+            {!validate ? <TaskPlus scale={12} /> : <TaskPlusAble scale={12} />}
           </button>
         </div>
         {showOptions && (

@@ -1,4 +1,3 @@
-import connectDB from '@/lib/mongoose';
 import mongoose, { Schema } from 'mongoose';
 import { TaskClass } from '@/classes/TaskClass';
 import { REPEAT_ENUM } from '@/utility/ENUM';
@@ -66,6 +65,10 @@ const TaskSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     require: true,
+  },
+  hasSubTask: {
+    type: Boolean,
+    default: false,
   },
 });
 

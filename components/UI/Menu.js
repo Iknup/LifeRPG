@@ -1,6 +1,8 @@
 const Menu = props => {
-  const { children } = props;
-  return <div className="bg-black rounded-md">{children}</div>;
+  const { children, className } = props;
+  return (
+    <div className={`bg-ColorFour rounded-md ${className}`}>{children}</div>
+  );
 };
 
 export default Menu;

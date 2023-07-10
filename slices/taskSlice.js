@@ -3,10 +3,12 @@ import axios from 'axios';
 
 const initialState = {
   tasks: [],
+  error: null,
 };
 
 export const editTask = createAsyncThunk(
   'tasks/editTask',
+  //taskData as an object, isEdit(boolean) true for editing false for clear
   async (taskData, isEdit) => {
     try {
       const { taskID } = taskData;
@@ -53,12 +55,7 @@ const taskSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(editTask.fulfilled, (state, action) => {
-      const taskindex = state.tasks.findIndex(
-        task => task._id === action.payload._id
-      );
-      const updatedTask = action.payload;
-      state.tasks[taskindex] = updatedTask;
-      console.log(updatedTask);
+      taskSlice.caseReducers.updateTasks(state, action);
     });
   },
 });

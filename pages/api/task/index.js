@@ -11,7 +11,6 @@ const handle = async (req, res) => {
       const task = req.body;
 
       const taskDoc = await Task.create(task);
-      console.log(taskDoc);
       res.json(taskDoc);
     } catch (e) {
       console.error(e);
@@ -20,7 +19,6 @@ const handle = async (req, res) => {
   }
 
   if (method === 'GET') {
-    console.log('GET!');
     const userId = req.query.userId;
 
     try {

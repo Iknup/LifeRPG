@@ -7,7 +7,6 @@ import Repeat from './Repeat';
 import TaskFormOptions from './TaskFormOptions';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import { TaskClass } from '../../classes/TaskClass';
-import axios from 'axios';
 
 const TaskEdit = props => {
   const { taskEditHandler, task, getUpdatedTaskHandler } = props;

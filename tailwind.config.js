@@ -27,6 +27,9 @@ module.exports = {
         testColorTwo: '#1F7F4F',
         // testColor: '#1A7248',
       },
+      boxShadow: {
+        menuShadow: '1px 2px 2px rgba(0,0,0,0.25)',
+      },
       animation: {
         bounceOnce: 'bounceOnce',
       },

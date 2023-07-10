@@ -7,41 +7,51 @@ const TaskCardMenu = props => {
   const { menuClose, onEdit, onDelete } = props;
 
   return (
-    <div className="absolute flex z-50 top-4 right-0">
+    <div className="absolute z-50 top-4 -right-4 w-[70px]">
       <DropAnimation>
-        <Menu>
-          <div className="px-1 h-[22px] pb-[2px]">
-            <button
-              onClick={() => {
-                onEdit();
-                menuClose();
-              }}
-              className="group relative mr-[2px]  hover:scale-125"
-            >
-              <TaskEditButton />
-              <p
-                className="absolute bottom-2 scale-0 group-hover:scale-100 
+        <div
+          className="h-0 w-0 
+        border-x-8 border-x-transparent 
+        border-b-8 border-b-ColorFour
+        mx-auto"
+        ></div>
+        <Menu
+          className=" h-fit pt-[2px] pb-1 px-1 grid-cols-1 gap-1
+         shadow-menuShadow
+        "
+        >
+          <button
+            onClick={() => {
+              onEdit();
+              menuClose();
+            }}
+            className="flex group w-max mr-[2px] 
+            hover:scale-110 hover:border-b hover: border-b-TextColor"
+          >
+            <TaskEditButton scale={12} className="my-auto" />
+            <p
+              className="ml-1  group-hover:scale-100 
             text-xs"
-              >
-                edit
-              </p>
-            </button>
-            <button
-              onClick={() => {
-                onDelete();
-                menuClose();
-              }}
-              className="group relative hover:scale-125 "
             >
-              <TaskDeleteButton />
-              <p
-                className="absolute bottom-2 scale-0 group-hover:scale-100 
+              Edit
+            </p>
+          </button>
+          <button
+            onClick={() => {
+              onDelete();
+              menuClose();
+            }}
+            className="flex group  hover:scale-110 
+            hover:border-b hover: border-b-TextColor"
+          >
+            <TaskDeleteButton scale={12} className="my-auto" />
+            <p
+              className=" ml-1 group-hover:scale-100 
             text-xs"
-              >
-                delete
-              </p>
-            </button>
-          </div>
+            >
+              Delete
+            </p>
+          </button>
         </Menu>
       </DropAnimation>
     </div>

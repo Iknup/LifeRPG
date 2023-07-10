@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import TaskDropDownCard from '../UI/TaskDropDownCard';
-import SubTask from './SubTask';
+import SubTask from './sub-task/SubTask';
 import TaskStatus from './TaskStatus';
 import DropAnimation from '../animation/DropAnimation';
 import SubTaskIcon from '@/icons/jsx/SubTaskIcon';
 import TaskGraph from '@/icons/jsx/TaskGraph';
 
 const TaskDropDown = props => {
-  const [isSubTask, setIsSubTask] = useState(true);
   const { statusData } = props;
+  const [isSubTask, setIsSubTask] = useState(statusData.hasSubTask);
 
   return (
     <DropAnimation>
-      <TaskDropDownCard>
-        <div className="flex justify-end mx-3 pt-1">
+      <TaskDropDownCard className={isSubTask ? 'h-fit' : 'h-[160px]'}>
+        <div className="flex justify-end mx-3 pt-[6px]">
           <button
             onClick={() => {
               setIsSubTask(true);
@@ -30,7 +30,11 @@ const TaskDropDown = props => {
             <TaskGraph />
           </button>
         </div>
-        {isSubTask ? <SubTask /> : <TaskStatus statusData={statusData} />}
+        {isSubTask ? (
+          <SubTask taskId={statusData.taskId} hasSubTask={statusData.hasSubTask} />
+        ) : (
+          <TaskStatus statusData={statusData} />
+        )}
       </TaskDropDownCard>
     </DropAnimation>
   );

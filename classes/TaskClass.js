@@ -72,16 +72,6 @@ class TaskClass {
                 getDaysUntilReset(Math.min(...selectedDays)) + 1
               );
 
-        // if (nextResetDay.length !== 0) {
-        //   const min = Math.min(...nextResetDay);
-        //   console.log('min', min);
-        //   nextReset = getNextResetDate(min);
-        // } else {
-        //   const min = Math.min(...selectedDays);
-        //   console.log('min', min);
-        //   nextReset = getNextResetDate(min);
-        // }
-        // return (this.reset = setHours(nextReset, 2));
         break;
 
       //set to delete

@@ -13,12 +13,22 @@ const handle = async (req, res) => {
     try {
       if (req.body.isEdit) {
         const { taskData } = req.body;
-        task.description = taskData.description;
-        task.experience = taskData.experience;
-        task.isRPG = taskData.isRPG;
-        task.level = taskData.level;
-        task.repeat = taskData.repeat;
-        task.selectedDays = taskData.selectedDays;
+        const fieldsToUpdate = [
+          'description',
+          'experience',
+          'isRPG',
+          'level',
+          'repeat',
+          'selectedDays',
+          'hasSubTask',
+        ];
+
+        fieldsToUpdate.forEach(field => {
+          if (taskData.hasOwnProperty(field)) {
+            task[field] = taskData[field];
+          }
+        });
+
 
         const taskDoc = await task.save();
         res.send(taskDoc);

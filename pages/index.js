@@ -44,7 +44,9 @@ export const getServerSideProps = async context => {
 
     const userData = userRes.data;
 
-    await axios.patch(`${process.env.DOMAIN}/api/task/resetTimer`);
+    await axios.patch(
+      `${process.env.DOMAIN}/api/task/resetTimer?userId=${userData._id}`
+    );
 
     const res = await axios.get(
       `${process.env.DOMAIN}/api/task?userId=${userData._id}`

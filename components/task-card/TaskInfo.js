@@ -12,7 +12,7 @@ import Repeat from './Repeat';
 import TaskCardUI from '../UI/TaskCardUI';
 import TaskDropDown from './TaskDropDown';
 import TaskCardMenu from './TaskCardMenu';
-import useClickOutside from '@/hooks/useClickOutSide';
+import useClickOutside from '../../hooks/useClickOutside';
 import ExpandMenu from '@/icons/jsx/ExpandMenu';
 
 const TaskInfo = props => {
@@ -104,7 +104,11 @@ const TaskInfo = props => {
   };
 
   const dropDownHandler = () => {
-    setDropDown(!dropDown);
+    if (task.isRPG || task.hasSubTask) {
+      setDropDown(!dropDown);
+    } else {
+      return;
+    }
   };
 
   //menu close function
@@ -116,6 +120,42 @@ const TaskInfo = props => {
     setIsMenuOpen(false);
   });
 
+  //icons
+  const arrowUp = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 15.75l7.5-7.5 7.5 7.5"
+      />
+    </svg>
+  );
+
+  const arrowDown = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6 
+"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+      />
+    </svg>
+  );
+
   // if (level < 10) {
   //   expCal = 'bg-green-700 h-full rounded-full';
   // } else if (level >= 10 && level < 20) {
@@ -125,7 +165,7 @@ const TaskInfo = props => {
   // }
 
   return (
-    <div className="mb-3" onDoubleClick={dropDownHandler}>
+    <div className="mb-3">
       <TaskCardUI>
         {/* Interaction menu button */}
         <div ref={domNode} className="pr-1.5 pt-1.5 flex justify-end relative">
@@ -167,8 +207,15 @@ const TaskInfo = props => {
         </div>
         {/* level and exp */}
         {task.isRPG && (
-          <div className="flex justify-between mx-3 text-[15px]">
+          <div className="flex justify-between mx-3 text-[15px] group">
             <p>Lv {task.level}</p>
+            <button
+              onClick={dropDownHandler}
+              className="text-ColorSix group-hover:text-TextColor
+            group-hover:scale-150 group-hover:animate-bounce "
+            >
+              {dropDown ? arrowUp : arrowDown}
+            </button>
             <p>{expBar}</p>
           </div>
         )}
@@ -202,6 +249,8 @@ const TaskInfo = props => {
               timesCompleted: task.timeCompleted,
               timesGenereated: task.timeGenerated,
               createdAt: task.createdAt,
+              hasSubTask: task.hasSubTask,
+              taskId: task._id,
             }}
           />
         )}

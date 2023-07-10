@@ -3,7 +3,6 @@ import TaskCard from './task-card/TaskCard';
 import NewTaskForm from './task-card/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
 import { useSelector } from 'react-redux';
-import TaskCardAnimation from './animation/TaskCardAnimation';
 import { AnimatePresence } from 'framer-motion';
 
 const TaskSection = ({ sectionName }) => {
@@ -145,7 +144,7 @@ const TaskSection = ({ sectionName }) => {
   const sortedTasks = taskComponenteGenerate({ sort, completedSort }, updown);
   //return tasks.map(<TaskCard>)
   return (
-    <section className=" min-h-screen w-96 mt-5 ">
+    <section className=" h-screen w-96 mt-5 ">
       <h1 className=" pb-1 mx-2 text-2xl font-medium">{`${sectionName.toUpperCase()}`}</h1>
       {/* Sorting table */}
       <div className="flex justify-end mb-4 mx-2">
@@ -199,7 +198,7 @@ const TaskSection = ({ sectionName }) => {
       <NewTaskForm />
       {/* Task Card */}
       <AnimatePresence>
-        <div className="flex flex-col">
+        <div className="flex flex-col h-[75%] overflow-auto scroll-smooth">
           {sortedTasks.map(task => (
             <TaskCard task={task} key={task._id} />
           ))}
