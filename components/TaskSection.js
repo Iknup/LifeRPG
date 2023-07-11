@@ -124,10 +124,10 @@ const TaskSection = ({ sectionName }) => {
   const sortedTasks = taskComponenteGenerate({ sort, completedSort }, updown);
   //return tasks.map(<TaskCard>)
   return (
-    <section className=" h-screen w-96 mt-5 ">
+    <section className=" h-screen w-[400px] mr-[10px] mt-5 ">
       <h1 className=" pb-1 mx-2 text-2xl font-medium">{`${sectionName.toUpperCase()}`}</h1>
       {/* Sorting table */}
-      <div className="flex justify-end mb-4 mx-2">
+      <div className="flex justify-end mb-4 ml-2 mr-5">
         <select
           onChange={getCompeleteSortHandler}
           className="bg-gradient-to-b from-secondary via-tertiary to-quaternary border-solid 
@@ -175,10 +175,15 @@ const TaskSection = ({ sectionName }) => {
           </svg>
         </button>
       </div>
-      <NewTaskForm />
+      <div className="mr-[10px]">
+        <NewTaskForm />
+      </div>
       {/* Task Card */}
       <AnimatePresence>
-        <div className="flex flex-col h-[75%] overflow-y-auto scroll-smooth">
+        <div
+          className="flex flex-col h-[75%] sectionTaskBox
+        overflow-y-hidden hover:overflow-y-auto scroll-smooth"
+        >
           {sortedTasks.map(task => (
             <TaskCard task={task} key={task._id} />
           ))}

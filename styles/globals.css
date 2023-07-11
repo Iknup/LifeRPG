@@ -9,10 +9,37 @@
     /* font-family: 'Noto Sans KR', sans-serif; */
     /* font-family: 'SeoulNamsanM'; */
     font-family: 'NEXON Lv1 Gothic OTF';
+    scrollbar-gutter: stable;
   }
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #303235;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #242528;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  /* background: #6b6e72; */
+  scale: 110%;
+}
+
 @layer components {
+  .sectionTaskBox {
+    scrollbar-gutter: stable;
+  }
+
   .menu-button {
     @apply text-center mb-2 flex  place-items-center
      transition-all duration-0 pb-2 border-b border-b-textPrimary

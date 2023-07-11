@@ -187,6 +187,7 @@ const TaskInfo = props => {
               createdAt: task.createdAt,
               hasSubTask: task.hasSubTask,
               taskId: task._id,
+              isRPG: task.isRPG,
             }}
           />
         )}

@@ -46,6 +46,8 @@ const handle = async (req, res) => {
       subtasks.forEach(subtask => (subtask.isComplete = false));
 
       subtasks.save();
+
+      res.status(200).send(subtasks);
     } catch (e) {
       res.status(500).send(e);
     }

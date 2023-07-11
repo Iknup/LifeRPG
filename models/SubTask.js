@@ -13,6 +13,12 @@ const SubTaskSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  repeat: {
+    type: String,
+  },
+  reset: {
+    type: Date,
+  },
   parentTask: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Task',
