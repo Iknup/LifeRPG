@@ -1,7 +1,7 @@
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { taskActions } from '@/slices/taskSlice';
+import { deleteTask, editTask, taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
 import ConfirmModal from '../Modals/ConfirmModal';
 import axios from 'axios';
@@ -14,9 +14,11 @@ import TaskDropDown from './TaskDropDown';
 import TaskCardMenu from './TaskCardMenu';
 import useClickOutside from '../../hooks/useClickOutside';
 import ExpandMenu from '@/icons/jsx/ExpandMenu';
+import TaskDropdownUp from '@/icons/jsx/subtask/TaskDropdownUp';
+import TaskDropdownDown from '@/icons/jsx/subtask/TaskDropdownDown';
 
 const TaskInfo = props => {
-  const [task, setTask] = useState(props.task);
+  const { task } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [checked, setChecked] = useState(task.isComplete);
   const [isHovered, setIsHovered] = useState(false);
@@ -25,11 +27,6 @@ const TaskInfo = props => {
   const { taskEditHandler } = props;
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setTask(props.task);
-    setChecked(props.task.isComplete);
-  }, [props.task]);
 
   // calcs
   const nextLevelExp = getRequiredExpForLevel(task.level);
@@ -54,18 +51,11 @@ const TaskInfo = props => {
   }
 
   // onClearhandler
-  const onClearHandler = async taskId => {
-    const updatedData = { isComplete: checked };
+  const onClearHandler = taskId => {
+    const updatedData = { taskID: task._id, isComplete: task.isComplete };
 
-    try {
-      const response = await axios.patch(`/api/task/${taskId}`, updatedData);
-      const { data } = response;
-      setTask(data);
-      setChecked(prev => !prev);
-      dispatch(taskActions.updateTasks(data));
-    } catch (e) {
-      console.error(e);
-    }
+    dispatch(editTask({ taskData: updatedData, isEdit: false }));
+    setChecked(!checked);
   };
 
   const onCheckboxClickHandler = () => {
@@ -73,20 +63,10 @@ const TaskInfo = props => {
   };
 
   // Delete handler
-  const onDeleteHandler = async taskId => {
-    try {
-      const response = await axios.delete(`/api/task/${taskId}`);
-      console.log(response);
-    } catch (e) {
-      console.error(e);
-    }
+  const onClickDeleteHandler = () => {
+    dispatch(deleteTask(task._id));
   };
 
-  // Delete handler function by delete button click
-  const onClickDeleteHandler = () => {
-    onDeleteHandler(task._id);
-    dispatch(taskActions.deleteTasks(task._id));
-  };
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -104,11 +84,7 @@ const TaskInfo = props => {
   };
 
   const dropDownHandler = () => {
-    if (task.isRPG || task.hasSubTask) {
-      setDropDown(!dropDown);
-    } else {
-      return;
-    }
+    setDropDown(!dropDown);
   };
 
   //menu close function
@@ -119,50 +95,6 @@ const TaskInfo = props => {
   const domNode = useClickOutside(() => {
     setIsMenuOpen(false);
   });
-
-  //icons
-  const arrowUp = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-6 h-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.5 15.75l7.5-7.5 7.5 7.5"
-      />
-    </svg>
-  );
-
-  const arrowDown = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-6 h-6 
-"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-      />
-    </svg>
-  );
-
-  // if (level < 10) {
-  //   expCal = 'bg-green-700 h-full rounded-full';
-  // } else if (level >= 10 && level < 20) {
-  //   expCal = 'bg-blue-700 h-full rounded-full';
-  // } else if (level >= 20 && level < 30) {
-  //   expCal = 'bg-red-700 h-full rounded-full';
-  // }
 
   return (
     <div className="mb-3">
@@ -206,22 +138,26 @@ const TaskInfo = props => {
           />
         </div>
         {/* level and exp */}
-        {task.isRPG && (
-          <div className="flex justify-between mx-3 text-[15px] group">
-            <p>Lv {task.level}</p>
-            <button
-              onClick={dropDownHandler}
-              className="text-ColorSix group-hover:text-TextColor
+        <div className="flex justify-between mx-3 text-[15px] group relative">
+          {task.isRPG && <p>Lv {task.level}</p>}
+          <button
+            onClick={dropDownHandler}
+            className="text-ColorSix absolute top-2 left-40
+               group-hover:text-TextColor
             group-hover:scale-150 group-hover:animate-bounce "
-            >
-              {dropDown ? arrowUp : arrowDown}
-            </button>
-            <p>{expBar}</p>
-          </div>
-        )}
+          >
+            {dropDown ? (
+              <TaskDropdownUp scale={12} />
+            ) : (
+              <TaskDropdownDown scale={12} />
+            )}
+          </button>
+          {task.isRPG && <p>{expBar}</p>}
+        </div>
+
         {/* exp bar */}
         {task.isRPG && (
-          <div className="w-full h-[7%] rounded-b-md bg-primary overflow-hidden absolute bottom-0">
+          <div className="w-full h-[7%] rounded-b-md bg-ColorOne overflow-hidden absolute bottom-0">
             <div
               className="bg-colorMain h-full rounded-bl-md"
               style={{ width: expBar }}

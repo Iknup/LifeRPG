@@ -12,7 +12,7 @@ const NavBar = props => {
   };
 
   return (
-    <div className="bg-primary h-9 min-h-full flex justify-between ">
+    <div className="bg-ColorOne h-9 min-h-full flex justify-between ">
       <div className="flex text-white text-lg min-h-full items-center">
         <button onClick={menuButtonHanlder} className="mr-1">
           <svg

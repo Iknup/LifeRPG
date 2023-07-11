@@ -8,7 +8,7 @@ const initialState = {
 
 export const addSubTask = createAsyncThunk(
   'subtask/addSubTask',
-  async (subTaskdata, hasTask) => {
+  async ({ subTaskdata, hasTask }) => {
     try {
       const res = await axios.post('api/subtask', subTaskdata);
       const { data } = res;
@@ -68,7 +68,7 @@ const subtaskSlice = createSlice({
   reducers: {
     addSubtaskSuccess(state, action) {
       const { data: subtaskData, hasTask } = action.payload;
-      console.log(subtaskData);
+      console.log(hasTask);
 
       if (hasTask) {
         const subtaskWrapper = state.subtaskWrappers.find(
@@ -78,7 +78,7 @@ const subtaskSlice = createSlice({
       } else {
         state.subtaskWrappers.push({
           parentId: subtaskData.parentId,
-          subtasks: [...subtaskData],
+          subtasks: [subtaskData],
         });
       }
     },

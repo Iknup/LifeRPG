@@ -34,12 +34,12 @@
 
   .btn-yes {
     @apply w-12 h-9 rounded-md border-solid border-[3px] border-btnConfirm 
-    text-btnConfirm font-bold hover:bg-btnConfirm hover:text-primary;
+    text-btnConfirm font-bold hover:bg-btnConfirm hover:text-ColorOne;
   }
 
   .btn-no {
     @apply w-12 h-9 rounded-md border-solid border-[3px] border-btnReject font-bold 
-    text-btnReject hover:bg-btnReject hover:text-primary;
+    text-btnReject hover:bg-btnReject hover:text-ColorOne;
   }
 
   .custom-background {

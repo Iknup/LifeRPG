@@ -8,13 +8,16 @@ const handle = async (req, res) => {
 
   if (method === 'POST') {
     try {
-      const subTask = req.body;
+      const subTaskData = req.body;
+      console.log('Received subtaskdata', subTaskData);
 
-      const subTaskDoc = await SubTask.create(subTask);
+      const subTaskDoc = await SubTask.create(subTaskData);
 
-      res.send(subTaskDoc);
+      console.log('Created subtask', subTaskDoc);
+
+      res.status(201).send(subTaskDoc);
     } catch (e) {
-      console.error(e);
+      console.error('error creating subtask:', e);
       res.status(500).send(e);
     }
   }
@@ -24,7 +27,6 @@ const handle = async (req, res) => {
 
     try {
       const subtasks = await SubTask.find({ parentTask: parentId });
-
       if (!subtasks) {
         throw new Error('No subtask found!');
       }
@@ -40,6 +42,7 @@ const handle = async (req, res) => {
 
     try {
       const subtasks = await SubTask.find({ parentTask: parentId });
+      console.log(subtasks);
       subtasks.forEach(subtask => (subtask.isComplete = false));
 
       subtasks.save();

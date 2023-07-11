@@ -9,7 +9,7 @@ const initialState = {
 export const editTask = createAsyncThunk(
   'tasks/editTask',
   //taskData as an object, isEdit(boolean) true for editing false for clear
-  async (taskData, isEdit) => {
+  async ({ taskData, isEdit }) => {
     try {
       const { taskID } = taskData;
       const response = await axios.patch(`api/task/${taskID}`, {
@@ -23,6 +23,26 @@ export const editTask = createAsyncThunk(
   }
 );
 
+export const addTask = createAsyncThunk('tasks/addTask', async taskData => {
+  try {
+    const response = await axios.post('/api/task', taskData);
+    const { data } = response;
+    return data;
+  } catch (e) {
+    return { message: e.message };
+  }
+});
+
+export const deleteTask = createAsyncThunk('tasks/deleteTask', async taskId => {
+  try {
+    const response = await axios.delete(`/api/task/${taskId}`);
+    const { data } = response;
+    return { data, taskId };
+  } catch (e) {
+    return { message: e.message };
+  }
+});
+
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -31,7 +51,7 @@ const taskSlice = createSlice({
       const tasks = action.payload;
       state.tasks = [...tasks];
     },
-    addTasks: (state, action) => {
+    addTaskSuccess: (state, action) => {
       state.tasks.push(action.payload);
     },
     updateTasks: (state, action) => {
@@ -41,9 +61,9 @@ const taskSlice = createSlice({
       const updatedTask = action.payload;
       state.tasks[taskindex] = updatedTask;
     },
-    deleteTasks: (state, action) => {
+    deleteTaskSuccess: (state, action) => {
       const updatedTasks = state.tasks.filter(
-        task => task._id !== action.payload
+        task => task._id !== action.payload.taskId
       );
       state.tasks = updatedTasks;
     },
@@ -56,6 +76,12 @@ const taskSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(editTask.fulfilled, (state, action) => {
       taskSlice.caseReducers.updateTasks(state, action);
+    });
+    builder.addCase(addTask.fulfilled, (state, action) => {
+      taskSlice.caseReducers.addTaskSuccess(state, action);
+    });
+    builder.addCase(deleteTask.fulfilled, (state, action) => {
+      taskSlice.caseReducers.deleteTaskSuccess(state, action);
     });
   },
 });

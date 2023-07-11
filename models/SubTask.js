@@ -9,10 +9,6 @@ const SubTaskSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  require: {
-    type: Boolean,
-    default: false,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

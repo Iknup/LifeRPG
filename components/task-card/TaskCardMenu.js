@@ -12,7 +12,7 @@ const TaskCardMenu = props => {
         <div
           className="h-0 w-0 
         border-x-8 border-x-transparent 
-        border-b-8 border-b-ColorFour
+        border-b-8 border-b-ColorFive
         mx-auto"
         ></div>
         <Menu

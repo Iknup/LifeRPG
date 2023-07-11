@@ -83,7 +83,7 @@ const TaskEdit = props => {
       newTask.setResetHandler();
     }
 
-    dispatch(editTask(newTask, true));
+    dispatch(editTask({ taskData: newTask, isEdit: true }));
   };
 
   const updateTaskHandler = () => {

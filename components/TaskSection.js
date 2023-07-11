@@ -12,26 +12,6 @@ const TaskSection = ({ sectionName }) => {
   const [rpgSort, setRpgSort] = useState('All');
   const [completedSort, setCompletedSort] = useState('Unclear');
 
-  // circle animation until fetching task data
-  const loadingAnimation = (
-    <div className="  h-screen w-96 flex justify-center items-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-14 h-14 animate-spin"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    </div>
-  );
-
   const sortButtonDown = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +59,7 @@ const TaskSection = ({ sectionName }) => {
     const { sort, completedSort } = selectOption;
     let sortedTask;
 
-    if (sectionName === 'overall') {
+    if (sectionName === 'user_data_name') {
       sortedTask = [...tasks];
     } else {
       sortedTask = tasks.filter(task => task.section === sectionName);
@@ -198,7 +178,7 @@ const TaskSection = ({ sectionName }) => {
       <NewTaskForm />
       {/* Task Card */}
       <AnimatePresence>
-        <div className="flex flex-col h-[75%] overflow-auto scroll-smooth">
+        <div className="flex flex-col h-[75%] overflow-y-auto scroll-smooth">
           {sortedTasks.map(task => (
             <TaskCard task={task} key={task._id} />
           ))}

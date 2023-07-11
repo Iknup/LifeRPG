@@ -8,7 +8,9 @@ import TaskGraph from '@/icons/jsx/TaskGraph';
 
 const TaskDropDown = props => {
   const { statusData } = props;
-  const [isSubTask, setIsSubTask] = useState(statusData.hasSubTask);
+  const [isSubTask, setIsSubTask] = useState(
+    statusData.isRPG ? statusData.hasSubTask : true
+  );
 
   return (
     <DropAnimation>
@@ -22,16 +24,21 @@ const TaskDropDown = props => {
           >
             <SubTaskIcon />
           </button>
-          <button
-            onClick={() => {
-              setIsSubTask(false);
-            }}
-          >
-            <TaskGraph />
-          </button>
+          {statusData.isRPG && (
+            <button
+              onClick={() => {
+                setIsSubTask(false);
+              }}
+            >
+              <TaskGraph />
+            </button>
+          )}
         </div>
         {isSubTask ? (
-          <SubTask taskId={statusData.taskId} hasSubTask={statusData.hasSubTask} />
+          <SubTask
+            taskId={statusData.taskId}
+            hasSubTask={statusData.hasSubTask}
+          />
         ) : (
           <TaskStatus statusData={statusData} />
         )}

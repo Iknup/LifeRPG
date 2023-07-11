@@ -72,9 +72,9 @@ const TaskFormOptions = props => {
   let repeatStyle;
 
   if (state.repeatOption === 'None') {
-    repeatStyle = 'bg-testColor';
+    repeatStyle = 'bg-DarkRed';
   } else {
-    repeatStyle = 'bg-testColorTwo';
+    repeatStyle = 'bg-DarkGreen';
   }
 
   const todayButtonHandler = () => {
@@ -98,7 +98,7 @@ const TaskFormOptions = props => {
   };
 
   return (
-    <div className={`${className} flex bg-primary w-[430px] p-3 rounded-lg`}>
+    <div className={`${className} flex bg-ColorOne w-[430px] p-3 rounded-lg`}>
       <MyCalendar
         getSelectedDaysHandler={getSelectedDaysHandler}
         todayOn={state.isTodayChecked}
@@ -194,22 +194,22 @@ const TaskFormOptions = props => {
             className={`${repeatStyle} text-md ml-6 pr-1 w-fit appearance-none
               indent-2 rounded-md`}
           >
-            <option value={'None'} className=" bg-primary">
+            <option value={'None'} className=" bg-ColorOne">
               None
             </option>
-            <option value={REPEAT_ENUM.DAILY} className=" bg-primary">
+            <option value={REPEAT_ENUM.DAILY} className=" bg-ColorOne">
               Daily
             </option>
-            <option value={REPEAT_ENUM.EVERY_WEEKDAYS} className=" bg-primary">
+            <option value={REPEAT_ENUM.EVERY_WEEKDAYS} className=" bg-ColorOne">
               Every Weekdays
             </option>
             <option
               value={REPEAT_ENUM.EVERY_SELECTED_DAY}
-              className=" bg-primary"
+              className=" bg-ColorOne"
             >
               Every selected day
             </option>
-            <option value={REPEAT_ENUM.MONTHLY} className=" bg-primary">
+            <option value={REPEAT_ENUM.MONTHLY} className=" bg-ColorOne">
               Monthly
             </option>
           </select>
@@ -222,13 +222,13 @@ const TaskFormOptions = props => {
         <div className="absolute bottom-0 right-0">
           <button
             onClick={resetHandler}
-            className="py-[2px] px-[5px] rounded-lg mb-2 bg-testColor mr-2"
+            className="py-[2px] px-[5px] rounded-lg mb-2 bg-DarkRed mr-2"
           >
             Reset
           </button>
           <button
             onClick={handleSubmit}
-            className="ml-auto bg-testColorTwo py-[2px] px-[4px] rounded-lg mb-2 
+            className="ml-auto bg-DarkGreen py-[2px] px-[4px] rounded-lg mb-2 
         mr-3"
           >
             Confirm

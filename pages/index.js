@@ -10,12 +10,17 @@ import { authOptions } from './api/auth/[...nextauth]';
 export default function Home({ data, session }) {
   const dispatch = useDispatch();
 
+  //init!
   useEffect(() => {
+    init();
+    return () => {};
+  }, []);
+
+  const init = () => {
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
     dispatch(userAction.loadUser(data.userData));
-    return () => {};
-  }, []);
+  };
 
   return (
     <div className="flex flex-col">

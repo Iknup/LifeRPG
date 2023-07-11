@@ -29,11 +29,10 @@ const handle = async (req, res) => {
           }
         });
 
-
         const taskDoc = await task.save();
         res.send(taskDoc);
       } else {
-        const { isComplete } = req.body;
+        const { isComplete } = req.body.taskData;
 
         // task: isComplete: false isRPG: true
         // check isRPG

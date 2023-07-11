@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { addSubTask } from '@/slices/subtaskSlice';
 import { editTask } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
+import SubtaskCancel from '@/icons/jsx/subtask/SubtaskCancel';
 
 const NewSubTaskFrom = props => {
   const [isValidate, setIsValidate] = useState(false);
-  const [isRequire, setIsRequire] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
   const dispatch = useDispatch();
 
@@ -23,15 +23,23 @@ const NewSubTaskFrom = props => {
   const submitButtonHandler = () => {
     const subtaskData = {
       title: taskTitle,
-      require: isRequire,
       parentTask: props.taskId,
     };
 
+    dispatch(
+      addSubTask({ subTaskdata: subtaskData, hasTask: props.hasSubTask })
+    );
+
     if (!props.hasSubTask) {
-      dispatch(editTask({ hasSubTask: !props.hasSubTask }, true));
+      dispatch(
+        editTask({
+          taskData: { taskID: props.taskId, hasSubTask: !props.hasSubTask },
+          isEdit: true,
+        })
+      );
     }
 
-    dispatch(addSubTask(subtaskData, props.hasSubTask));
+    props.onClose(props.index);
   };
 
   return (
@@ -42,31 +50,16 @@ const NewSubTaskFrom = props => {
         className="bg-ColorFour grow indent-1"
       />
       <div className="ml-1">
-        <button
-          onClick={() => {
-            setIsRequire(!isRequire);
-          }}
-          className={`align-middle mr-[2px] ${
-            isRequire && 'bg-ColorTwo scale-105'
-          }`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
         <button disabled={!isValidate} onClick={submitButtonHandler}>
           {!isValidate ? <TaskPlus scale={12} /> : <TaskPlusAble scale={12} />}
+        </button>
+        <button
+          onClick={() => {
+            props.onClose(props.index);
+          }}
+          className="ml-[2px]"
+        >
+          <SubtaskCancel scale={12} className="hover:text-btnReject" />
         </button>
       </div>
     </div>

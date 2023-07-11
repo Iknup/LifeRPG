@@ -35,36 +35,56 @@ const SubTask = props => {
     ));
   }
 
+  // onCloseInputHandler
+  const onCloseInputHandler = idToDelete => {
+    setAddInputForm(prevState => {
+      const updatedArray = prevState.filter(
+        component => component.id !== idToDelete
+      );
+      return updatedArray;
+    });
+  };
+
   // submit handler render
-  const newSubTaskButtonHandler = () => {
+  const newSubtaskButtonHandler = () => {
     setAddInputForm(prevState => [
       ...prevState,
-      <NewSubTaskFrom
-        key={prevState.length}
-        taskId={props.taskId}
-        hasSubTask={props.hasSubTask}
-      />,
+      {
+        id: prevState.length,
+        jsx: (
+          <NewSubTaskFrom
+            key={prevState.length}
+            index={prevState.length}
+            taskId={props.taskId}
+            hasSubTask={props.hasSubTask}
+            onClose={onCloseInputHandler}
+          />
+        ),
+      },
     ]);
   };
+
+  const inputContent = addInputForm.map(input => input.jsx);
 
   return (
     <div className="mt-2 mx-3">
       {/* subtask and input field */}
       <div className="flex flex-col">
         {subtaskContent}
-        {addInputForm}
+        {inputContent}
       </div>
       <div
         className={`flex justify-center h-12  ${
-          !props.hasSubTask && 'border-t border-ColorSix'
+          (!props.hasSubTask && 'border-t border-ColorSix',
+          inputContent.length >= 1 && 'border-t border-ColorSix')
         }`}
       >
         {/* new task button */}
         <button
-          onClick={newSubTaskButtonHandler}
+          onClick={newSubtaskButtonHandler}
           className="group hover:scale-105"
         >
-          <p className="text-ColorSix group-hover:text-TextColor">
+          <p className={`text-ColorSix group-hover:text-TextColor`}>
             Press here to make new Subtask
           </p>
         </button>

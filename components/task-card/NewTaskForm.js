@@ -3,7 +3,7 @@ import axios from 'axios';
 import TaskCardAnimation from '../animation/TaskCardAnimation';
 import TaskFormOptions from './TaskFormOptions';
 import { TaskClass } from '../../classes/TaskClass';
-import { taskActions } from '@/slices/taskSlice';
+import { addTask } from '@/slices/taskSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import RPGCheck from '@/icons/jsx/RPGCheck';
@@ -87,10 +87,8 @@ const NewTaskForm = props => {
       newTask.setResetHandler();
     }
 
-    const taskData = await axios.post('/api/task', newTask);
-
     // adding task to section
-    dispatch(taskActions.addTasks(taskData.data));
+    dispatch(addTask(newTask));
   };
 
   const buttonSubmitHandler = () => {
