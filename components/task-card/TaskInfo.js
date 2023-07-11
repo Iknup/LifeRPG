@@ -142,7 +142,7 @@ const TaskInfo = props => {
           {task.isRPG && <p>Lv {task.level}</p>}
           <button
             onClick={dropDownHandler}
-            className="text-ColorSix absolute top-2 left-40
+            className="text-ColorSix flex justify-center w-[90%] absolute top-2 left-4
                group-hover:text-TextColor
             group-hover:scale-150 group-hover:animate-bounce "
           >
