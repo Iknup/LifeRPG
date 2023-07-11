@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* font-family: SUITE-Regular; */
+    /* font-family: Dovemayo_gothic; */
+    /* font-family: 'Noto Sans KR', sans-serif; */
+    /* font-family: 'SeoulNamsanM'; */
+    font-family: 'NEXON Lv1 Gothic OTF';
+  }
+}
+
+@layer components {
+  .menu-button {
+    @apply text-center mb-2 flex  place-items-center
+     transition-all duration-0 pb-2 border-b border-b-textPrimary
+      hover:border-b-textPrimary;
+  }
+
+  .active-menu-button {
+    @apply bg-secondary w-[100%]  h-8 
+    text-textPrimary place-items-center justify-center duration-300;
+  }
+
+  .taskCard-button {
+    @apply w-4 h-4 text-ColorSix hover:scale-125 hover:brightness-125 duration-150;
+  }
+
+  .checkbox-button {
+    @apply w-6 h-6;
+  }
+
+  .btn-yes {
+    @apply w-12 h-9 rounded-md border-solid border-[3px] border-btnConfirm 
+    text-btnConfirm font-bold hover:bg-btnConfirm hover:text-ColorOne;
+  }
+
+  .btn-no {
+    @apply w-12 h-9 rounded-md border-solid border-[3px] border-btnReject font-bold 
+    text-btnReject hover:bg-btnReject hover:text-ColorOne;
+  }
+
+  .custom-background {
+    @apply bg-gradient-to-br  
+    from-ColorThree 
+    from-80%
+    via-ColorTwo
+    via-85%;
+  }
+}
