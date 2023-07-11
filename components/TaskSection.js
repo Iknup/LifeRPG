@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TaskCard from './task-card/TaskCard';
-import NewTaskForm from './task-card/NewTaskForm';
+import NewTaskForm from './task-card/task-form/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
 import { useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';

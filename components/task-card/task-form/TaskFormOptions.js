@@ -1,5 +1,5 @@
 import { useState, useReducer } from 'react';
-import MyCalendar from '../Calendar';
+import MyCalendar from '../../Calendar';
 import CalendarUnchecked from '@/icons/jsx/01-yellow/CalendarUnchecked';
 import CalendarChecked from '@/icons/jsx/01-yellow/CalendarChecked';
 import { REPEAT_ENUM } from '@/utility/ENUM';

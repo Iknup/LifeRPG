@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import TaskCardAnimation from '../animation/TaskCardAnimation';
+import TaskCardAnimation from '../../animation/TaskCardAnimation';
 import TaskFormOptions from './TaskFormOptions';
-import { TaskClass } from '../../classes/TaskClass';
+import { TaskClass } from '../../../classes/TaskClass';
 import { addTask } from '@/slices/taskSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { REPEAT_ENUM } from '@/utility/ENUM';
@@ -9,7 +9,7 @@ import RPGCheck from '@/icons/jsx/RPGCheck';
 import TaskPlus from '@/icons/jsx/TaskPlus';
 import TaskPlusAble from '@/icons/jsx/TaskPlusAble';
 import useClickOutside from '@/hooks/useClickOutside';
-import TaskFormIndicator from './task-form/TaskFormIndicator';
+import TaskFormIndicator from './TaskFormIndicator';
 
 const NewTaskForm = props => {
   const [showOptions, setShowOptions] = useState(false);

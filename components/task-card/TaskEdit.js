@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { editTask } from '@/slices/taskSlice';
 import Repeat from './Repeat';
-import TaskFormOptions from './TaskFormOptions';
+import TaskFormOptions from './task-form/TaskFormOptions';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import { TaskClass } from '../../classes/TaskClass';
 
