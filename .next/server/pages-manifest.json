@@ -1,0 +1,11 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js",
+  "/api/task/resetTimer": "pages/api/task/resetTimer.js",
+  "/api/user/[email]": "pages/api/user/[email].js",
+  "/api/task": "pages/api/task.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
+  "/api/task/[taskID]": "pages/api/task/[taskID].js"
+}
