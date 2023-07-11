@@ -37,6 +37,7 @@ const TaskDropDown = props => {
         {isSubTask ? (
           <SubTask
             taskId={statusData.taskId}
+            taskRepeat={statusData.repeat}
             hasSubTask={statusData.hasSubTask}
           />
         ) : (

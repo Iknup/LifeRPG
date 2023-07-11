@@ -55,7 +55,7 @@ const SubTask = props => {
           <NewSubTaskFrom
             key={prevState.length}
             index={prevState.length}
-            taskId={props.taskId}
+            taskData={{ taskId: props.taskId, repeat: props.repeat }}
             hasSubTask={props.hasSubTask}
             onClose={onCloseInputHandler}
           />

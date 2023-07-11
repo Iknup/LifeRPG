@@ -71,7 +71,7 @@ const TaskFormOptions = props => {
 
   let repeatStyle;
 
-  if (state.repeatOption === 'None') {
+  if (state.repeatOption === REPEAT_ENUM.NONE) {
     repeatStyle = 'bg-DarkRed';
   } else {
     repeatStyle = 'bg-DarkGreen';
