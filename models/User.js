@@ -1,5 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 
+const SectionSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+});
+
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -8,6 +19,9 @@ const UserSchema = new Schema({
   name: {
     type: String,
     require: true,
+  },
+  section: {
+    type: [SectionSchema],
   },
 });
 

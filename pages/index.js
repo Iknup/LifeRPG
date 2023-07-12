@@ -1,14 +1,17 @@
 import { taskActions } from '@/slices/taskSlice';
 import { userAction } from '@/slices/userSlice';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { getServerSession } from 'next-auth/next';
 import axios from 'axios';
-import TaskSection from '@/components/TaskSection';
+import TaskSection from '@/components/task-section/TaskSection';
 import { authOptions } from './api/auth/[...nextauth]';
+import AddSection from '@/components/task-section/AddSection';
 
 export default function Home({ data, session }) {
+  const user = useSelector(state => state.users.user);
   const dispatch = useDispatch();
+  const [addSection, setAddSection] = useState(false);
 
   //init!
   useEffect(() => {
@@ -16,18 +19,59 @@ export default function Home({ data, session }) {
     return () => {};
   }, []);
 
+  const onCloseAddSection = () => {
+    setAddSection(false);
+  };
+
   const init = () => {
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
     dispatch(userAction.loadUser(data.userData));
   };
 
+  let sectionContents;
+
+  if (user.section) {
+    const sectionNames = user.section;
+
+    sectionContents =
+      sectionNames.length >= 1
+        ? sectionNames.map(sectionName => (
+            <TaskSection sectionData={sectionName} key={sectionName._id} />
+          ))
+        : null;
+  }
+
   return (
-    <div className="flex flex-col">
-      <TaskSection sectionName={'user_data_name'} />
-      {/* {sectionNames.map(sectionName => (
-        <TaskSection sectionName={sectionName} key={sectionName} />
-      ))} */}
+    <div className="flex">
+      <TaskSection sectionData={{ title: 'user_data_name' }} />
+      {sectionContents}
+      {/* add section btn */}
+      {addSection ? (
+        <AddSection onClose={onCloseAddSection} />
+      ) : (
+        <button
+          onClick={() => {
+            setAddSection(prevState => !prevState);
+          }}
+          className="bg-ColorOne w-[400px] h-16 rounded-md mt-[60px]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 mx-auto"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

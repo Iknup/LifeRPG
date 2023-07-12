@@ -6,7 +6,8 @@ const handle = async (req, res) => {
 
   await connectDB();
   if (method === 'PATCH') {
-    const taskId = req.query.taskId;
+    console.log('Subtask reset!');
+    const taskId = req.query.parentId;
 
     try {
       const subtasks = await SubTask.find({ parentTask: taskId, repeat: true });

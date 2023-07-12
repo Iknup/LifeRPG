@@ -37,22 +37,6 @@ const handle = async (req, res) => {
     }
   }
 
-  if (method === 'PATCH') {
-    const parentId = req.query.parentId;
-
-    try {
-      const subtasks = await SubTask.find({ parentTask: parentId });
-      console.log(subtasks);
-      subtasks.forEach(subtask => (subtask.isComplete = false));
-
-      subtasks.save();
-
-      res.status(200).send(subtasks);
-    } catch (e) {
-      res.status(500).send(e);
-    }
-  }
-
   if (method === 'DELETE') {
     const subtaskId = req.query.subtaskId;
 
