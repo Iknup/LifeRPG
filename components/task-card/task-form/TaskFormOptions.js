@@ -169,7 +169,7 @@ const TaskFormOptions = props => {
               <CalendarUnchecked className="w-[14px] h-[14px]" />
             )}
           </button>
-          {/* Next Month */}
+          {/* Repeat Select */}
           <div className="mt-2  flex px-1 py-1 place-items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +187,6 @@ const TaskFormOptions = props => {
             </svg>
             <p className="text-lg">Repeat?</p>
           </div>
-
           <select
             value={state.repeatOption}
             onChange={handleSelectChange}

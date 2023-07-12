@@ -13,7 +13,7 @@ const handle = async (req, res) => {
 
       const subtask = await SubTask.findOne({ _id: taskId });
 
-      const fieldsToUpdate = ['title', 'isComplete', 'require'];
+      const fieldsToUpdate = ['title', 'isComplete', 'require', 'repeat'];
 
       fieldsToUpdate.forEach(field => {
         if (subtaskData.hasOwnProperty(field)) {

@@ -14,7 +14,7 @@ const SubTaskSchema = new Schema({
     default: Date.now,
   },
   repeat: {
-    type: String,
+    type: Boolean,
   },
   reset: {
     type: Date,

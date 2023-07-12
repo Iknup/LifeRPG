@@ -63,8 +63,8 @@ const NewTaskForm = props => {
       setErrorMessage(
         `You can set only 1 day for ${
           repeat === REPEAT_ENUM.MONTHLY
-            ? REPEAT_ENUM.MONTHLY + 'repeat'
-            : REPEAT_ENUM.NONE + 'repeat'
+            ? REPEAT_ENUM.MONTHLY + ' repeat'
+            : REPEAT_ENUM.NONE + ' repeat'
         }`
       );
       return false;

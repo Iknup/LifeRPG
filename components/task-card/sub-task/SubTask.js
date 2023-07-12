@@ -28,8 +28,10 @@ const SubTask = props => {
   if (props.hasSubTask && subtaskWrapper) {
     subtaskContent = subtaskWrapper.subtasks.map(subtask => (
       <SubtaskInfo
-        taskData={subtask}
+        subtaskData={subtask}
         parentId={props.taskId}
+        hasSubTask={props.hasSubTask}
+        parentRepeat={props.repeat}
         key={subtask._id}
       />
     ));
