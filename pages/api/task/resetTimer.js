@@ -13,13 +13,14 @@ const handle = async (req, res) => {
       const taskNeedsResetUpdate = await Task.find({
         user: userId,
         reset: { $lte: now },
-      });
+      }).populate('user');
+
       if (taskNeedsResetUpdate) {
         taskNeedsResetUpdate.forEach(async task => {
           task.setResetHandler();
           task.timeGenerated++;
           task.isComplete = false;
-          if (task.hasTask) {
+          if (task.hasSubTask) {
             const res = await axios.patch(
               `${process.env.DOMAIN}/api/subtask/reset?parentId=${task._id}`
             );

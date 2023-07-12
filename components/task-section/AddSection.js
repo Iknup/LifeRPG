@@ -22,9 +22,12 @@ const AddSection = props => {
 
   const onSubmitHandler = e => {
     e.preventDefault();
-    dispatch(addSection({ data: { title: title }, userId: user._id }));
+    const userId = user._id;
+    console.log(user);
+    dispatch(addSection({ sectionData: { title: title }, userId }));
     onClose();
   };
+
   return (
     <div className="task-section">
       <form onSubmit={onSubmitHandler} ref={domNode}>

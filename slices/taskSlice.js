@@ -12,7 +12,7 @@ export const editTask = createAsyncThunk(
   async ({ taskData, isEdit }) => {
     try {
       const { taskID } = taskData;
-      const response = await axios.patch(`api/task/${taskID}`, {
+      const response = await axios.patch(`/api/task/${taskID}`, {
         taskData,
         isEdit,
       });

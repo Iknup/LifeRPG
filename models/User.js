@@ -5,10 +5,6 @@ const SectionSchema = new Schema({
     type: String,
     required: true,
   },
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
 });
 
 const UserSchema = new Schema({

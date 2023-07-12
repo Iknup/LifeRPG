@@ -7,9 +7,10 @@ const initialState = {
 
 export const addSection = createAsyncThunk(
   'user/addSection',
-  async ({ data, userId }) => {
+  async ({ sectionData, userId }) => {
+    console.log(userId);
     try {
-      const res = await axios.patch(`/api/user?userId=${userId}`, );
+      const res = await axios.patch(`/api/user?userId=${userId}`, sectionData);
       const { data } = res;
       console.log(data);
       return data;

@@ -12,6 +12,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 import TaskFormIndicator from './TaskFormIndicator';
 
 const NewTaskForm = props => {
+  const { sectionName } = props;
   const [showOptions, setShowOptions] = useState(false);
   const [description, setDescription] = useState('');
   const [validate, setValidate] = useState(false);
@@ -110,6 +111,7 @@ const NewTaskForm = props => {
       isRPG,
       user: user._id,
       ...taskOptions,
+      section: sectionName,
     };
 
     if (newTask.repeat !== 'None') {

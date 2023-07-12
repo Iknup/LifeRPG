@@ -178,7 +178,7 @@ const TaskSection = ({ sectionData }) => {
         </button>
       </div>
       <div className="mr-[10px]">
-        <NewTaskForm />
+        <NewTaskForm sectionName={sectionData.title} />
       </div>
       {/* Task Card */}
       <AnimatePresence>

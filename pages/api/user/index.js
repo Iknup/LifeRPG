@@ -10,12 +10,13 @@ const handle = async (req, res) => {
     console.log('user: ', userId, 'data: ', req.body);
     try {
       const user = await User.findOne({ _id: userId });
-      user.section.push(req.body.title);
+      user.section.push(req.body);
 
       const userDoc = await user.save();
 
       res.status(200).send(userDoc);
     } catch (e) {
+      console.log(e);
       res.status(500).send(e);
     }
   }
