@@ -14,15 +14,15 @@ function TaskDeleteButton({ className, scale }) {
       className={className}
     >
       <path
-        fill="#E5E5E5"
+        fill="currentColor"
         d="M9.26 1.65c0 .413-.338.75-.75.75H1.49a.752.752 0 01-.75-.75c0-.413.337-.75.75-.75h7.02c.412 0 .75.337.75.75z"
       ></path>
       <path
-        fill="#E5E5E5"
+        fill="currentColor"
         d="M1.813 1.425L2.21 10h5.58l.397-8.575H1.813zm2.093 6.059h-.625V4.281h.625v3.203zm1.407 0h-.625V4.281h.625v3.203zm1.406 0h-.625V4.281h.625v3.203z"
       ></path>
       <path
-        fill="#E5E5E5"
+        fill="currentColor"
         d="M5.9.4a.4.4 0 00-.4-.4h-1a.4.4 0 00-.4.4v1c0 .22.18.4.4.4h1a.4.4 0 00.4-.4v-1z"
       ></path>
     </svg>

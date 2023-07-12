@@ -4,6 +4,9 @@ import NewTaskForm from '../task-card/task-form/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
 import { useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
+import ExpandMenu from '@/icons/jsx/ExpandMenu';
+import SectionMenu from './SectionMenu';
+import useClickOutside from '@/hooks/useClickOutside';
 
 const TaskSection = ({ sectionData }) => {
   const tasks = useSelector(state => state.tasks.tasks);
@@ -11,6 +14,7 @@ const TaskSection = ({ sectionData }) => {
   const [sort, setSort] = useState(SORT_OPTIONS_ENUM.byLvl);
   const [rpgSort, setRpgSort] = useState('All');
   const [completedSort, setCompletedSort] = useState('Unclear');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const sortButtonDown = (
     <svg
@@ -123,13 +127,17 @@ const TaskSection = ({ sectionData }) => {
 
   const sortedTasks = taskComponenteGenerate({ sort, completedSort }, updown);
   //return tasks.map(<TaskCard>)
+
+  const domNode = useClickOutside(() => {
+    setMenuOpen(false);
+  });
   return (
     <section className="task-section">
       <h1 className=" pb-1 mx-2 text-2xl font-medium">
         {`${sectionData.title.toUpperCase()}`}
       </h1>
       {/* Sorting table */}
-      <div className="flex justify-end mb-4 ml-2 mr-5">
+      <div className="flex justify-end mb-4 ml-2 mr-6">
         <select
           onChange={getCompeleteSortHandler}
           className="bg-gradient-to-b from-secondary via-tertiary to-quaternary border-solid 
@@ -160,22 +168,20 @@ const TaskSection = ({ sectionData }) => {
         >
           {updownButton}
         </button>
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4 mx-1"
+        <div ref={domNode} className="relative ml-1">
+          <button
+            onClick={() => {
+              setMenuOpen(prevState => !prevState);
+            }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 9h16.5m-16.5 6.75h16.5"
-            />
-          </svg>
-        </button>
+            <ExpandMenu scale={14} />
+          </button>
+          {menuOpen && (
+            <div className="absolute z-50 -left-[10px] top-4">
+              <SectionMenu />
+            </div>
+          )}
+        </div>
       </div>
       <div className="mr-[10px]">
         <NewTaskForm sectionName={sectionData.title} />

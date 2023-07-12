@@ -40,12 +40,6 @@
     scrollbar-gutter: stable;
   }
 
-  .menu-button {
-    @apply text-center mb-2 flex  place-items-center
-     transition-all duration-0 pb-2 border-b border-b-textPrimary
-      hover:border-b-textPrimary;
-  }
-
   .active-menu-button {
     @apply bg-secondary w-[100%]  h-8 
     text-textPrimary place-items-center justify-center duration-300;
@@ -79,5 +73,13 @@
 
   .task-section {
     @apply h-screen w-[400px] mr-[10px] mt-5;
+  }
+
+  .menu-button {
+    @apply flex px-1 min-w-full items-center hover:menu-button-hover
+  }
+
+  .menu-button-hover {
+    @apply bg-ColorSix text-ColorOne;
   }
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 
-function ExpandMenu({ className }) {
+function ExpandMenu({ className, scale }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="10"
-      height="10"
+      width={scale || '10'}
+      height={scale || '10'}
       x="0"
       y="0"
       version="1.1"
