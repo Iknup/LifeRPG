@@ -21,8 +21,10 @@ const handle = async (req, res) => {
           task.isComplete = false;
           if (task.hasTask) {
             const res = await axios.patch(
-              `${process.env.DOMAIN}/api/subtasks?parentId=${task._id}`
+              `${process.env.DOMAIN}/api/subtasks/reset?parentId=${task._id}`
             );
+
+            console.log(res);
           }
           await task.save();
         });
