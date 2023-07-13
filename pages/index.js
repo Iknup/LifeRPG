@@ -88,7 +88,7 @@ export const getServerSideProps = async context => {
     };
   } else {
     const userRes = await axios.get(
-      `${process.env.DOMAIN}/api/user/${session.user.email}`
+      `${process.env.DOMAIN}/api/user/email?email=${session.user.email}`
     );
 
     const userData = userRes.data;

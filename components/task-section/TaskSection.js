@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TaskCard from '../task-card/TaskCard';
 import NewTaskForm from '../task-card/task-form/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import ExpandMenu from '@/icons/jsx/ExpandMenu';
 import SectionMenu from './SectionMenu';
@@ -15,6 +15,8 @@ const TaskSection = ({ sectionData }) => {
   const [rpgSort, setRpgSort] = useState('All');
   const [completedSort, setCompletedSort] = useState('Unclear');
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   const sortButtonDown = (
     <svg
@@ -127,6 +129,15 @@ const TaskSection = ({ sectionData }) => {
 
   const sortedTasks = taskComponenteGenerate({ sort, completedSort }, updown);
   //return tasks.map(<TaskCard>)
+  console.log(sortedTasks);
+
+  const deleteSection = () => {
+    if (sortedTasks.length > 0 || sectionData.title === 'user_data_name') {
+      //error message popup
+    } else {
+      dispatch();
+    }
+  };
 
   const domNode = useClickOutside(() => {
     setMenuOpen(false);

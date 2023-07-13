@@ -20,6 +20,17 @@ export const addSection = createAsyncThunk(
   }
 );
 
+export const deleteSection = createAsyncThunk(
+  'user/deleteSection',
+  async ({ sectionId, userId }) => {
+    try {
+      const res = await axios.delete(`/api/user/section?userId=${userId}`);
+    } catch (e) {
+      return { message: e.message };
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
