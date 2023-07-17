@@ -14,7 +14,7 @@ const NewSubTaskFrom = props => {
   const [taskTitle, setTaskTitle] = useState(
     subtaskData?.title ? subtaskData.title : ''
   );
-  const [repeat, setRepeat] = useState(subtaskData?.repeat || taskData.repeat);
+  const [repeat, setRepeat] = useState(subtaskData?.repeat || false);
   const dispatch = useDispatch();
 
   const inputChangeHandler = e => {

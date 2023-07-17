@@ -10,17 +10,17 @@ const handle = async (req, res) => {
     const taskId = req.query.parentId;
 
     try {
-      const subtasks = await SubTask.find({ parentTask: taskId, repeat: true });
+      const subtasks = await SubTask.updateMany(
+        { parentTask: taskId, repeat: true },
+        { isComplete: false }
+      );
 
-      subtasks.forEach(subtask => {
-        subtask.isComplete = false;
-      });
+      console.log('Subtasks:', subtasks);
 
-      const subtaskDoc = await subtasks.save();
-      res.send(subtaskDoc);
+      res.send(subtasks);
     } catch (e) {
+      console.log('Subtask reset error!:', e);
       res.status(500).send(e);
-      console.log(e);
     }
   }
 };

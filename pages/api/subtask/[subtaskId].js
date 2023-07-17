@@ -6,7 +6,7 @@ const handle = async (req, res) => {
 
   await connectDB();
   if (method === 'PATCH') {
-    const taskId = req.query.subtaskId;
+    const taskId = req.query.parentId;
 
     try {
       const subtaskData = req.body;

@@ -1,3 +1,4 @@
+import TaskDeleteButton from '@/icons/jsx/TaskDeleteButton';
 import { motion } from 'framer-motion';
 
 const Modal = props => {
@@ -18,16 +19,19 @@ const Modal = props => {
       exit={{ opacity: 0, y: '-10%' }}
       transition={{ type: 'tween', duration: 0.5 }}
       className="w-full h-full place-content-center inset-0 
-    items-center justify-center z-50 flex flex-col absolute backdrop-filter backdrop-blur-sm"
+    items-center justify-center z-50 flex flex-col 
+    absolute backdrop-filter backdrop-blur-[2px]"
     >
-      <p className="mb-2">{message}</p>
-      <div className="w-1/3 flex justify-between">
-        <button onClick={onConfirm} className="btn-yes ">
-          Yes
-        </button>
-        <button onClick={onReject} className=" btn-no">
-          No
-        </button>
+      <div className="bg-ColorThree h-[80%] w-[60%] pt-1 rounded-lg">
+        <TaskDeleteButton scale={20} className="text-LightRed mx-auto" />
+        <p className="text-center mt-1">{message}</p>
+        <div className="bg-ColorTwo h-[40%] flex justify-evenly mt-1 ">
+          <button onClick={onConfirm} className="text-LightRed">
+            Confirm
+          </button>
+          <div className="border-l-[2px] border-TextColor h-3 my-auto" />
+          <button onClick={onReject}>Cancel</button>
+        </div>
       </div>
     </motion.div>
   );

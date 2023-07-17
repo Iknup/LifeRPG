@@ -16,7 +16,7 @@ const TaskCardMenu = props => {
         mx-auto"
         />
         <Menu
-          className=" h-fit pt-[2px] pb-1 px-1 grid-cols-1 gap-1
+          className=" h-fit pt-[2px] pb-1 grid-cols-1 gap-1
          shadow-menuShadow
         "
         >

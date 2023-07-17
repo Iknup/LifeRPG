@@ -7,6 +7,8 @@ import axios from 'axios';
 import TaskSection from '@/components/task-section/TaskSection';
 import { authOptions } from './api/auth/[...nextauth]';
 import AddSection from '@/components/task-section/AddSection';
+import { GET_USER_BY_EMAIL } from '@/src/graphql/query/getUserByEmail';
+import client from '@/lib/apollo-client';
 
 export default function Home({ data, session }) {
   const user = useSelector(state => state.users.user);
@@ -79,6 +81,8 @@ export default function Home({ data, session }) {
 export const getServerSideProps = async context => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
+  console.log(session);
+
   if (!session) {
     return {
       redirect: {
@@ -87,11 +91,24 @@ export const getServerSideProps = async context => {
       },
     };
   } else {
-    const userRes = await axios.get(
-      `${process.env.DOMAIN}/api/user/email?email=${session.user.email}`
-    );
+    const email = session.user.email;
+    console.log('UserPost');
+    // const userRes = await axios.post(`${process.env.DOMAIN}/api/graphql`, {
+    //   query: GET_USER_BY_EMAIL,
+    //   variables: { email },
+    // });
 
-    const userData = userRes.data;
+    const userRes = await client.query({
+      query: GET_USER_BY_EMAIL,
+      variables: {
+        email,
+      },
+      fetchPolicy: 'cache-first',
+    });
+
+    console.log('Post finished!');
+
+    const userData = userRes.data.user;
 
     await axios.patch(
       `${process.env.DOMAIN}/api/task/resetTimer?userId=${userData._id}`

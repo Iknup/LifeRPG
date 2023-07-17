@@ -22,6 +22,7 @@ module.exports = {
         TextColor: '#E5E5E5',
         DarkRed: '#7F1F1F',
         DarkGreen: '#1F7F4F',
+        LightRed: '#b22828',
       },
       boxShadow: {
         menuShadow: '1px 2px 2px rgba(0,0,0,0.25)',

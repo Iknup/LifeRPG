@@ -58,7 +58,7 @@ const TaskSchema = new Schema({
     type: String,
     default: 'user_data_name',
   },
-  deleteDate: {
+  expireDate: {
     type: Date,
   },
   user: {
