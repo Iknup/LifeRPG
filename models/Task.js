@@ -55,8 +55,8 @@ const TaskSchema = new Schema({
     type: Date,
   },
   section: {
-    type: String,
-    default: 'user_data_name',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Section',
   },
   expireDate: {
     type: Date,

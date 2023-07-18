@@ -12,7 +12,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 import TaskFormIndicator from './TaskFormIndicator';
 
 const NewTaskForm = props => {
-  const { sectionName } = props;
+  const { sectionId } = props;
   const [showOptions, setShowOptions] = useState(false);
   const [description, setDescription] = useState('');
   const [validate, setValidate] = useState(false);
@@ -111,7 +111,7 @@ const NewTaskForm = props => {
       isRPG,
       user: user._id,
       ...taskOptions,
-      section: sectionName,
+      section: sectionId,
     };
 
     if (newTask.repeat !== 'None') {
@@ -135,8 +135,7 @@ const NewTaskForm = props => {
     <TaskCardAnimation>
       <div
         ref={domNode}
-        className=" bg-ColorThree mb-3 mx-3 rounded-md overflow-hidden 
-      "
+        className=" bg-ColorThree mb-3 mx-3 rounded-md overflow-hidden"
       >
         <div className="flex h-[56px]">
           <input
@@ -199,12 +198,14 @@ const NewTaskForm = props => {
           </div>
         )}
         {showOptions && (
-          <TaskFormOptions
-            getOptionAndDaysHandler={getOptionAndDaysHandler}
-            className="absolute top-0 left-0 z-50 translate-x-[90%]"
-            closeOptionHandler={closeOptionHandler}
-            options={options}
-          />
+          <div className="absolute top-0 z-50 ">
+            <TaskFormOptions
+              getOptionAndDaysHandler={getOptionAndDaysHandler}
+              className=""
+              closeOptionHandler={closeOptionHandler}
+              options={options}
+            />
+          </div>
         )}
       </div>
     </TaskCardAnimation>

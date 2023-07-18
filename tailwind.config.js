@@ -31,11 +31,17 @@ module.exports = {
       },
       animation: {
         bounceOnce: 'bounceOnce',
+        wiggleOnce: 'wiggleOnce 1s ease-in-out',
       },
       keyframes: {
         bounceOnce: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translate(20px)' },
+        },
+        wiggleOnce: {
+          '0% 100%': { transform: 'rotate(0)' },
+          '25%': { transform: 'rotate(-12deg)' },
+          '75%': { transform: 'rotate(12deg)' },
         },
       },
     },

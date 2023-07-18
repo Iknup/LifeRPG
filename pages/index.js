@@ -9,7 +9,7 @@ import { authOptions } from './api/auth/[...nextauth]';
 import AddSection from '@/components/task-section/AddSection';
 import { GET_USER_BY_EMAIL } from '@/src/graphql/query/getUserByEmail';
 import client from '@/lib/apollo-client';
-import AddSectionButton from '@/icons/jsx/section/addSectionButton';
+import AddSectionButton from '@/icons/jsx/section/AddSectionButton';
 
 export default function Home({ data, session }) {
   const user = useSelector(state => state.users.user);
@@ -53,14 +53,16 @@ export default function Home({ data, session }) {
       {addSection ? (
         <AddSection onClose={onCloseAddSection} />
       ) : (
-        <button
-          onClick={() => {
-            setAddSection(prevState => !prevState);
-          }}
-          className="flex items-center justify-center mb-40 ml-10"
-        >
-          <AddSectionButton />
-        </button>
+        <div className="task-section flex items-center justify-center">
+          <button
+            onClick={() => {
+              setAddSection(prevState => !prevState);
+            }}
+            className="mb-40"
+          >
+            <AddSectionButton />
+          </button>
+        </div>
       )}
     </div>
   );

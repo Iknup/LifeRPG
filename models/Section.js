@@ -9,7 +9,10 @@ const SectionSchema = new Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
-  
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 let Section;

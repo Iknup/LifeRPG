@@ -6,16 +6,26 @@ import { useDispatch } from 'react-redux';
 import { deleteSubtask, editSubtask } from '@/slices/subtaskSlice';
 import { Fragment, useState } from 'react';
 import NewSubTaskFrom from './NewSubTaskFrom';
+import useClickOutside from '@/hooks/useClickOutside';
 
 const SubtaskInfo = props => {
   const { subtaskData, parentId, hasSubTask, parentRepeat } = props;
   const { title, isComplete, _id, repeat } = subtaskData;
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const onDeleteHandler = () => {
-    dispatch(deleteSubtask({ subtaskId: _id, parentId }));
+    if (deleteConfirm) {
+      dispatch(deleteSubtask({ subtaskId: _id, parentId }));
+    } else {
+      setDeleteConfirm(true);
+    }
   };
+
+  const domNode = useClickOutside(() => {
+    setDeleteConfirm(false);
+  });
 
   const onClearHandler = () => {
     dispatch(
@@ -78,8 +88,12 @@ const SubtaskInfo = props => {
               <TaskEditButton scale={12} />
             </button>
             <button
+              ref={domNode}
               onClick={onDeleteHandler}
-              className="ml-[2px] scale-0 group-hover:scale-100"
+              className={`ml-[2px] scale-0 group-hover:scale-100 
+              ${
+                deleteConfirm && ' animate-wiggleOnce text-LightRed scale-110'
+              }`}
             >
               <TaskDeleteButton scale={12} />
             </button>

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { deleteTask, editTask, taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
 import ConfirmModal from '../Modals/ConfirmModal';
-import axios from 'axios';
 import Unchecked from '@/icons/jsx/NewChecked/Unchecked';
 import Checked from '@/icons/jsx/NewChecked/Checked';
 import CheckHover from '@/icons/jsx/NewChecked/CheckHover';

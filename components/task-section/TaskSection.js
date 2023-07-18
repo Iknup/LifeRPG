@@ -69,7 +69,7 @@ const TaskSection = ({ sectionData }) => {
     if (sectionData.title === 'user_data_name') {
       sortedTask = [...tasks];
     } else {
-      sortedTask = tasks.filter(task => task.section === sectionData.title);
+      sortedTask = tasks.filter(task => task.section === sectionData._id);
     }
 
     if (completedSort === 'Unclear') {
@@ -145,7 +145,7 @@ const TaskSection = ({ sectionData }) => {
   });
 
   return (
-    <section className="task-section">
+    <section className="task-section z-0">
       <h1 className=" pb-1 mb-5 mx-2 text-2xl font-bold">
         {`${sectionData.title.toUpperCase()}`}
       </h1>
@@ -197,7 +197,7 @@ const TaskSection = ({ sectionData }) => {
         </div>
       </div>
       <div className="mr-[10px]">
-        <NewTaskForm sectionName={sectionData.title} />
+        <NewTaskForm sectionId={sectionData._id} />
       </div>
       {/* Task Card */}
       <AnimatePresence>
