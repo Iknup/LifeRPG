@@ -12,7 +12,7 @@ const handle = async (req, res) => {
       const user = await User.findOne({ _id: userId });
       user.section.push(req.body);
 
-      const userDoc = await user.save();
+  
 
       res.status(200).send(userDoc);
     } catch (e) {

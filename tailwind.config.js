@@ -27,6 +27,7 @@ module.exports = {
       boxShadow: {
         menuShadow: '1px 2px 2px rgba(0,0,0,0.25)',
         addButtonShadow: '0px 0px 2px rgba(38,181,119,0.30)',
+        confModalShadow: '0px 5px 5px rgba(0,0,0,0.25)',
       },
       animation: {
         bounceOnce: 'bounceOnce',

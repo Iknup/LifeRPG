@@ -24,7 +24,9 @@ const AddSection = props => {
     e.preventDefault();
     const userId = user._id;
     console.log(user);
-    dispatch(addSection({ sectionData: { title: title }, userId }));
+    dispatch(
+      addSection({ sectionData: { title: title, user: userId }, userId })
+    );
     onClose();
   };
 

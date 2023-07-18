@@ -6,12 +6,12 @@ const handle = async (req, res) => {
 
   await connectDB();
   if (method === 'PATCH') {
-    const taskId = req.query.parentId;
+    const subtaskId = req.query.subtaskId;
 
     try {
       const subtaskData = req.body;
 
-      const subtask = await SubTask.findOne({ _id: taskId });
+      const subtask = await SubTask.findOne({ _id: subtaskId });
 
       const fieldsToUpdate = ['title', 'isComplete', 'require', 'repeat'];
 

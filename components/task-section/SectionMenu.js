@@ -19,7 +19,7 @@ const SectionMenu = props => {
             <TaskEditButton scale={12} className="mr-[2px]" />
             <p className=" text-[14px]">Edit</p>
           </button>
-          <button className="menu-button">
+          <button onClick={onDelete} className="menu-button">
             <TaskDeleteButton scale={12} className="mr-[2px]" />
             <p className=" text-[14px]">Delete</p>
           </button>

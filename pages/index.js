@@ -33,8 +33,8 @@ export default function Home({ data, session }) {
 
   let sectionContents;
 
-  if (user.section) {
-    const sectionNames = user.section;
+  if (user.sections) {
+    const sectionNames = user.sections;
 
     sectionContents =
       sectionNames.length >= 1
@@ -80,8 +80,6 @@ export default function Home({ data, session }) {
 
 export const getServerSideProps = async context => {
   const session = await getServerSession(context.req, context.res, authOptions);
-
-  console.log(session);
 
   if (!session) {
     return {

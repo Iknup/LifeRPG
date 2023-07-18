@@ -7,6 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 import ExpandMenu from '@/icons/jsx/ExpandMenu';
 import SectionMenu from './SectionMenu';
 import useClickOutside from '@/hooks/useClickOutside';
+import { deleteSection } from '@/slices/userSlice';
 
 const TaskSection = ({ sectionData }) => {
   const tasks = useSelector(state => state.tasks.tasks);
@@ -131,20 +132,21 @@ const TaskSection = ({ sectionData }) => {
   //return tasks.map(<TaskCard>)
   console.log(sortedTasks);
 
-  const deleteSection = () => {
+  const onDeleteSectionHandler = () => {
     if (sortedTasks.length > 0 || sectionData.title === 'user_data_name') {
       //error message popup
     } else {
-      dispatch();
+      dispatch(deleteSection(sectionData._id));
     }
   };
 
   const domNode = useClickOutside(() => {
     setMenuOpen(false);
   });
+
   return (
     <section className="task-section">
-      <h1 className=" pb-1 mx-2 text-2xl font-medium">
+      <h1 className=" pb-1 mb-5 mx-2 text-2xl font-medium">
         {`${sectionData.title.toUpperCase()}`}
       </h1>
       {/* Sorting table */}
@@ -189,7 +191,7 @@ const TaskSection = ({ sectionData }) => {
           </button>
           {menuOpen && (
             <div className="absolute z-50 -left-[10px] top-4">
-              <SectionMenu />
+              <SectionMenu onDelete={onDeleteSectionHandler} />
             </div>
           )}
         </div>

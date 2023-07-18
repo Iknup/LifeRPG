@@ -15,8 +15,6 @@ const handle = async (req, res) => {
         { isComplete: false }
       );
 
-      console.log('Subtasks:', subtasks);
-
       res.send(subtasks);
     } catch (e) {
       console.log('Subtask reset error!:', e);

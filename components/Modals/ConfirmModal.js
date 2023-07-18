@@ -22,15 +22,27 @@ const Modal = props => {
     items-center justify-center z-50 flex flex-col 
     absolute backdrop-filter backdrop-blur-[2px]"
     >
-      <div className="bg-ColorThree h-[80%] w-[60%] pt-1 rounded-lg">
+      <div
+        className="bg-ColorThree h-[80%] w-[60%] pt-1 rounded-lg 
+       shadow-confModalShadow"
+      >
         <TaskDeleteButton scale={20} className="text-LightRed mx-auto" />
         <p className="text-center mt-1">{message}</p>
         <div className="bg-ColorTwo h-[40%] flex justify-evenly mt-1 ">
-          <button onClick={onConfirm} className="text-LightRed">
+          <button
+            onClick={onConfirm}
+            className="text-LightRed 
+            transition-all duration-150 hover:scale-110"
+          >
             Confirm
           </button>
           <div className="border-l-[2px] border-TextColor h-3 my-auto" />
-          <button onClick={onReject}>Cancel</button>
+          <button
+            onClick={onReject}
+            className=" transition-all duration-150 hover:scale-110"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </motion.div>

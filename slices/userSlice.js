@@ -10,7 +10,7 @@ export const addSection = createAsyncThunk(
   async ({ sectionData, userId }) => {
     console.log(userId);
     try {
-      const res = await axios.patch(`/api/user?userId=${userId}`, sectionData);
+      const res = await axios.post(`/api/user/section`, sectionData);
       const { data } = res;
       console.log(data);
       return data;
@@ -22,9 +22,13 @@ export const addSection = createAsyncThunk(
 
 export const deleteSection = createAsyncThunk(
   'user/deleteSection',
-  async ({ sectionId, userId }) => {
+  async sectionId => {
     try {
-      const res = await axios.delete(`/api/user/section?userId=${userId}`);
+      const res = await axios.delete(
+        `/api/user/section?sectionId=${sectionId}`
+      );
+      console.log(res);
+      return sectionId;
     } catch (e) {
       return { message: e.message };
     }
@@ -39,10 +43,21 @@ const userSlice = createSlice({
       const user = action.payload;
       state.user = user;
     },
+    addSectionSuccess: (state, action) => {
+      const sectionData = action.payload;
+      state.user.sections.push(sectionData);
+    },
+    deleteUserSuccess: (state, action) => {
+      const sectionId = action.payload;
+      state.user.sections.filter(section => section._id !== sectionId);
+    },
   },
   extraReducers(builder) {
     builder.addCase(addSection.fulfilled, (state, action) => {
-      userSlice.caseReducers.loadUser(state, action);
+      userSlice.caseReducers.addSectionSuccess(state, action);
+    });
+    builder.addCase(deleteSection.fulfilled, (state, action) => {
+      userSlice.caseReducers.deleteUserSuccess(state, action);
     });
   },
 });
