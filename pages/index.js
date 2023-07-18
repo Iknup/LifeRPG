@@ -9,6 +9,7 @@ import { authOptions } from './api/auth/[...nextauth]';
 import AddSection from '@/components/task-section/AddSection';
 import { GET_USER_BY_EMAIL } from '@/src/graphql/query/getUserByEmail';
 import client from '@/lib/apollo-client';
+import AddSectionButton from '@/icons/jsx/section/addSectionButton';
 
 export default function Home({ data, session }) {
   const user = useSelector(state => state.users.user);
@@ -56,22 +57,9 @@ export default function Home({ data, session }) {
           onClick={() => {
             setAddSection(prevState => !prevState);
           }}
-          className="bg-ColorOne w-[400px] h-16 rounded-md mt-[60px]"
+          className="flex items-center justify-center mb-40 ml-10"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 mx-auto"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
+          <AddSectionButton />
         </button>
       )}
     </div>

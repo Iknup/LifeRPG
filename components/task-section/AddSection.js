@@ -32,16 +32,20 @@ const AddSection = props => {
 
   return (
     <div className="task-section">
-      <form onSubmit={onSubmitHandler} ref={domNode}>
+      <form onSubmit={onSubmitHandler} ref={domNode} className="w-[90%]">
         <input
           onChange={onSectionTitleHandler}
           type="text"
           ref={inputRef}
           value={title}
           placeholder="Section Name"
-          className="pl-1 rounded-md h-[36px] bg-ColorFive w-[90%]
-       placeholder:text-TextColor"
+          className="pl-1 rounded-t-md h-12 bg-ColorThree w-full
+          indent-2 text-2xl
+       placeholder:text-TextColor placeholder:text-2xl placeholder:font-bold"
         />
+        <p className="indent-3 py-1 bg-ColorTwo rounded-b-md">
+          give me a name father!
+        </p>
       </form>
     </div>
   );

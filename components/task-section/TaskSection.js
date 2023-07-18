@@ -146,7 +146,7 @@ const TaskSection = ({ sectionData }) => {
 
   return (
     <section className="task-section">
-      <h1 className=" pb-1 mb-5 mx-2 text-2xl font-medium">
+      <h1 className=" pb-1 mb-5 mx-2 text-2xl font-bold">
         {`${sectionData.title.toUpperCase()}`}
       </h1>
       {/* Sorting table */}
