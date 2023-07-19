@@ -9,9 +9,9 @@ const handle = async (req, res) => {
   await connectDB();
 
   if (method === 'PATCH') {
-    const { taskId: _id } = req.query;
+    const { taskId } = req.query;
     // find task by id
-    const task = await Task.findOne({ _id });
+    const task = await Task.findOne({ _id: taskId });
     try {
       if (req.body.isEdit) {
         const { taskData } = req.body;
@@ -49,7 +49,6 @@ const handle = async (req, res) => {
         // switch isComplete
         task.isComplete = !isComplete;
         const taskDoc = await task.save();
-        console.log('after', taskDoc);
         res.send(taskDoc);
       }
     } catch (e) {

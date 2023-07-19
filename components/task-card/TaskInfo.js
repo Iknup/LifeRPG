@@ -53,15 +53,15 @@ const TaskInfo = props => {
   }
 
   // onClearhandler
-  const onClearHandler = taskId => {
+  const onClearHandler = () => {
     const updatedData = { taskId: task._id, isComplete: task.isComplete };
-
+    console.log(updatedData);
     dispatch(editTask({ taskData: updatedData, isEdit: false }));
     setChecked(!checked);
   };
 
   const onCheckboxClickHandler = () => {
-    onClearHandler(task._id);
+    onClearHandler();
   };
 
   // Delete handler
@@ -146,8 +146,7 @@ const TaskInfo = props => {
           </button>
           {showFullDesc && (
             <div className="absolute left-6 top-0 -translate-y-[90%] w-[80%]">
-              <p 
-              className="bg-ColorFive rounded-md p-2">{task.description}</p>
+              <p className="bg-ColorFive rounded-md p-2">{task.description}</p>
               <div
                 className="h-0 w-0 
         border-x-8 border-x-transparent 
