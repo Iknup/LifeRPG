@@ -24,8 +24,6 @@ const handle = async (req, res) => {
             const res = await axios.patch(
               `${process.env.DOMAIN}/api/subtask/reset?parentId=${task._id}`
             );
-
-            console.log(res);
           }
           await task.save();
         });

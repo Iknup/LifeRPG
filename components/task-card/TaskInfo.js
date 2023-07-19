@@ -133,7 +133,10 @@ const TaskInfo = props => {
           )}
         </div>
         {/* Check box and task description */}
-        <div ref={fullDescDomNode} className="flex items-center h-[50%] ml-4">
+        <div
+          ref={fullDescDomNode}
+          className="flex items-center min-h-[50%] ml-4 relative"
+        >
           <button
             onClick={onCheckboxClickHandler}
             onMouseEnter={handleMouseEnter}
@@ -142,16 +145,22 @@ const TaskInfo = props => {
             {checkboxButton}
           </button>
           {showFullDesc && (
-            <p className="absolute bg-ColorFive rounded-md p-1 left-0 -top-[40px]">
-              {task.description}
-            </p>
+            <div className="absolute left-6 top-0 -translate-y-[90%] w-[80%]">
+              <p 
+              className="bg-ColorFive rounded-md p-2">{task.description}</p>
+              <div
+                className="h-0 w-0 
+        border-x-8 border-x-transparent 
+        border-t-8 border-t-ColorFive
+        mx-auto"
+              />
+            </div>
           )}
           <p
             onClick={onDescriptionClickHandler}
             ref={descriptionRef}
-            className={`grow indent-3 text-[18px] truncate mr-3 ${
-              isOverflow && 'cursor-pointer'
-            }`}
+            className={`grow indent-3 text-[18px]  truncate   
+             mr-3 ${isOverflow && 'cursor-pointer'}`}
           >
             {task.description}
           </p>
@@ -181,7 +190,7 @@ const TaskInfo = props => {
 
         {/* exp bar */}
         {task.isRPG && (
-          <div className="w-full h-[7%] rounded-b-md bg-ColorOne overflow-hidden absolute bottom-0">
+          <div className="w-full h-[7%] rounded-b-md bg-ColorOne overflow-x-hidden absolute bottom-0">
             <div
               className="bg-colorMain h-full rounded-bl-md"
               style={{ width: expBar }}
