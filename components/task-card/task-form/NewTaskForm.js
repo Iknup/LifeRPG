@@ -133,11 +133,8 @@ const NewTaskForm = props => {
 
   return (
     <TaskCardAnimation>
-      <div
-        ref={domNode}
-        className=" bg-ColorThree mb-3 mx-3 rounded-md overflow-hidden"
-      >
-        <div className="flex h-[56px]">
+      <div ref={domNode} className=" bg-ColorThree mb-3 mx-3 rounded-md">
+        <form onSubmit={onSubmitHandler} className="flex h-[56px]">
           <input
             className={`grow bg-ColorThree mx-1 h-1/2 self-center ml-3 
           text-colorMain placeholder:text-TextColor placeholder:text-sm `}
@@ -149,12 +146,13 @@ const NewTaskForm = props => {
             {/* RPG Checkbox */}
             <button
               onClick={setRPGHandler}
+              type="button"
               className={`ml-3 ${isRPG && 'scale-125'}`}
             >
               <RPGCheck active={isRPG} />
             </button>
             {/* Calendar Button */}
-            <button className="ml-1" onClick={showOptionsHandler}>
+            <button type="button" className="ml-1" onClick={showOptionsHandler}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -172,7 +170,7 @@ const NewTaskForm = props => {
             </button>
             {/* Submit Button */}
             <button
-              onClick={onSubmitHandler}
+              type="submit"
               disabled={!validate}
               className={`ml-1 ${
                 validate ? 'mr-2' : 'mr-3'
@@ -187,7 +185,7 @@ const NewTaskForm = props => {
               )}
             </button>
           </div>
-        </div>
+        </form>
         {(showIndicator || errorMessage) && (
           <div className="bg-ColorOne flex mb-[2px]">
             <TaskFormIndicator
@@ -198,10 +196,10 @@ const NewTaskForm = props => {
           </div>
         )}
         {showOptions && (
-          <div className="absolute top-0 z-50 ">
+          <div className="relative z-50">
             <TaskFormOptions
               getOptionAndDaysHandler={getOptionAndDaysHandler}
-              className=""
+              className="absolute -top-10 left-[105%] z-50"
               closeOptionHandler={closeOptionHandler}
               options={options}
             />

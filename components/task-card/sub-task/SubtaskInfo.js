@@ -24,7 +24,11 @@ const SubtaskInfo = props => {
   };
 
   const domNode = useClickOutside(() => {
-    setDeleteConfirm(false);
+    if (!isEdit) {
+      setDeleteConfirm(false);
+    } else {
+      setIsEdit(false);
+    }
   });
 
   const onClearHandler = () => {
@@ -42,12 +46,14 @@ const SubtaskInfo = props => {
   return (
     <Fragment>
       {isEdit ? (
-        <NewSubTaskFrom
-          taskData={{ taskId: parentId, repeat: parentRepeat }}
-          subtaskData={subtaskData}
-          onClose={onEditHandler}
-          hasSubTask={hasSubTask}
-        />
+        <div ref={domNode}>
+          <NewSubTaskFrom
+            taskData={{ taskId: parentId, repeat: parentRepeat }}
+            subtaskData={subtaskData}
+            onClose={onEditHandler}
+            hasSubTask={hasSubTask}
+          />
+        </div>
       ) : (
         <div
           className="flex justify-between border-b border-ColorSix mb-2

@@ -1,5 +1,7 @@
 import connectDB from '@/lib/mongoose';
+import { addDays } from 'date-fns';
 import { Task } from '@/models/Task';
+import { REPEAT_ENUM } from '@/utility/ENUM';
 
 const handle = async (req, res) => {
   const { method } = req;
@@ -7,7 +9,7 @@ const handle = async (req, res) => {
   await connectDB();
 
   if (method === 'PATCH') {
-    const { taskID: _id } = req.query;
+    const { taskId: _id } = req.query;
     // find task by id
     const task = await Task.findOne({ _id });
     try {
@@ -40,13 +42,18 @@ const handle = async (req, res) => {
         if (task.isRPG) {
           task.rpgClearHandler(isComplete);
         }
+
+        if (task.repeat === REPEAT_ENUM.NONE) {
+          task.expireDate = addDays(new Date(), 7);
+        }
         // switch isComplete
         task.isComplete = !isComplete;
-        // console.log('after', task);
         const taskDoc = await task.save();
+        console.log('after', taskDoc);
         res.send(taskDoc);
       }
     } catch (e) {
+      console.log('Edit error:', e);
       res.status(500).send(e);
     }
   }

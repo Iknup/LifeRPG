@@ -22,9 +22,16 @@ const handle = async (req, res) => {
     const userId = req.query.userId;
 
     try {
-      const tasks = await Task.find({ user: userId }).populate('user');
+      const tasks = await Task.find({
+        user: userId,
+        $or: [
+          { expireDate: { $exists: false } },
+          { expireDate: { $lte: new Date() } },
+        ],
+      }).populate('user');
       res.json(tasks);
     } catch (e) {
+      console.log('Task Get Error!:', e);
       res.status(500).send(e);
     }
   }

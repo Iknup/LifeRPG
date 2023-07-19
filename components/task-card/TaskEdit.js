@@ -74,7 +74,7 @@ const TaskEdit = props => {
       description: descriptionValue,
       repeat,
       isRPG,
-      taskID: task._id,
+      taskId: task._id,
       ...taskOptions,
     };
 

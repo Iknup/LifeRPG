@@ -34,20 +34,20 @@ export default function Home({ data, session }) {
 
   let sectionContents;
 
-  if (user.sections) {
-    const sectionNames = user.sections;
+  if (user.sections && user.sections.length >= 1) {
+    const sections = user.sections;
 
     sectionContents =
-      sectionNames.length >= 1
-        ? sectionNames.map(sectionName => (
-            <TaskSection sectionData={sectionName} key={sectionName._id} />
+      sections.length >= 1
+        ? sections.map(section => (
+            <TaskSection sectionData={section} key={section._id} />
           ))
         : null;
   }
 
   return (
     <div className="flex">
-      <TaskSection sectionData={{ title: 'user_data_name' }} />
+      <TaskSection sectionData={{ title: data.userData.name }} />
       {sectionContents}
       {/* add section btn */}
       {addSection ? (
@@ -86,29 +86,44 @@ export const getServerSideProps = async context => {
     //   variables: { email },
     // });
 
-    const userRes = await client.query({
-      query: GET_USER_BY_EMAIL,
-      variables: {
-        email,
-      },
-      fetchPolicy: 'cache-first',
-    });
+    const userRes = await axios.get(
+      `${process.env.DOMAIN}/api/user/email?email=${email}`
+    );
 
+    // Getting user data by it's email
+    // const userRes = await client.query({
+    //   query: GET_USER_BY_EMAIL,
+    //   variables: {
+    //     email,
+    //   },
+    //   fetchPolicy: 'cache-first',
+    // });
+
+    const userData = userRes.data;
     console.log('Post finished!');
 
-    const userData = userRes.data.user;
+    // Getting sections
+    const sectionRes = await axios.get(
+      `${process.env.DOMAIN}/api/user/section?userId=${userData._id}`
+    );
 
+    const sectionData = sectionRes.data;
+
+    // Resetting tasks
     await axios.patch(
       `${process.env.DOMAIN}/api/task/resetTimer?userId=${userData._id}`
     );
 
+    // Getting tasks
     const res = await axios.get(
       `${process.env.DOMAIN}/api/task?userId=${userData._id}`
     );
     const taskData = res.data;
 
+    const user = { ...userRes.data, sections: sectionData };
+
     return {
-      props: { session, data: { taskData, userData } },
+      props: { session, data: { taskData, userData: user } },
     };
   }
 };

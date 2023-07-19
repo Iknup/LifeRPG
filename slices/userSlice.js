@@ -20,6 +20,26 @@ export const addSection = createAsyncThunk(
   }
 );
 
+export const editSection = createAsyncThunk(
+  'user/editSection',
+  async sectionData => {
+    try {
+      const res = await axios.patch(
+        `/api/user/section?sectionId=${sectionData._id}`,
+        { title: sectionData.title }
+      );
+
+      console.log(res);
+
+      const { data } = res;
+
+      return data;
+    } catch (e) {
+      return { message: e.message };
+    }
+  }
+);
+
 export const deleteSection = createAsyncThunk(
   'user/deleteSection',
   async sectionId => {
@@ -49,7 +69,17 @@ const userSlice = createSlice({
     },
     deleteUserSuccess: (state, action) => {
       const sectionId = action.payload;
-      state.user.sections.filter(section => section._id !== sectionId);
+      const updatedSections = state.user.sections.filter(
+        section => section._id !== sectionId
+      );
+      state.user.sections = updatedSections;
+    },
+    editSectionSuccess: (state, action) => {
+      const sectionData = action.payload;
+      const section = state.user.sections.find(
+        section => section._id === sectionData._id
+      );
+      section.title = sectionData.title;
     },
   },
   extraReducers(builder) {
@@ -58,6 +88,9 @@ const userSlice = createSlice({
     });
     builder.addCase(deleteSection.fulfilled, (state, action) => {
       userSlice.caseReducers.deleteUserSuccess(state, action);
+    });
+    builder.addCase(editSection.fulfilled, (state, action) => {
+      userSlice.caseReducers.editSectionSuccess(state, action);
     });
   },
 });

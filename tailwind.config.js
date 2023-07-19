@@ -31,7 +31,7 @@ module.exports = {
       },
       animation: {
         bounceOnce: 'bounceOnce',
-        wiggleOnce: 'wiggleOnce 1s ease-in-out',
+        wiggleOnce: 'wiggleOnce 1s ease-in-out infinite',
       },
       keyframes: {
         bounceOnce: {

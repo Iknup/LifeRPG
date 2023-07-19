@@ -11,8 +11,8 @@ export const editTask = createAsyncThunk(
   //taskData as an object, isEdit(boolean) true for editing false for clear
   async ({ taskData, isEdit }) => {
     try {
-      const { taskID } = taskData;
-      const response = await axios.patch(`/api/task/${taskID}`, {
+      const { taskId } = taskData;
+      const response = await axios.patch(`/api/task/${taskId}`, {
         taskData,
         isEdit,
       });

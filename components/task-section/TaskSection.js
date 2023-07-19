@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import TaskCard from '../task-card/TaskCard';
 import NewTaskForm from '../task-card/task-form/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
@@ -9,13 +9,19 @@ import SectionMenu from './SectionMenu';
 import useClickOutside from '@/hooks/useClickOutside';
 import { deleteSection } from '@/slices/userSlice';
 
+import EditSection from './EditSection';
+
 const TaskSection = ({ sectionData }) => {
+  const user = useSelector(state => state.users.user);
   const tasks = useSelector(state => state.tasks.tasks);
+  const [isEdit, setIsEdit] = useState(false);
   const [updown, setUpdown] = useState(false);
   const [sort, setSort] = useState(SORT_OPTIONS_ENUM.byLvl);
   const [rpgSort, setRpgSort] = useState('All');
   const [completedSort, setCompletedSort] = useState('Unclear');
   const [menuOpen, setMenuOpen] = useState(false);
+
+  console.log(sectionData.title);
 
   const dispatch = useDispatch();
 
@@ -66,7 +72,7 @@ const TaskSection = ({ sectionData }) => {
     const { sort, completedSort } = selectOption;
     let sortedTask;
 
-    if (sectionData.title === 'user_data_name') {
+    if (sectionData.title === user.name) {
       sortedTask = [...tasks];
     } else {
       sortedTask = tasks.filter(task => task.section === sectionData._id);
@@ -132,6 +138,17 @@ const TaskSection = ({ sectionData }) => {
   //return tasks.map(<TaskCard>)
   console.log(sortedTasks);
 
+  // edit section toggle
+  const onEditClickHandler = () => {
+    setIsEdit(true);
+  };
+
+  //canceling section edit
+  const editDomNode = useClickOutside(() => {
+    setIsEdit(false);
+  });
+
+  // delete section
   const onDeleteSectionHandler = () => {
     if (sortedTasks.length > 0 || sectionData.title === 'user_data_name') {
       //error message popup
@@ -140,15 +157,26 @@ const TaskSection = ({ sectionData }) => {
     }
   };
 
-  const domNode = useClickOutside(() => {
+  const menuDomNode = useClickOutside(() => {
     setMenuOpen(false);
   });
 
   return (
-    <section className="task-section z-0">
-      <h1 className=" pb-1 mb-5 mx-2 text-2xl font-bold">
-        {`${sectionData.title.toUpperCase()}`}
-      </h1>
+    <section className="task-section relative">
+      <div ref={editDomNode}>
+        {isEdit ? (
+          <EditSection
+            sectionData={sectionData}
+            onClose={() => {
+              setIsEdit(false);
+            }}
+          />
+        ) : (
+          <h1 className=" pb-1 mb-5 mx-2 text-2xl font-bold">
+            {`${sectionData.title.toUpperCase()}`}
+          </h1>
+        )}
+      </div>
       {/* Sorting table */}
       <div className="flex justify-end mb-4 ml-2 mr-6">
         <select
@@ -181,7 +209,7 @@ const TaskSection = ({ sectionData }) => {
         >
           {updownButton}
         </button>
-        <div ref={domNode} className="relative ml-1">
+        <div ref={menuDomNode} className="relative ml-1">
           <button
             onClick={() => {
               setMenuOpen(prevState => !prevState);
@@ -191,12 +219,18 @@ const TaskSection = ({ sectionData }) => {
           </button>
           {menuOpen && (
             <div className="absolute z-50 -left-[10px] top-4">
-              <SectionMenu onDelete={onDeleteSectionHandler} />
+              <SectionMenu
+                onEdit={onEditClickHandler}
+                onDelete={onDeleteSectionHandler}
+                onClose={() => {
+                  setMenuOpen(false);
+                }}
+              />
             </div>
           )}
         </div>
       </div>
-      <div className="mr-[10px]">
+      <div className="mr-[10px] ">
         <NewTaskForm sectionId={sectionData._id} />
       </div>
       {/* Task Card */}

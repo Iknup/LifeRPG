@@ -4,7 +4,7 @@ import TaskDeleteButton from '@/icons/jsx/TaskDeleteButton';
 import { Fragment } from 'react';
 
 const SectionMenu = props => {
-  const { onEdit, onDelete } = props;
+  const { onEdit, onDelete, onClose } = props;
   return (
     <Fragment>
       <div
@@ -15,11 +15,22 @@ const SectionMenu = props => {
       />
       <Menu>
         <div className="py-1">
-          <button className="menu-button">
+          <button
+            onClick={() => {
+              onEdit();
+              onClose();
+            }}
+            className="menu-button"
+          >
             <TaskEditButton scale={12} className="mr-[2px]" />
             <p className=" text-[14px]">Edit</p>
           </button>
-          <button onClick={onDelete} className="menu-button">
+          <button
+            onClick={() => {
+              onDelete();
+            }}
+            className="menu-button"
+          >
             <TaskDeleteButton scale={12} className="mr-[2px]" />
             <p className=" text-[14px]">Delete</p>
           </button>

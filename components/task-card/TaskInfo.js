@@ -1,6 +1,6 @@
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
 import { AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState, useRef } from 'react';
 import { deleteTask, editTask, taskActions } from '@/slices/taskSlice';
 import { useDispatch } from 'react-redux';
 import ConfirmModal from '../Modals/ConfirmModal';
@@ -15,6 +15,7 @@ import useClickOutside from '../../hooks/useClickOutside';
 import ExpandMenu from '@/icons/jsx/ExpandMenu';
 import TaskDropdownUp from '@/icons/jsx/subtask/TaskDropdownUp';
 import TaskDropdownDown from '@/icons/jsx/subtask/TaskDropdownDown';
+import { useIsOverflow } from '@/hooks/useIsOverflow';
 
 const TaskInfo = props => {
   const { task } = props;
@@ -23,9 +24,11 @@ const TaskInfo = props => {
   const [isHovered, setIsHovered] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showFullDesc, setShowFullDesc] = useState(false);
   const { taskEditHandler } = props;
-
   const dispatch = useDispatch();
+  const descriptionRef = useRef();
+  const isOverflow = useIsOverflow(descriptionRef);
 
   // calcs
   const nextLevelExp = getRequiredExpForLevel(task.level);
@@ -51,7 +54,7 @@ const TaskInfo = props => {
 
   // onClearhandler
   const onClearHandler = taskId => {
-    const updatedData = { taskID: task._id, isComplete: task.isComplete };
+    const updatedData = { taskId: task._id, isComplete: task.isComplete };
 
     dispatch(editTask({ taskData: updatedData, isEdit: false }));
     setChecked(!checked);
@@ -95,6 +98,17 @@ const TaskInfo = props => {
     setIsMenuOpen(false);
   });
 
+  const fullDescDomNode = useClickOutside(() => {
+    setShowFullDesc(false);
+  });
+
+  //show description function
+  const onDescriptionClickHandler = () => {
+    if (isOverflow) {
+      setShowFullDesc(prevState => !prevState);
+    }
+  };
+
   return (
     <div className="mb-3">
       <TaskCardUI>
@@ -119,7 +133,7 @@ const TaskInfo = props => {
           )}
         </div>
         {/* Check box and task description */}
-        <div className="flex h-[50%] ml-4">
+        <div ref={fullDescDomNode} className="flex items-center h-[50%] ml-4">
           <button
             onClick={onCheckboxClickHandler}
             onMouseEnter={handleMouseEnter}
@@ -127,7 +141,18 @@ const TaskInfo = props => {
           >
             {checkboxButton}
           </button>
-          <p className="flex items-center grow indent-3 text-[18px]">
+          {showFullDesc && (
+            <p className="absolute bg-ColorFive rounded-md p-1 left-0 -top-[40px]">
+              {task.description}
+            </p>
+          )}
+          <p
+            onClick={onDescriptionClickHandler}
+            ref={descriptionRef}
+            className={`grow indent-3 text-[18px] truncate mr-3 ${
+              isOverflow && 'cursor-pointer'
+            }`}
+          >
             {task.description}
           </p>
           <Repeat

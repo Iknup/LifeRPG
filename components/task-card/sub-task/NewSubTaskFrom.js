@@ -59,7 +59,7 @@ const NewSubTaskFrom = props => {
   };
 
   return (
-    <div className="flex justify-between mb-2">
+    <form onSubmit={submitButtonHandler} className="flex justify-between mb-2">
       <input
         onChange={inputChangeHandler}
         value={taskTitle}
@@ -68,6 +68,7 @@ const NewSubTaskFrom = props => {
       />
       <div className="ml-1 flex">
         <button
+          type="button"
           onClick={() => {
             setRepeat(prevState => !prevState);
           }}
@@ -88,10 +89,11 @@ const NewSubTaskFrom = props => {
             />
           </svg>
         </button>
-        <button disabled={!isValidate} onClick={submitButtonHandler}>
+        <button type="submit" disabled={!isValidate}>
           {!isValidate ? <TaskPlus scale={12} /> : <TaskPlusAble scale={12} />}
         </button>
         <button
+          type="button"
           onClick={() => {
             onClose(props.index);
           }}
@@ -100,7 +102,7 @@ const NewSubTaskFrom = props => {
           <SubtaskCancel scale={12} className="hover:text-btnReject" />
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
