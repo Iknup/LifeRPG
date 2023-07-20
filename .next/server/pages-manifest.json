@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
   "/api/subtask": "pages/api/subtask.js",
-  "/api/task/[taskId]": "pages/api/task/[taskId].js",
+  "/api/subtask/[subtaskId]": "pages/api/subtask/[subtaskId].js",
   "/": "pages/index.js"
 }

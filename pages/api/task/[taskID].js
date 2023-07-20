@@ -2,6 +2,7 @@ import connectDB from '@/lib/mongoose';
 import { addDays } from 'date-fns';
 import { Task } from '@/models/Task';
 import { REPEAT_ENUM } from '@/utility/ENUM';
+import { SubTask } from '@/models/SubTask';
 
 const handle = async (req, res) => {
   const { method } = req;
@@ -62,11 +63,17 @@ const handle = async (req, res) => {
   }
 
   if (method === 'DELETE') {
-    const { taskID: _id } = req.query;
+    const { taskId: _id } = req.query;
 
     try {
-      const task = await Task.findOneAndDelete({ _id });
-      res.send(task);
+      const task = await Task.findById({ _id });
+
+      if (task.hasSubTask) {
+        await SubTask.deleteMany({ parentTask: _id });
+      }
+
+      const response = await Task.findByIdAndDelete(_id);
+      res.send(response);
     } catch (e) {
       res.status(500).send(e);
     }
