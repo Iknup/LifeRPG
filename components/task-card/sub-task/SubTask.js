@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getSubtask } from '@/slices/subtaskSlice';
+import { getSubtask, subTaskActions } from '@/slices/subtaskSlice';
 import NewSubTaskFrom from './NewSubTaskFrom';
 import SubtaskInfo from './SubtaskInfo';
+import { editTask } from '@/slices/taskSlice';
 
 const SubTask = props => {
   const [addInputForm, setAddInputForm] = useState([]);
@@ -20,7 +21,21 @@ const SubTask = props => {
     if (props.hasSubTask && !subtaskWrapper) {
       dispatch(getSubtask(props.taskId));
     }
-  }, [props.hasSubTask]);
+
+    if (props.hasSubTask && subtaskWrapper?.subtasks.length === 0) {
+      dispatch(
+        editTask({
+          taskData: { taskId: props.taskId, hasSubTask: !props.hasSubTask },
+          isEdit: true,
+        })
+      );
+      dispatch(subTaskActions.deleteSubtaskWrapper(props.taskId));
+    }
+
+    // if (subtaskWrapper && subtaskWrapper.length === 0) {
+    //
+    // }
+  }, [props.hasSubTask, subtaskWrapper]);
 
   let subtaskContent;
 

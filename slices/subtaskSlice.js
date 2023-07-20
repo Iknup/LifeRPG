@@ -66,6 +66,12 @@ const subtaskSlice = createSlice({
   name: 'subtask',
   initialState,
   reducers: {
+    deleteSubtaskWrapper(state, action) {
+      const parentId = action.payload;
+      state.subtaskWrappers = state.subtaskWrappers.filter(
+        subtaskWrapper => subtaskWrapper.parentId !== parentId
+      );
+    },
     addSubtaskSuccess(state, action) {
       const { data: subtaskData, hasTask } = action.payload;
       console.log(hasTask);
@@ -100,11 +106,12 @@ const subtaskSlice = createSlice({
         subtasksWrapper.subtasks = subtasksWrapper.subtasks.filter(
           subtask => subtask._id !== subtaskId
         );
-        if (subtasksWrapper.subtasks.length === 0) {
-          state.subtaskWrappers = state.subtaskWrappers.filter(
-            subtaskWrapper => subtaskWrapper.parentId !== parentId
-          );
-        }
+        // if (subtasksWrapper.subtasks.length === 0) {
+        //   state.subtaskWrappers = state.subtaskWrappers.filter(
+        //     subtaskWrapper => subtaskWrapper.parentId !== parentId
+        //   );
+
+        // }
       }
     },
     editSubtaskSuccess(state, action) {

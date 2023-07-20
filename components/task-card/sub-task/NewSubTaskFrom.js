@@ -72,7 +72,7 @@ const NewSubTaskFrom = props => {
           onClick={() => {
             setRepeat(prevState => !prevState);
           }}
-          className={repeat && 'text-colorMain'}
+          className={repeat ? 'text-colorMain' : ''}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
