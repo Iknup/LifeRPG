@@ -44,7 +44,11 @@ const handle = async (req, res) => {
         }
 
         if (task.repeat === REPEAT_ENUM.NONE) {
-          task.expireDate = addDays(new Date(), 7);
+          if (!task.expireDate) {
+            task.expireDate = addDays(new Date(), 7);
+          } else {
+            task.expireDate = undefined;
+          }
         }
         // switch isComplete
         task.isComplete = !isComplete;

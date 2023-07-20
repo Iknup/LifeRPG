@@ -31,7 +31,23 @@ const SubtaskInfo = props => {
     }
   });
 
+  const playSound = () => {
+    const audio = new Audio('/sound/pencilCheck.wav');
+
+    audio.addEventListener('canplaythrough', () => {
+      // The sound is ready to play
+      audio.play();
+    });
+    audio.addEventListener('error', error => {
+      console.error('Error loading the audio:', error);
+    });
+  };
+
   const onClearHandler = () => {
+    if (!isComplete) {
+      playSound();
+    }
+
     dispatch(
       editSubtask({
         subtaskData: { isComplete: !isComplete, _id },

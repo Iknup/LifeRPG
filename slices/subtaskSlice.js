@@ -110,12 +110,9 @@ const subtaskSlice = createSlice({
     editSubtaskSuccess(state, action) {
       const { data: subtaskData, parentId } = action.payload;
 
-      console.log(subtaskData, parentId);
-
       const subtaskWrapper = state.subtaskWrappers.find(
         subtaskWrapper => subtaskWrapper.parentId === parentId
       );
-      console.log(subtaskWrapper);
 
       const updateSubtaskIndex = subtaskWrapper.subtasks.findIndex(
         subtask => subtask._id === subtaskData._id

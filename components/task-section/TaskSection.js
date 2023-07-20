@@ -21,8 +21,6 @@ const TaskSection = ({ sectionData }) => {
   const [completedSort, setCompletedSort] = useState('Unclear');
   const [menuOpen, setMenuOpen] = useState(false);
 
-  console.log(sectionData.title);
-
   const dispatch = useDispatch();
 
   const sortButtonDown = (
@@ -70,23 +68,24 @@ const TaskSection = ({ sectionData }) => {
   // sorting by select option
   const taskComponenteGenerate = (selectOption, updown) => {
     const { sort, completedSort } = selectOption;
-    let sortedTask;
+    let sectionTasks;
+    let sortedTasks;
 
     if (sectionData.title === user.name) {
-      sortedTask = [...tasks];
+      sectionTasks = [...tasks];
     } else {
-      sortedTask = tasks.filter(task => task.section === sectionData._id);
+      sectionTasks = tasks.filter(task => task.section === sectionData._id);
     }
 
     if (completedSort === 'Unclear') {
-      sortedTask = sortedTask.filter(task => task.isComplete === false);
+      sortedTasks = sectionTasks.filter(task => task.isComplete === false);
     } else {
-      sortedTask = [...tasks];
+      sortedTasks = [...sectionTasks];
     }
 
     switch (sort) {
       case SORT_OPTIONS_ENUM.byLvl:
-        sortedTask.sort((a, b) =>
+        sortedTasks.sort((a, b) =>
           updown === SORT_OPTIONS_ENUM.ascending
             ? a.experience - b.experience
             : b.experience - a.experience
@@ -94,14 +93,14 @@ const TaskSection = ({ sectionData }) => {
 
         break;
       case SORT_OPTIONS_ENUM.byClearRAte:
-        sortedTask.sort((a, b) =>
+        sortedTasks.sort((a, b) =>
           updown === SORT_OPTIONS_ENUM.ascending
             ? a.clearRate - b.clearRate
             : b.clearRate - a.clearRate
         );
         break;
       case SORT_OPTIONS_ENUM.byDueDate:
-        sortedTask.sort((a, b) =>
+        sortedTasks.sort((a, b) =>
           updown === SORT_OPTIONS_ENUM.ascending
             ? Date.parse(a.reset) - Date.parse(b.reset)
             : Date.parse(b.reset) - Date.parse(a.reset)
@@ -109,7 +108,7 @@ const TaskSection = ({ sectionData }) => {
         break;
 
       default:
-        sortedTask.sort((a, b) =>
+        sortedTasks.sort((a, b) =>
           updown === SORT_OPTIONS_ENUM.ascending
             ? Date.parse(a.createdAt) - Date.parse(b.createdAt)
             : Date.parse(b.createdAt) - Date.parse(a.createdAt)
@@ -117,7 +116,7 @@ const TaskSection = ({ sectionData }) => {
         break;
     }
 
-    return sortedTask;
+    return sortedTasks;
   };
 
   // getting sorting option
@@ -136,7 +135,6 @@ const TaskSection = ({ sectionData }) => {
 
   const sortedTasks = taskComponenteGenerate({ sort, completedSort }, updown);
   //return tasks.map(<TaskCard>)
-  console.log(sortedTasks);
 
   // edit section toggle
   const onEditClickHandler = () => {
@@ -234,16 +232,17 @@ const TaskSection = ({ sectionData }) => {
         <NewTaskForm sectionId={sectionData._id} />
       </div>
       {/* Task Card */}
-      <AnimatePresence>
-        <div
-          className="flex flex-col h-[75%] sectionTaskBox
+
+      <div
+        className="flex flex-col h-[75%] sectionTaskBox
         overflow-y-hidden hover:overflow-y-auto scroll-smooth"
-        >
+      >
+        <AnimatePresence>
           {sortedTasks.map(task => (
             <TaskCard task={task} key={task._id} />
           ))}
-        </div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </section>
   );
 };

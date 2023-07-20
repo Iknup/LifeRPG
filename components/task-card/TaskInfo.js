@@ -16,6 +16,7 @@ import ExpandMenu from '@/icons/jsx/ExpandMenu';
 import TaskDropdownUp from '@/icons/jsx/subtask/TaskDropdownUp';
 import TaskDropdownDown from '@/icons/jsx/subtask/TaskDropdownDown';
 import { useIsOverflow } from '@/hooks/useIsOverflow';
+import { motion } from 'framer-motion';
 
 const TaskInfo = props => {
   const { task } = props;
@@ -52,10 +53,25 @@ const TaskInfo = props => {
     checkboxButton = <CheckHover className={'checkbox-button'} />;
   }
 
+  const playSound = () => {
+    const audio = new Audio('/sound/stampSound.wav');
+
+    audio.addEventListener('canplaythrough', () => {
+      // The sound is ready to play
+      audio.play();
+    });
+    audio.addEventListener('error', error => {
+      console.error('Error loading the audio:', error);
+    });
+  };
+
   // onClearhandler
   const onClearHandler = () => {
     const updatedData = { taskId: task._id, isComplete: task.isComplete };
-    console.log(updatedData);
+
+    if (!checked) {
+      playSound();
+    }
     dispatch(editTask({ taskData: updatedData, isEdit: false }));
     setChecked(!checked);
   };
@@ -144,17 +160,25 @@ const TaskInfo = props => {
           >
             {checkboxButton}
           </button>
-          {showFullDesc && (
-            <div className="absolute left-6 top-0 -translate-y-[90%] w-[80%]">
-              <p className="bg-ColorFive rounded-md p-2">{task.description}</p>
-              <div
-                className="h-0 w-0 
+          <AnimatePresence>
+            {showFullDesc && (
+              <motion.div
+                animate={{ opacity: ['0', '50%', '100%'] }}
+                exit={{ opacity: ['100%', '50%', '0%'] }}
+                className="absolute left-6 top-0 -translate-y-[90%] w-[80%]"
+              >
+                <p className="bg-ColorFive rounded-md p-2">
+                  {task.description}
+                </p>
+                <div
+                  className="h-0 w-0 
         border-x-8 border-x-transparent 
         border-t-8 border-t-ColorFive
         mx-auto"
-              />
-            </div>
-          )}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
           <p
             onClick={onDescriptionClickHandler}
             ref={descriptionRef}

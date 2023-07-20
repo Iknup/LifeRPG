@@ -26,7 +26,7 @@ const handle = async (req, res) => {
         user: userId,
         $or: [
           { expireDate: { $exists: false } },
-          { expireDate: { $lte: new Date() } },
+          { expireDate: { $gte: new Date() } },
         ],
       }).populate('user');
       res.json(tasks);
