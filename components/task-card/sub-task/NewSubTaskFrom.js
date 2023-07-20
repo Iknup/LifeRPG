@@ -48,7 +48,7 @@ const NewSubTaskFrom = props => {
       if (!hasSubTask) {
         dispatch(
           editTask({
-            taskData: { taskID: taskData.taskId, hasSubTask: !hasSubTask },
+            taskData: { taskId: taskData.taskId, hasSubTask: !hasSubTask },
             isEdit: true,
           })
         );
