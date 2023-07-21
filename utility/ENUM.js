@@ -4,7 +4,7 @@ const REPEAT_ENUM = Object.freeze({
   EVERY_WEEKDAYS: 'Every Weekdays',
   MONTHLY: 'Monthly',
   EVERY_SELECTED_DAY: 'Every selected day',
-  NONE: 'None'
+  NONE: 'None',
 });
 
 const WEEKDAYS_ENUM = Object.freeze({
@@ -26,6 +26,15 @@ const SORT_OPTIONS_ENUM = Object.freeze({
   descending: false,
 });
 
+const TASK_FILTER_ENUM = Object.freeze({
+  FALSE: 0,
+  TRUE: 1,
+  ALL: 2,
+});
 
-
-module.exports = { REPEAT_ENUM, WEEKDAYS_ENUM, SORT_OPTIONS_ENUM };
+module.exports = {
+  REPEAT_ENUM,
+  WEEKDAYS_ENUM,
+  SORT_OPTIONS_ENUM,
+  TASK_FILTER_ENUM,
+};

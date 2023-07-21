@@ -8,6 +8,7 @@ import ExpandMenu from '@/icons/jsx/ExpandMenu';
 import SectionMenu from './SectionMenu';
 import useClickOutside from '@/hooks/useClickOutside';
 import { deleteSection } from '@/slices/userSlice';
+import { TASK_FILTER_ENUM } from '@/utility/ENUM';
 
 import EditSection from './EditSection';
 
@@ -17,9 +18,11 @@ const TaskSection = ({ sectionData }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [updown, setUpdown] = useState(false);
   const [sort, setSort] = useState(SORT_OPTIONS_ENUM.byLvl);
-  const [rpgSort, setRpgSort] = useState('All');
-  const [completedSort, setCompletedSort] = useState('Unclear');
+  const [rpgSort, setRpgSort] = useState(2);
+  const [completedSort, setCompletedSort] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  console.log(rpgSort, completedSort);
 
   const dispatch = useDispatch();
 
@@ -65,23 +68,83 @@ const TaskSection = ({ sectionData }) => {
     updownButton = sortButtonDown;
   }
 
-  // sorting by select option
-  const taskComponenteGenerate = (selectOption, updown) => {
-    const { sort, completedSort } = selectOption;
-    let sectionTasks;
-    let sortedTasks;
+  const filterButton = number => {
+    let filterButtonBg;
+    if (number === TASK_FILTER_ENUM.FALSE) {
+      filterButtonBg = 'bg-ColorOne';
+    } else if (number === TASK_FILTER_ENUM.TRUE) {
+      filterButtonBg = 'bg-colorMain';
+    } else {
+      filterButtonBg = 'bg-colorSub';
+    }
 
+    return `${filterButtonBg} mr-1 rounded-md px-1`;
+  };
+
+  //filtering tasks by it's condition
+  const filterTasks = conditions => {
+    let sectionTasks;
     if (sectionData.title === user.name) {
       sectionTasks = [...tasks];
     } else {
       sectionTasks = tasks.filter(task => task.section === sectionData._id);
     }
 
-    if (completedSort === 'Unclear') {
-      sortedTasks = sectionTasks.filter(task => task.isComplete === false);
-    } else {
-      sortedTasks = [...sectionTasks];
-    }
+    const { completedSort, rpgSort } = conditions;
+    const filterTasks = sectionTasks.filter(task => {
+      if (
+        completedSort === TASK_FILTER_ENUM.FALSE &&
+        rpgSort === TASK_FILTER_ENUM.TRUE
+      ) {
+        return task.isComplete === false && task.isRPG === true;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.FALSE &&
+        rpgSort === TASK_FILTER_ENUM.FALSE
+      ) {
+        return task.isComplete === false && task.isRPG === false;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.TRUE &&
+        rpgSort === TASK_FILTER_ENUM.TRUE
+      ) {
+        return task.isComplete === true && task.isRPG === true;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.TRUE &&
+        rpgSort === TASK_FILTER_ENUM.FALSE
+      ) {
+        return task.isComplete === true && task.isRPG === false;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.ALL &&
+        rpgSort === TASK_FILTER_ENUM.FALSE
+      ) {
+        return task.isRPG === false;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.ALL &&
+        rpgSort === TASK_FILTER_ENUM.TRUE
+      ) {
+        return task.isRPG === true;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.TRUE &&
+        rpgSort === TASK_FILTER_ENUM.ALL
+      ) {
+        return task.isComplete === true;
+      } else if (
+        completedSort === TASK_FILTER_ENUM.FALSE &&
+        rpgSort === TASK_FILTER_ENUM.ALL
+      ) {
+        return task.isComplete === false;
+      } else {
+        return task;
+      }
+    });
+
+    return filterTasks;
+  };
+
+  // sorting by select option
+  const taskComponenteGenerate = (selectOption, updown) => {
+    const { sort } = selectOption;
+
+    let sortedTasks = filterTasks({ completedSort, rpgSort });
 
     switch (sort) {
       case SORT_OPTIONS_ENUM.byLvl:
@@ -120,9 +183,6 @@ const TaskSection = ({ sectionData }) => {
   };
 
   // getting sorting option
-  const getCompeleteSortHandler = e => {
-    setCompletedSort(e.target.value);
-  };
 
   const getSortOptionHandler = e => {
     setSort(e.target.value);
@@ -177,14 +237,22 @@ const TaskSection = ({ sectionData }) => {
       </div>
       {/* Sorting table */}
       <div className="flex justify-end mb-4 ml-2 mr-6">
-        <select
-          onChange={getCompeleteSortHandler}
-          className="bg-gradient-to-b from-secondary via-tertiary to-quaternary border-solid 
-          border-[1px] text-center border-quaternary rounded-xl appearance-none mr-1 px-2 "
+        <button
+          className={filterButton(rpgSort)}
+          onClick={() => {
+            setRpgSort(prevState => (prevState + 1) % 3);
+          }}
         >
-          <option value={'Unclear'}>Unclear</option>
-          <option value={'All'}>All</option>
-        </select>
+          <p>RPGTask</p>
+        </button>
+        <button
+          className={filterButton(completedSort)}
+          onClick={() => {
+            setCompletedSort(prevState => (prevState + 1) % 3);
+          }}
+        >
+          <p>Complete</p>
+        </button>
         <select
           onChange={getSortOptionHandler}
           value={sort}
