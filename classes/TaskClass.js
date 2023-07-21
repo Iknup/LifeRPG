@@ -51,7 +51,7 @@ class TaskClass {
         const { selectedDate } = this;
         const date = getDate(selectedDate);
         nextReset = setDate(addMonths(current, 1), date);
-        ``;
+
         // return (this.reset = setHours(nextReset, 2));
         break;
       case REPEAT_ENUM.EVERY_SELECTED_DAY:
@@ -66,11 +66,8 @@ class TaskClass {
 
         nextReset =
           nextResetDay.length > 0
-            ? addDays(current, getDaysUntilReset(Math.min(...nextResetDay)) + 1)
-            : addDays(
-                current,
-                getDaysUntilReset(Math.min(...selectedDays)) + 1
-              );
+            ? addDays(current, getDaysUntilReset(Math.min(...nextResetDay)))
+            : addDays(current, getDaysUntilReset(Math.min(...selectedDays)));
 
         break;
 

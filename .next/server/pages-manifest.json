@@ -3,7 +3,5 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/api/subtask": "pages/api/subtask.js",
-  "/api/subtask/[subtaskId]": "pages/api/subtask/[subtaskId].js",
   "/api/task/[taskId]": "pages/api/task/[taskId].js"
 }

@@ -22,8 +22,6 @@ const TaskSection = ({ sectionData }) => {
   const [completedSort, setCompletedSort] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  console.log(rpgSort, completedSort);
-
   const dispatch = useDispatch();
 
   const sortButtonDown = (
