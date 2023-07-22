@@ -12,8 +12,9 @@ const handle = async (req, res) => {
   if (method === 'PATCH') {
     const { taskId } = req.query;
     // find task by id
-    const task = await Task.findOne({ _id: taskId });
     try {
+      const task = await Task.findOne({ _id: taskId });
+
       if (req.body.isEdit) {
         const { taskData } = req.body;
         const fieldsToUpdate = [
@@ -24,6 +25,7 @@ const handle = async (req, res) => {
           'repeat',
           'selectedDays',
           'hasSubTask',
+          'section',
         ];
 
         fieldsToUpdate.forEach(field => {

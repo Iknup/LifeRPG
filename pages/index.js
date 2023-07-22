@@ -10,6 +10,8 @@ import AddSection from '@/components/task-section/AddSection';
 import { GET_USER_BY_EMAIL } from '@/src/graphql/query/getUserByEmail';
 import client from '@/lib/apollo-client';
 import AddSectionButton from '@/icons/jsx/section/AddSectionButton';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function Home({ data, session }) {
   const user = useSelector(state => state.users.user);
@@ -47,8 +49,10 @@ export default function Home({ data, session }) {
 
   return (
     <div className="flex">
-      <TaskSection sectionData={{ title: data.userData.name }} />
-      {sectionContents}
+      <DndProvider backend={HTML5Backend}>
+        <TaskSection sectionData={{ title: data.userData.name }} />
+        {sectionContents}
+      </DndProvider>
       {/* add section btn */}
       {addSection ? (
         <AddSection onClose={onCloseAddSection} />

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import TaskCard from '../task-card/TaskCard';
 import NewTaskForm from '../task-card/task-form/NewTaskForm';
 import { SORT_OPTIONS_ENUM } from '@/utility/ENUM';
@@ -9,8 +9,10 @@ import SectionMenu from './SectionMenu';
 import useClickOutside from '@/hooks/useClickOutside';
 import { deleteSection } from '@/slices/userSlice';
 import { TASK_FILTER_ENUM } from '@/utility/ENUM';
-
 import EditSection from './EditSection';
+import { useDrop } from 'react-dnd';
+import { ItemTypes } from '@/src/graphql/dnd/item-types';
+import { editTask } from '@/slices/taskSlice';
 
 const TaskSection = ({ sectionData }) => {
   const user = useSelector(state => state.users.user);
@@ -21,8 +23,29 @@ const TaskSection = ({ sectionData }) => {
   const [rpgSort, setRpgSort] = useState(2);
   const [completedSort, setCompletedSort] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.TASK,
+    drop: item => {
+      dropOnSection(item.id, item.section);
+    },
+    collect: monitor => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
 
   const dispatch = useDispatch();
+
+  const dropOnSection = (id, sectionId) => {
+    if (sectionId === sectionData._id) {
+      return;
+    }
+    dispatch(
+      editTask({
+        taskData: { taskId: id, section: sectionData._id },
+        isEdit: true,
+      })
+    );
+  };
 
   const sortButtonDown = (
     <svg
@@ -298,8 +321,8 @@ const TaskSection = ({ sectionData }) => {
         <NewTaskForm sectionId={sectionData._id} />
       </div>
       {/* Task Card */}
-
       <div
+        ref={drop}
         className="flex flex-col h-[75%] sectionTaskBox
         overflow-y-hidden hover:overflow-y-auto scroll-smooth"
       >
