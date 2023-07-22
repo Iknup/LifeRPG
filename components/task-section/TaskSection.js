@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import ExpandMenu from '@/icons/jsx/ExpandMenu';
 import SectionMenu from './SectionMenu';
+import TaskFormOptions from '../task-card/task-form/TaskFormOptions';
 import useClickOutside from '@/hooks/useClickOutside';
 import { deleteSection } from '@/slices/userSlice';
 import { TASK_FILTER_ENUM } from '@/utility/ENUM';
@@ -24,6 +25,7 @@ const TaskSection = ({ sectionData }) => {
   const [rpgSort, setRpgSort] = useState(false);
   const [completedSort, setCompletedSort] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: ItemTypes.TASK,
     drop: item => {
@@ -58,6 +60,10 @@ const TaskSection = ({ sectionData }) => {
         isEdit: true,
       })
     );
+  };
+
+  const onCalendarButtonClick = () => {
+    setShowCalendar(prevState => !prevState);
   };
 
   //filtering tasks by it's condition
@@ -233,7 +239,23 @@ const TaskSection = ({ sectionData }) => {
         </div>
       </div>
       <div className="mr-[10px] ">
-        <NewTaskForm sectionId={sectionData._id} />
+        <NewTaskForm
+          sectionId={sectionData._id}
+          showCalendar={onCalendarButtonClick}
+        />
+        {showCalendar && (
+          <div className="relative z-50">
+            <TaskFormOptions
+              // getOptionAndDaysHandler={}
+              className="absolute -top-[68px] left-[100%] z-50"
+              closeOptionHandler={() => {
+                setShowCalendar();
+              }}
+              sectionId={sectionData._id}
+              // options={}
+            />
+          </div>
+        )}
       </div>
       {/* Task Card */}
       <div

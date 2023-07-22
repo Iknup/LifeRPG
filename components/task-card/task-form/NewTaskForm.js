@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TaskCardAnimation from '../../animation/TaskCardAnimation';
-import TaskFormOptions from './TaskFormOptions';
 import { TaskClass } from '../../../classes/TaskClass';
 import { addTask } from '@/slices/taskSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,48 +7,24 @@ import { REPEAT_ENUM } from '@/utility/ENUM';
 import RPGCheck from '@/icons/jsx/RPGCheck';
 import TaskPlus from '@/icons/jsx/TaskPlus';
 import TaskPlusAble from '@/icons/jsx/TaskPlusAble';
-import useClickOutside from '@/hooks/useClickOutside';
+import { optionActions } from '@/slices/optionSlice';
 import TaskFormIndicator from './TaskFormIndicator';
 
 const NewTaskForm = props => {
-  const { sectionId } = props;
-  const [showOptions, setShowOptions] = useState(false);
+  const { sectionId, showCalendar } = props;
   const [description, setDescription] = useState('');
   const [validate, setValidate] = useState(false);
-  const [options, setOptions] = useState({});
   const [isRPG, setIsRPG] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showIndicator, setShowIndicator] = useState(false);
   const user = useSelector(state => state.users.user);
   const dispatch = useDispatch();
 
-  // getting an option from TaskFormOptions
-  const getOptionAndDaysHandler = options => {
-    setOptions(options);
-    setValidate(optionsValidateChecker(options) && description.length >= 1);
-    if (options.selectedDays || errorMessage) {
-      setShowIndicator(true);
-    } else {
-      setShowIndicator(false);
-    }
-    closeOptionHandler();
-  };
-
-  const showOptionsHandler = () => {
-    setShowOptions(!showOptions);
-  };
-
-  const closeOptionHandler = () => {
-    setShowOptions(false);
-  };
-
-  const domNode = useClickOutside(() => {
-    setShowOptions(false);
-  });
-
-  const setRPGHandler = () => {
-    setIsRPG(prev => setIsRPG(!prev));
-  };
+  const isMatch = useSelector(
+    state => state.options.options.sectionId === sectionId
+  );
+  const options = useSelector(state => state.options.options);
+  // const options = useFindOption(sectionId);
 
   const optionsValidateChecker = option => {
     const { repeat, selectedDays } = option;
@@ -59,7 +34,7 @@ const NewTaskForm = props => {
       return false;
     } else if (
       (repeat === REPEAT_ENUM.MONTHLY || repeat === REPEAT_ENUM.NONE) &&
-      selectedDays.length !== 1
+      selectedDays.length > 1
     ) {
       setErrorMessage(
         `You can set only 1 day for ${
@@ -73,6 +48,23 @@ const NewTaskForm = props => {
       setErrorMessage(null);
       return true;
     }
+  };
+
+  useEffect(() => {
+    if (isMatch) {
+      setValidate(optionsValidateChecker(options) && description.length >= 1);
+      if (options?.selectedDays.length > 0 || errorMessage) {
+        setShowIndicator(true);
+      } else {
+        setShowIndicator(false);
+      }
+    }
+  }, [options]);
+
+  // getting an option from TaskFormOptions
+
+  const setRPGHandler = () => {
+    setIsRPG(prev => !prev);
   };
 
   const onChangeDescriptionHandler = e => {
@@ -128,12 +120,12 @@ const NewTaskForm = props => {
     submitTaskHandler();
     setValidate(false);
     setDescription('');
-    setOptions({});
+    dispatch(optionActions.deleteOptions());
   };
 
   return (
     <TaskCardAnimation>
-      <div ref={domNode} className=" bg-ColorThree mb-3 mx-3 rounded-md">
+      <div className=" bg-ColorThree mb-3 mx-3 rounded-md">
         <form onSubmit={onSubmitHandler} className="flex h-[56px]">
           <input
             className={`grow bg-ColorThree mx-1 h-1/2 self-center ml-3 
@@ -152,7 +144,13 @@ const NewTaskForm = props => {
               <RPGCheck active={isRPG} />
             </button>
             {/* Calendar Button */}
-            <button type="button" className="ml-1" onClick={showOptionsHandler}>
+            <button
+              type="button"
+              className="ml-1"
+              onClick={() => {
+                showCalendar();
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -186,16 +184,7 @@ const NewTaskForm = props => {
             </button>
           </div>
         </form>
-        {showOptions && (
-          <div className="relative z-50">
-            <TaskFormOptions
-              getOptionAndDaysHandler={getOptionAndDaysHandler}
-              className="absolute -top-10 left-[105%] z-50"
-              closeOptionHandler={closeOptionHandler}
-              options={options}
-            />
-          </div>
-        )}
+
         {(showIndicator || errorMessage) && (
           <div className="bg-ColorOne flex mb-[2px]">
             <TaskFormIndicator

@@ -1,9 +1,12 @@
-import { useState, useReducer } from 'react';
+import { useReducer } from 'react';
 import MyCalendar from '../../Calendar';
 import CalendarUnchecked from '@/icons/jsx/01-yellow/CalendarUnchecked';
 import CalendarChecked from '@/icons/jsx/01-yellow/CalendarChecked';
 import { REPEAT_ENUM } from '@/utility/ENUM';
+import { useDispatch, useSelector } from 'react-redux';
 import Nextweek from '@/icons/jsx/Nextweek';
+import optionSlice, { optionActions } from '@/slices/optionSlice';
+import useFindOption from '@/hooks/useFindOption';
 
 const OPTIONS = Object.freeze({
   TODAY_CHECK: 'today check',
@@ -48,25 +51,38 @@ const reducer = (state, action) => {
 };
 
 const TaskFormOptions = props => {
-  const { className, getOptionAndDaysHandler, closeOptionHandler } = props;
-  const { repeat, selectedDays } = props.options;
+  const { className, sectionId, closeOptionHandler } = props;
+
+  // find option or false
+  const isMatch = useSelector(
+    state => state.options.options.sectionId === sectionId
+  );
+  const options = useSelector(state => state.options.options);
+
+  // const { repeat, selectedDays } = props.options;
   const [state, dispatch] = useReducer(reducer, {
-    repeatOption: repeat || 'None',
+    repeatOption: isMatch ? options.repeat : 'None',
     isTodayChecked: false,
     isNextWeekChecked: false,
     showSuggest: false,
-    selectedDays: selectedDays || [],
+    selectedDays: isMatch ? options.selectedDays : [],
   });
+
+  const dispatchRedux = useDispatch();
 
   const handleSelectChange = event => {
     dispatch({ type: OPTIONS.REPEAT_OPTION, payload: event.target.value });
   };
 
   const handleSubmit = () => {
-    getOptionAndDaysHandler({
-      repeat: state.repeatOption,
-      selectedDays: state.selectedDays,
-    });
+    dispatchRedux(
+      optionActions.addOptions({
+        repeat: state.repeatOption,
+        selectedDays: state.selectedDays,
+        sectionId,
+      })
+    );
+    closeOption();
   };
 
   let repeatStyle;
@@ -94,7 +110,8 @@ const TaskFormOptions = props => {
   };
 
   const resetHandler = () => {
-    getOptionAndDaysHandler({});
+    dispatchRedux(optionActions.deleteOptions());
+    closeOption();
   };
 
   return (
@@ -103,7 +120,7 @@ const TaskFormOptions = props => {
         getSelectedDaysHandler={getSelectedDaysHandler}
         todayOn={state.isTodayChecked}
         nextWeekOn={state.isNextWeekChecked}
-        preSelectedDays={selectedDays}
+        // preSelectedDays={selectedDays}
         className="pr-1"
       />
       {/* Days and repeat options */}

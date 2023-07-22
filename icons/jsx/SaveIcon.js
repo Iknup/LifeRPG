@@ -6,7 +6,7 @@ function SaveIcon({ className }) {
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
-      fill="#000"
+      fill="currentColor"
       version="1.1"
       viewBox="0 0 64 64"
       xmlSpace="preserve"
