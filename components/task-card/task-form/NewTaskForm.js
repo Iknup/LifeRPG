@@ -186,15 +186,6 @@ const NewTaskForm = props => {
             </button>
           </div>
         </form>
-        {(showIndicator || errorMessage) && (
-          <div className="bg-ColorOne flex mb-[2px]">
-            <TaskFormIndicator
-              repeat={options.repeat}
-              selectedDays={options.selectedDays}
-              errorMessage={errorMessage}
-            />
-          </div>
-        )}
         {showOptions && (
           <div className="relative z-50">
             <TaskFormOptions
@@ -202,6 +193,15 @@ const NewTaskForm = props => {
               className="absolute -top-10 left-[105%] z-50"
               closeOptionHandler={closeOptionHandler}
               options={options}
+            />
+          </div>
+        )}
+        {(showIndicator || errorMessage) && (
+          <div className="bg-ColorOne flex mb-[2px]">
+            <TaskFormIndicator
+              repeat={options.repeat}
+              selectedDays={options.selectedDays}
+              errorMessage={errorMessage}
             />
           </div>
         )}

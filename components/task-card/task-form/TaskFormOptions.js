@@ -98,7 +98,7 @@ const TaskFormOptions = props => {
   };
 
   return (
-    <div className={`${className} flex bg-ColorOne w-[430px] p-3 rounded-lg`}>
+    <div className={`${className} flex w-[430px] bg-ColorOne  p-3 rounded-lg`}>
       <MyCalendar
         getSelectedDaysHandler={getSelectedDaysHandler}
         todayOn={state.isTodayChecked}

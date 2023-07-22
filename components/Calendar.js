@@ -116,7 +116,7 @@ const MyCalendar = props => {
                 type="button"
                 onClick={prevMonth}
                 className="-my-1.5 flex flex-none items-center justify-center 
-                p-1.5 text-white hover:text-gray-400"
+                p-1.5 text-TextColor hover:text-gray-400"
               >
                 <span className="sr-only">Previous month</span>
                 <svg
@@ -141,7 +141,7 @@ const MyCalendar = props => {
                 type="button"
                 onClick={nextMonth}
                 className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center 
-                justify-center p-1.5 text-white hover:text-gray-400"
+                justify-center p-1.5 text-TextColor hover:text-gray-400"
               >
                 <span className="sr-only">Next month</span>
                 <svg
@@ -160,7 +160,7 @@ const MyCalendar = props => {
                 </svg>
               </button>
             </div>
-            <div className="grid grid-cols-7 mt-1 text-sm leading-6 text-center">
+            <div className="grid grid-cols-7 mt-1 text-sm leading-3 text-center">
               <div className="text-red-700 font-semibold">S</div>
               <div>M</div>
               <div>T</div>
@@ -169,26 +169,26 @@ const MyCalendar = props => {
               <div>F</div>
               <div>S</div>
             </div>
-            <div className="grid grid-cols-7 mt-2 text-sm">
+            <div className="grid grid-cols-7 mt-1 text-sm">
               {newDays.map((day, dayIdx) => (
                 <div
                   key={day.toString()}
                   className={classNames(
                     // 요일에 따라 매월 1일을 해당 요일 위치로 보냄
                     dayIdx === 0 && colStartClasses[getDay(day)],
-                    'py-1.5'
+                    'py-1'
                   )}
                 >
                   <button
                     type="button"
                     onClick={() => handleDayClick(day)}
                     className={classNames(
-                      isSelected(day) && 'text-white', // Apply the selected style
+                      isSelected(day) && 'text-TextColor', // Apply the selected style
                       !isSelected(day) && isToday(day) && 'text-orange-700', // Apply today style
                       !isSelected(day) &&
                         !isToday(day) &&
                         isSameMonth(day, firstDayCurrentMonth) &&
-                        'text-white', // Apply styles for days in the current month
+                        'text-TextColor', // Apply styles for days in the current month
                       !isSelected(day) &&
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&

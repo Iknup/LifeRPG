@@ -13,6 +13,7 @@ import EditSection from './EditSection';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '@/src/graphql/dnd/item-types';
 import { editTask } from '@/slices/taskSlice';
+import SortingButton from '@/icons/jsx/section/SortingButton';
 
 const TaskSection = ({ sectionData }) => {
   const user = useSelector(state => state.users.user);
@@ -20,16 +21,28 @@ const TaskSection = ({ sectionData }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [updown, setUpdown] = useState(false);
   const [sort, setSort] = useState(SORT_OPTIONS_ENUM.byLvl);
-  const [rpgSort, setRpgSort] = useState(2);
+  const [rpgSort, setRpgSort] = useState(false);
   const [completedSort, setCompletedSort] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: ItemTypes.TASK,
     drop: item => {
       dropOnSection(item.id, item.section);
     },
+    // canDrop: item => {
+    //   if (item.section === sectionData.id || sectionData.title === user.name) {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // },
+    hover: (item, monitor) => {
+      if (monitor.canDrop()) {
+      }
+    },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
     }),
   }));
 
@@ -47,61 +60,6 @@ const TaskSection = ({ sectionData }) => {
     );
   };
 
-  const sortButtonDown = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-4 h-4"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-      />
-    </svg>
-  );
-
-  const sortButtonUp = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-4 h-4"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.5 15.75l7.5-7.5 7.5 7.5"
-      />
-    </svg>
-  );
-
-  let updownButton;
-
-  if (updown === SORT_OPTIONS_ENUM.ascending) {
-    updownButton = sortButtonUp;
-  } else {
-    updownButton = sortButtonDown;
-  }
-
-  const filterButton = number => {
-    let filterButtonBg;
-    if (number === TASK_FILTER_ENUM.FALSE) {
-      filterButtonBg = 'bg-ColorOne';
-    } else if (number === TASK_FILTER_ENUM.TRUE) {
-      filterButtonBg = 'bg-colorMain';
-    } else {
-      filterButtonBg = 'bg-colorSub';
-    }
-
-    return `${filterButtonBg} mr-1 rounded-md px-1`;
-  };
-
   //filtering tasks by it's condition
   const filterTasks = conditions => {
     let sectionTasks;
@@ -113,48 +71,22 @@ const TaskSection = ({ sectionData }) => {
 
     const { completedSort, rpgSort } = conditions;
     const filterTasks = sectionTasks.filter(task => {
-      if (
-        completedSort === TASK_FILTER_ENUM.FALSE &&
-        rpgSort === TASK_FILTER_ENUM.TRUE
-      ) {
-        return task.isComplete === false && task.isRPG === true;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.FALSE &&
-        rpgSort === TASK_FILTER_ENUM.FALSE
-      ) {
-        return task.isComplete === false && task.isRPG === false;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.TRUE &&
-        rpgSort === TASK_FILTER_ENUM.TRUE
-      ) {
-        return task.isComplete === true && task.isRPG === true;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.TRUE &&
-        rpgSort === TASK_FILTER_ENUM.FALSE
-      ) {
-        return task.isComplete === true && task.isRPG === false;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.ALL &&
-        rpgSort === TASK_FILTER_ENUM.FALSE
-      ) {
-        return task.isRPG === false;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.ALL &&
-        rpgSort === TASK_FILTER_ENUM.TRUE
-      ) {
-        return task.isRPG === true;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.TRUE &&
-        rpgSort === TASK_FILTER_ENUM.ALL
-      ) {
-        return task.isComplete === true;
-      } else if (
-        completedSort === TASK_FILTER_ENUM.FALSE &&
-        rpgSort === TASK_FILTER_ENUM.ALL
-      ) {
-        return task.isComplete === false;
+      if (rpgSort) {
+        if (completedSort === TASK_FILTER_ENUM.FALSE) {
+          return task.isComplete === false && task.isRPG === true;
+        } else if (completedSort === TASK_FILTER_ENUM.TRUE) {
+          return task.isComplete === true && task.isRPG === true;
+        } else {
+          return task.isRPG === true;
+        }
       } else {
-        return task;
+        if (completedSort === TASK_FILTER_ENUM.FALSE) {
+          return task.isComplete === false;
+        } else if (completedSort === TASK_FILTER_ENUM.TRUE) {
+          return task.isComplete === true;
+        } else {
+          return task;
+        }
       }
     });
 
@@ -251,52 +183,33 @@ const TaskSection = ({ sectionData }) => {
             }}
           />
         ) : (
-          <h1 className=" pb-1 mb-5 mx-2 text-2xl font-bold">
+          <h1 className=" indent-2 pb-1 mb-5 mx-2 text-2xl font-bold">
             {`${sectionData.title.toUpperCase()}`}
           </h1>
         )}
       </div>
       {/* Sorting table */}
       <div className="flex justify-end mb-4 ml-2 mr-6">
-        <button
-          className={filterButton(rpgSort)}
-          onClick={() => {
-            setRpgSort(prevState => (prevState + 1) % 3);
-          }}
-        >
-          <p>RPGTask</p>
-        </button>
-        <button
-          className={filterButton(completedSort)}
-          onClick={() => {
-            setCompletedSort(prevState => (prevState + 1) % 3);
-          }}
-        >
-          <p>Complete</p>
-        </button>
         <select
           onChange={getSortOptionHandler}
           value={sort}
-          className="bg-gradient-to-b 
-          from-secondary 
-          via-tertiary 
-          to-quaternary border-solid 
-          border-[1px] text-center 
-          border-quaternary rounded-xl 
-          appearance-none mr-1 "
+          className="bg-ColorTwo rounded-md appearance-none text-center"
         >
           <option value={SORT_OPTIONS_ENUM.byCreatedAt}>created</option>
           <option value={SORT_OPTIONS_ENUM.byLvl}>level</option>
           <option value={SORT_OPTIONS_ENUM.byDueDate}>due date</option>
           <option value={SORT_OPTIONS_ENUM.byClearRAte}>clear rate</option>
         </select>
-        <button
-          onClick={getUpdownHandler}
-          className="bg-quaternary rounded-lg px-[1px]"
+        <div
+          ref={menuDomNode}
+          className="relative ml-1 bg-ColorTwo pt-[2px] px-2 rounded-md"
         >
-          {updownButton}
-        </button>
-        <div ref={menuDomNode} className="relative ml-1">
+          <button
+            onClick={getUpdownHandler}
+            className="bg-quaternary rounded-lg px-[1px] mr-[6px]"
+          >
+            <SortingButton scale={14} />
+          </button>
           <button
             onClick={() => {
               setMenuOpen(prevState => !prevState);
@@ -309,6 +222,8 @@ const TaskSection = ({ sectionData }) => {
               <SectionMenu
                 onEdit={onEditClickHandler}
                 onDelete={onDeleteSectionHandler}
+                completeSort={setCompletedSort}
+                rpgSort={setRpgSort}
                 onClose={() => {
                   setMenuOpen(false);
                 }}
@@ -323,8 +238,10 @@ const TaskSection = ({ sectionData }) => {
       {/* Task Card */}
       <div
         ref={drop}
-        className="flex flex-col h-[75%] sectionTaskBox
-        overflow-y-hidden hover:overflow-y-auto scroll-smooth"
+        className={`flex flex-col h-[75%] sectionTaskBox
+        overflow-y-hidden hover:overflow-y-auto scroll-smooth ${
+          canDrop ? 'border border-textColor' : ''
+        }`}
       >
         <AnimatePresence>
           {sortedTasks.map(task => (

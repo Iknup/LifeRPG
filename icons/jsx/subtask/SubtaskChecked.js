@@ -13,10 +13,10 @@ function SubtaskChecked({ scale }) {
       xmlSpace="preserve"
     >
       <path
-        fill="#6B6E72"
+        fill="currentColor"
         d="M5 1c2.206 0 4 1.794 4 4S7.206 9 5 9 1 7.205 1 5s1.794-4 4-4m0-1a5 5 0 10.001 10.001A5 5 0 005 0z"
       ></path>
-      <circle cx="5" cy="5" r="2.954" fill="#6B6E72"></circle>
+      <circle cx="5" cy="5" r="2.954" fill="currentColor"></circle>
     </svg>
   );
 }

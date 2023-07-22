@@ -76,7 +76,7 @@
   }
 
   .menu-button {
-    @apply flex px-1 min-w-full items-center hover:menu-button-hover;
+    @apply flex px-2 pb-1 min-w-full items-center hover:menu-button-hover;
   }
 
   .menu-button-hover {
