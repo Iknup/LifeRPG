@@ -66,6 +66,10 @@ const TaskSection = ({ sectionData }) => {
     setShowCalendar(prevState => !prevState);
   };
 
+  const calendarDomNode = useClickOutside(() => {
+    setShowCalendar(false);
+  });
+
   //filtering tasks by it's condition
   const filterTasks = conditions => {
     let sectionTasks;
@@ -238,7 +242,7 @@ const TaskSection = ({ sectionData }) => {
           )}
         </div>
       </div>
-      <div className="mr-[10px] ">
+      <div ref={calendarDomNode} className="mr-[10px] ">
         <NewTaskForm
           sectionId={sectionData._id}
           showCalendar={onCalendarButtonClick}

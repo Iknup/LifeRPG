@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
 
   return (
     <div
-      className="bg-ColorFour min-h-screen font-SUITE-Regular 
+      className="bg-ColorFour min-h-screen  font-SUITE-Regular 
     text-TextColor"
     >
       {menuShow ? <MenuModal /> : null}
