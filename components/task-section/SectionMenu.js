@@ -19,10 +19,10 @@ import SubtaskChecked from '@/icons/jsx/subtask/SubtaskChecked';
 // }
 
 const SectionMenu = props => {
-  const { onEdit, onDelete, onClose, rpgSort, completeSort } = props;
+  const { onEdit, onDelete, onClose, rpgSort, completeSort, initState } = props;
   const menuButtonTxt = 'ml-[2px] text-[14px]';
-  const [completeFilter, setCompleteFilter] = useState(TASK_FILTER_ENUM.FALSE);
-  const [rpgChecked, setRpgChecked] = useState(false);
+  const [completeFilter, setCompleteFilter] = useState(initState.completedSort);
+  const [rpgChecked, setRpgChecked] = useState(initState.rpgSort);
   // const [state, dispatch] = useReducer(reducer,{
   // })
 

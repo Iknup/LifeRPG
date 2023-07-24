@@ -237,6 +237,7 @@ const TaskSection = ({ sectionData }) => {
                 onDelete={onDeleteSectionHandler}
                 completeSort={setCompletedSort}
                 rpgSort={setRpgSort}
+                initState={{ rpgSort, completedSort }}
                 onClose={() => {
                   setMenuOpen(false);
                 }}
