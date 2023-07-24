@@ -1,6 +1,6 @@
 import { useSession, signOut } from 'next-auth/react';
 
-const account = () => {
+const AccountPage = () => {
   const { data: session } = useSession({
     required: true,
   });

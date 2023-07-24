@@ -7,11 +7,8 @@ import axios from 'axios';
 import TaskSection from '@/components/task-section/TaskSection';
 import { authOptions } from './api/auth/[...nextauth]';
 import AddSection from '@/components/task-section/AddSection';
-import { GET_USER_BY_EMAIL } from '@/src/graphql/query/getUserByEmail';
-import client from '@/lib/apollo-client';
 import AddSectionButton from '@/icons/jsx/section/AddSectionButton';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import TaskCardDragLayer from '@/components/UI/TaskCardDragLayer';
 
 export default function Home({ data, session }) {
   const user = useSelector(state => state.users.user);
@@ -49,10 +46,10 @@ export default function Home({ data, session }) {
 
   return (
     <div className="flex">
-      <DndProvider backend={HTML5Backend}>
-        <TaskSection sectionData={{ title: data.userData.name }} />
-        {sectionContents}
-      </DndProvider>
+      <TaskSection
+        sectionData={{ title: data.userData.name, _id: undefined }}
+      />
+      {sectionContents}
       {/* add section btn */}
       {addSection ? (
         <AddSection onClose={onCloseAddSection} />
@@ -68,6 +65,7 @@ export default function Home({ data, session }) {
           </button>
         </div>
       )}
+      {/* <TaskCardDragLayer /> */}
     </div>
   );
 }
@@ -84,27 +82,13 @@ export const getServerSideProps = async context => {
     };
   } else {
     const email = session.user.email;
-    console.log('UserPost');
-    // const userRes = await axios.post(`${process.env.DOMAIN}/api/graphql`, {
-    //   query: GET_USER_BY_EMAIL,
-    //   variables: { email },
-    // });
 
+    // getting userData by email
     const userRes = await axios.get(
       `${process.env.DOMAIN}/api/user/email?email=${email}`
     );
 
-    // Getting user data by it's email
-    // const userRes = await client.query({
-    //   query: GET_USER_BY_EMAIL,
-    //   variables: {
-    //     email,
-    //   },
-    //   fetchPolicy: 'cache-first',
-    // });
-
     const userData = userRes.data;
-    console.log('Post finished!');
 
     // Getting sections
     const sectionRes = await axios.get(

@@ -32,7 +32,7 @@ const TaskSection = ({ sectionData }) => {
       dropOnSection(item.id, item.section);
     },
     // canDrop: item => {
-    //   if (item.section === sectionData.id || sectionData.title === user.name) {
+    //   if (sectionData.title === user.name) {
     //     return false;
     //   } else {
     //     return true;
@@ -54,6 +54,9 @@ const TaskSection = ({ sectionData }) => {
     if (sectionId === sectionData._id) {
       return;
     }
+
+    console.log(sectionData._id);
+
     dispatch(
       editTask({
         taskData: { taskId: id, section: sectionData._id },
@@ -266,7 +269,7 @@ const TaskSection = ({ sectionData }) => {
         ref={drop}
         className={`flex flex-col h-[75%] sectionTaskBox
         overflow-y-hidden hover:overflow-y-auto scroll-smooth ${
-          canDrop ? 'border border-textColor' : ''
+          canDrop ? 'bg-white' : ''
         }`}
       >
         <AnimatePresence>

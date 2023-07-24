@@ -2,18 +2,11 @@ import TaskInfo from './TaskInfo';
 import TaskEdit from './TaskEdit';
 import TaskCardAnimation from '../animation/TaskCardAnimation';
 import { useState } from 'react';
-import { ItemTypes } from '@/src/graphql/dnd/item-types';
-import { useDrag } from 'react-dnd';
+
+
 
 const TaskCard = props => {
   const [isEdit, setIsEdit] = useState(false);
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.TASK,
-    item: { id: props.task._id, section: props.task.section },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
 
   const taskEditHandler = () => {
     setIsEdit(!isEdit);
@@ -35,7 +28,7 @@ const TaskCard = props => {
   );
   return (
     <TaskCardAnimation>
-      <div ref={drag}>{JSXcontents}</div>
+      <div>{JSXcontents}</div>
     </TaskCardAnimation>
   );
 };

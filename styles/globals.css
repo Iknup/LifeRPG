@@ -83,4 +83,12 @@
   .menu-button-hover {
     @apply bg-ColorSix text-ColorOne;
   }
+
+  .auth-container {
+    @apply absolute top-[50%] left-[50%] -translate-y-[50%] rounded-md bg-ColorOne w-96 h-[600px] transition-all duration-300;
+  }
+
+  .auth-input {
+    @apply bg-ColorFour h-8 rounded-md placeholder:indent-2;
+  }
 }

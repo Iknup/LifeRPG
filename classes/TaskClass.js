@@ -1,6 +1,6 @@
 import { WEEKDAYS_ENUM, REPEAT_ENUM } from '@/utility/ENUM';
 import { getRequiredExpForLevel, getPrevLevelExp } from '@/utility/levelexp';
-import { addDays, addMonths, setHours, setDate, getDate, set } from 'date-fns';
+import { addDays, addMonths, setDate, getDate, set } from 'date-fns';
 
 class TaskClass {
   rpgClearHandler(isComplete) {
@@ -76,8 +76,6 @@ class TaskClass {
     const updatedResetTime = setConfigHour(nextReset);
     return (this.reset = updatedResetTime);
   }
-
-  static sortByOption(selectOption, updownOption) {}
 }
 
 const setResetDate = (today, resetMonth = 0, resetDay = 1, resetHour = 2) => {
