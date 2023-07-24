@@ -269,7 +269,7 @@ const TaskSection = ({ sectionData }) => {
         ref={drop}
         className={`flex flex-col h-[75%] sectionTaskBox
         overflow-y-hidden hover:overflow-y-auto scroll-smooth ${
-          canDrop ? 'bg-white' : ''
+          canDrop ? 'animate-shadowBling' : ''
         }`}
       >
         <AnimatePresence>

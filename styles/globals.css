@@ -9,7 +9,6 @@
     /* font-family: 'Noto Sans KR', sans-serif; */
     /* font-family: 'SeoulNamsanM'; */
     font-family: 'NEXON Lv1 Gothic OTF';
-    scrollbar-gutter: stable;
     background-color: #3c3e42;
   }
 }
@@ -37,6 +36,9 @@
 }
 
 @layer components {
+  .task-section {
+    @apply h-screen min-w-[370px] w-[370px] mr-[20px] mt-5;
+  }
   .sectionTaskBox {
     scrollbar-gutter: stable;
   }
@@ -70,10 +72,6 @@
     from-80%
     via-ColorTwo
     via-85%;
-  }
-
-  .task-section {
-    @apply h-screen min-w-[370px] w-[370px] mr-[10px] mt-5;
   }
 
   .menu-button {

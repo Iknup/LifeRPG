@@ -32,6 +32,7 @@ module.exports = {
       animation: {
         bounceOnce: 'bounceOnce',
         wiggleOnce: 'wiggleOnce 1s ease-in-out infinite',
+        shadowBling: 'shadowBling 2s ease-in-out infinite',
       },
       keyframes: {
         bounceOnce: {
@@ -43,9 +44,18 @@ module.exports = {
           '25%': { transform: 'rotate(-12deg)' },
           '75%': { transform: 'rotate(12deg)' },
         },
+        shadowBling: {
+          '0%': { boxShadow: '0 0 3px rgba(255,255,255,0.25)' },
+          '50%': { boxShadow: '0 0 5px rgba(255,255,255,0.50)' },
+          '100%': { boxShadow: '0 0 3px rgba(255,255,255,0.25)' },
+        },
       },
     },
   },
 
   plugins: [],
 };
+
+// 일요일에 하는 task
+// 다음날인 월요일 2시에 reset
+// 다음 주 일요일 새벽 2시에 reset
