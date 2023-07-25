@@ -19,6 +19,8 @@ import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { motion } from 'framer-motion';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '@/src/graphql/dnd/item-types';
+import { differenceInDays, format, parse, parseISO } from 'date-fns';
+import { REPEAT_ENUM } from '@/utility/ENUM';
 
 const TaskInfo = props => {
   const { task } = props;
@@ -143,6 +145,14 @@ const TaskInfo = props => {
             ref={domNode}
             className="pr-1.5 pt-1.5 flex justify-end relative"
           >
+            {task.repeat === REPEAT_ENUM.MONTHLY && (
+              <div className="group absolute text-xs -top-[13px] right-[13px]">
+                <p className="bg-ColorFive rounded-md p-[1px] scale-0 group-hover:scale-100">
+                  {format(parseISO(task.reset), 'MM/dd')}
+                </p>
+                <p>D-{getdDay(task.reset)}</p>
+              </div>
+            )}
             <button
               onClick={() => {
                 setIsMenuOpen(!isMenuOpen);
@@ -268,3 +278,7 @@ const TaskInfo = props => {
 };
 
 export default TaskInfo;
+
+const getdDay = date => {
+  return differenceInDays(parseISO(date), new Date());
+};
