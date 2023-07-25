@@ -1,5 +1,4 @@
-import Logo from '@/icons/jsx/Logo';
-import { motion, AnimatePresence } from 'framer-motion';
+import LogoHorizontal from '@/icons/jsx/LogoHorizontal';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -33,8 +32,8 @@ const signInPage = () => {
           : '-translate-x-[50%] opacity-1'
       }`}
     >
-      <div className="h-[35%] flex flex-col justify-center items-center">
-        <Logo />
+      <div className="h-[40%] flex flex-col justify-center items-center pt-10">
+        <LogoHorizontal />
       </div>
       <div className="flex flex-col gap-4 mx-4 mt-[15%]">
         <input className="auth-input" type="email" placeholder="email" />
@@ -77,22 +76,9 @@ const signInPage = () => {
           : 'opacity-0 translate-x-[50%]'
       }`}
     >
-      <h1 className="text-8xl text-center mt-[15%]">Logo</h1>
-      <h3 className="text-3xl text-center mt-2">here</h3>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-16 h-16 mx-auto mt-10"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-        />
-      </svg>
+      <div className="h-[40%] flex flex-col justify-center items-center pt-10">
+        <LogoHorizontal />
+      </div>
       <div className="text-center text-ColorOne font-extrabold text-xl mt-14">
         <button className="bg-colorMain w-[90%] mt-[8%] h-12">
           <p>Google</p>

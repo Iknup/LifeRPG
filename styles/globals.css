@@ -83,7 +83,7 @@
   }
 
   .auth-container {
-    @apply absolute top-[50%] left-[50%] -translate-y-[50%] rounded-md bg-ColorOne w-96 h-[600px] transition-all duration-300;
+    @apply absolute top-[50%] left-[50%] -translate-y-[50%] rounded-md bg-ColorOne w-96 h-[700px] transition-all duration-300;
   }
 
   .auth-input {

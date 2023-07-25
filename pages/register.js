@@ -1,14 +1,13 @@
-import Logo from '@/icons/jsx/Logo';
+import LogoHorizontal from '@/icons/jsx/LogoHorizontal';
 import Link from 'next/link';
 
 const RegisterPage = () => {
   return (
-    <div className="auth-container -translate-x-[50%]">
-      <div className="h-[35%] flex flex-col justify-center items-center">
-        <Logo />
+    <div className="auth-container -translate-x-[50%] ">
+      <div className="h-[40%] flex flex-col justify-center items-center pt-10">
+        <LogoHorizontal />
       </div>
-      <div className="flex flex-col gap-4 mx-4 text-center">
-        <h1 className=" text-2xl">Register here</h1>
+      <div className="flex flex-col gap-4 mx-4 text-center mt-10">
         <input
           type="email"
           placeholder="email"

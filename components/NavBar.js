@@ -1,3 +1,4 @@
+import LogoVertical from '@/icons/jsx/LogoVertical';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -12,25 +13,11 @@ const NavBar = props => {
   };
 
   return (
-    <div className="bg-ColorOne h-9 min-h-full flex justify-between ">
+    <div className="bg-ColorOne h-10 min-h-full flex justify-between ">
       <div className="flex text-white text-lg min-h-full items-center">
-        <button onClick={menuButtonHanlder} className="mr-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-        </button>
-        <Link href={'/'}>LifeRPG</Link>
+        <Link className="ml-2 flex items-center" href={'/'}>
+          <LogoVertical scale={{ w: '91', h: '25' }} />
+        </Link>
       </div>
       <div className="flex text-white text-lg min-h-full items-center">
         <Link href={'/settings'}>
