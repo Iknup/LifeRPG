@@ -2,7 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/findpassword": "pages/findpassword.js",
-  "/register": "pages/register.js",
-  "/signInPage": "pages/signInPage.js"
+  "/api/user": "pages/api/user.js",
+  "/api/task": "pages/api/task.js",
+  "/api/user/section": "pages/api/user/section.js",
+  "/": "pages/index.js"
 }

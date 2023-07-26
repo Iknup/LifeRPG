@@ -3,6 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/lib/mongodb';
 import GoogleProvider from 'next-auth/providers/google';
+import Intl from 'intl';
+import axios from 'axios';
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -15,10 +17,24 @@ export const authOptions = {
 
     // ...add more providers here
   ],
-  // If want to use a custom sign in page
-  // pages: {
-  //   signIn: '/login',
-  // },
+  callbacks: {
+    async session({ session, token, user }) {
+      session.user._id = user.id;
+
+      const createdAtISO = user.createdAt.toISOString();
+      session.user.createdAt = createdAtISO;
+      if (user.timezone) {
+        const timezone = {
+          timezone: user.timezone.timezoneString,
+          offset: user.timezone.offset,
+        };
+        session.user.timzone = timezone;
+      }
+
+      return session;
+    },
+  },
+
   secret: process.env.JWT_SECRET,
 };
 

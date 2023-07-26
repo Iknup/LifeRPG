@@ -1,7 +1,7 @@
 import SaveIcon from '@/icons/jsx/SaveIcon';
 import TaskCardUI from '../UI/TaskCardUI';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { editTask } from '@/slices/taskSlice';
 import Repeat from './Repeat';
 import TaskFormOptions from './task-form/TaskFormOptions';
@@ -14,6 +14,7 @@ const TaskEdit = props => {
     repeat: task.repeat,
     selectedDays: task.selectedDays,
   });
+  const user = useSelector(state => state.users.user);
   const [validate, setValidate] = useState();
   const [description, setDescription] = useState(task.description);
   const [showOptions, setShowOptions] = useState(true);
@@ -80,7 +81,7 @@ const TaskEdit = props => {
 
     if (task.repeat === 'None' && newTask.repeat !== 'None') {
       Object.setPrototypeOf(newTask, TaskClass.prototype);
-      newTask.setResetHandler();
+      newTask.setResetHandler(user.resetSchedule);
     }
 
     dispatch(editTask({ taskData: newTask, isEdit: true }));

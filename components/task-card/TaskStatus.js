@@ -41,7 +41,7 @@ const TaskStatus = props => {
     );
 
   const clrRateChartData = {
-    labels: ['Completed', 'Failure!'],
+    labels: ['Complete', 'Incomplete'],
     datasets: [
       {
         data: [clearRate.toFixed(1), 100 - clearRate.toFixed(1)],

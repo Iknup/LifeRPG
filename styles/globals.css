@@ -86,6 +86,10 @@
     @apply absolute top-[50%] left-[50%] -translate-y-[50%] rounded-md bg-ColorOne w-96 h-[700px] transition-all duration-300;
   }
 
+  .setting-container {
+    @apply absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%];
+  }
+
   .auth-input {
     @apply bg-ColorFour h-8 rounded-md placeholder:indent-2;
   }

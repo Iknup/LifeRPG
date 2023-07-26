@@ -108,7 +108,7 @@ const NewTaskForm = props => {
 
     if (newTask.repeat !== 'None') {
       Object.setPrototypeOf(newTask, TaskClass.prototype);
-      newTask.setResetHandler();
+      newTask.setResetHandler(user.resetSchedule);
     }
 
     // adding task to section

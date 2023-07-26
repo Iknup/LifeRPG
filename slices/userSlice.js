@@ -5,6 +5,20 @@ const initialState = {
   user: {},
 };
 
+export const editUser = createAsyncThunk(
+  'user/editUser',
+  async ({ data, userId }) => {
+    try {
+      console.log(data);
+      const res = await axios.patch(`/api/user?userId=${userId}`, data);
+      const userData = res.data;
+      return userData;
+    } catch (e) {
+      return { message: e.message };
+    }
+  }
+);
+
 export const addSection = createAsyncThunk(
   'user/addSection',
   async ({ sectionData, userId }) => {
@@ -81,6 +95,11 @@ const userSlice = createSlice({
       );
       section.title = sectionData.title;
     },
+    editUserSuccess: (state, action) => {
+      const userData = action.payload;
+      const sections = state.user.sections;
+      state.user = { ...userData, sections };
+    },
   },
   extraReducers(builder) {
     builder.addCase(addSection.fulfilled, (state, action) => {
@@ -91,6 +110,9 @@ const userSlice = createSlice({
     });
     builder.addCase(editSection.fulfilled, (state, action) => {
       userSlice.caseReducers.editSectionSuccess(state, action);
+    });
+    builder.addCase(editUser.fulfilled, (state, action) => {
+      userSlice.caseReducers.editUserSuccess(state, action);
     });
   },
 });

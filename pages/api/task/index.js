@@ -28,7 +28,7 @@ const handle = async (req, res) => {
           { expireDate: { $exists: false } },
           { expireDate: { $gte: new Date() } },
         ],
-      }).populate('user');
+      });
       res.json(tasks);
     } catch (e) {
       console.log('Task Get Error!:', e);

@@ -1,5 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 
+const timezoneSchema = new Schema({
+  timezoneString: { type: String },
+  offset: { type: Number },
+});
+
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -8,6 +13,17 @@ const UserSchema = new Schema({
   name: {
     type: String,
     require: true,
+  },
+  timezone: {
+    type: timezoneSchema,
+  },
+  resetSchedule: {
+    type: Number,
+    default: 2,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

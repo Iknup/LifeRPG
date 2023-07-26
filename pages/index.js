@@ -1,5 +1,5 @@
 import { taskActions } from '@/slices/taskSlice';
-import { userAction } from '@/slices/userSlice';
+import { editUser, userAction } from '@/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getServerSession } from 'next-auth/next';
@@ -8,7 +8,7 @@ import TaskSection from '@/components/task-section/TaskSection';
 import { authOptions } from './api/auth/[...nextauth]';
 import AddSection from '@/components/task-section/AddSection';
 import AddSectionButton from '@/icons/jsx/section/AddSectionButton';
-import TaskCardDragLayer from '@/components/UI/TaskCardDragLayer';
+import { getTimezoneOffset } from 'date-fns-tz';
 
 export default function Home({ data, session }) {
   const user = useSelector(state => state.users.user);
@@ -17,6 +17,17 @@ export default function Home({ data, session }) {
 
   //init!
   useEffect(() => {
+    const getTimezone = () => {
+      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const offset = getTimezoneOffset(userTimezone);
+      return { timezoneString: userTimezone, offset };
+    };
+    if (!session.user.timezone) {
+      const userTimezone = getTimezone();
+      dispatch(
+        editUser({ data: { timezone: userTimezone }, userId: session.user._id })
+      );
+    }
     init();
     return () => {};
   }, []);
@@ -25,10 +36,12 @@ export default function Home({ data, session }) {
     setAddSection(false);
   };
 
+  // const userTimezone = Intl
+
   const init = () => {
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
-    dispatch(userAction.loadUser(data.userData));
+    dispatch(userAction.loadUser({ ...session.user, sections: data.sections }));
   };
 
   let sectionContents;
@@ -46,9 +59,7 @@ export default function Home({ data, session }) {
 
   return (
     <div className="flex">
-      <TaskSection
-        sectionData={{ title: data.userData.name, _id: undefined }}
-      />
+      <TaskSection sectionData={{ title: session.user.name, _id: undefined }} />
       {sectionContents}
       {/* add section btn */}
       {addSection ? (
@@ -72,7 +83,6 @@ export default function Home({ data, session }) {
 
 export const getServerSideProps = async context => {
   const session = await getServerSession(context.req, context.res, authOptions);
-
   if (!session) {
     return {
       redirect: {
@@ -81,18 +91,9 @@ export const getServerSideProps = async context => {
       },
     };
   } else {
-    const email = session.user.email;
-
-    // getting userData by email
-    const userRes = await axios.get(
-      `${process.env.DOMAIN}/api/user/email?email=${email}`
-    );
-
-    const userData = userRes.data;
-
     // Getting sections
     const sectionRes = await axios.get(
-      `${process.env.DOMAIN}/api/user/section?userId=${userData._id}`
+      `${process.env.DOMAIN}/api/user/section?userId=${session.user._id}`
     );
 
     const sectionData = sectionRes.data;
@@ -104,14 +105,12 @@ export const getServerSideProps = async context => {
 
     // Getting tasks
     const res = await axios.get(
-      `${process.env.DOMAIN}/api/task?userId=${userData._id}`
+      `${process.env.DOMAIN}/api/task?userId=${session.user._id}`
     );
     const taskData = res.data;
 
-    const user = { ...userRes.data, sections: sectionData };
-
     return {
-      props: { session, data: { taskData, userData: user } },
+      props: { session, data: { taskData, sections: sectionData } },
     };
   }
 };

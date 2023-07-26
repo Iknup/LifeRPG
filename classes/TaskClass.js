@@ -18,7 +18,7 @@ class TaskClass {
   }
 
   // if(current >= curReset) 일때만 실행
-  setResetHandler() {
+  setResetHandler(scheduledHour) {
     // ENUM을 만들어서 가져오기
     // If문 대신 switch로 변경
     const curReset = this.reset;
@@ -73,7 +73,7 @@ class TaskClass {
 
       //set to delete
     }
-    const updatedResetTime = setConfigHour(nextReset);
+    const updatedResetTime = setConfigHour(nextReset, scheduledHour);
     return (this.reset = updatedResetTime);
   }
 }
@@ -89,8 +89,8 @@ const setResetDate = (today, resetMonth = 0, resetDay = 1, resetHour = 2) => {
   );
 };
 
-const setConfigHour = date => {
-  return set(date, { hours: 2, minutes: 0, seconds: 0 });
+const setConfigHour = (date, hour) => {
+  return set(date, { hours: hour, minutes: 0, seconds: 0 });
 };
 
 // const getNextResetDate = (resetDay, resetHour = 2) => {
