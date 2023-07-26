@@ -29,7 +29,7 @@ const NavBar = props => {
         <Link href={'/about'} className="mr-2">
           <TooltipIcon scale={18} />
         </Link>
-        <Link href={'/about'} className="mr-1">
+        <Link href={'/signOut'} className="mr-1">
           <LogOutIcon scale={18} />
         </Link>
       </div>

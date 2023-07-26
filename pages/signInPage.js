@@ -103,7 +103,6 @@ const signInPage = () => {
 
   return (
     <div className="h-[screen - 2.25rem] ">
-      {button}
       {emailLogin}
       {authLogin}
     </div>
