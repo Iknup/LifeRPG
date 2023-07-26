@@ -2,11 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/signInPage": "pages/signInPage.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/about": "pages/about.js",
-  "/": "pages/index.js",
-  "/api/task": "pages/api/task.js",
-  "/api/user/section": "pages/api/user/section.js",
-  "/api/user": "pages/api/user.js"
+  "/api/subtask": "pages/api/subtask.js",
+  "/": "pages/index.js"
 }

@@ -129,8 +129,8 @@ const NewTaskForm = props => {
         <form onSubmit={onSubmitHandler} className="flex h-[56px]">
           <input
             className={`grow bg-ColorThree mx-1 h-1/2 self-center ml-3 
-          text-colorMain placeholder:text-TextColor placeholder:text-sm `}
-            placeholder="Add a new task here... FC WUT DO?!"
+          text-colorMain placeholder:text-ColorSix placeholder:text-sm `}
+            placeholder="What do you want to level up?"
             onChange={onChangeDescriptionHandler}
             value={description}
           />

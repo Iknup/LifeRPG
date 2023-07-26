@@ -1,6 +1,6 @@
 import LogoVertical from '@/icons/jsx/LogoVertical';
 import TooltipIcon from '@/icons/jsx/TooltipIcon';
-import LogOutIcon from '@/icons/jsx/authIcons/LogoutIcon';
+import LogOutIcon from '@/icons/jsx/authIcons/LogOutIcon';
 import ProfileIcon from '@/icons/jsx/authIcons/ProfileIcon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

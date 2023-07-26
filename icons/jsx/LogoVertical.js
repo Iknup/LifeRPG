@@ -4,8 +4,8 @@ function LogoVertical({ scale }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={scale.w || '690'}
-      height={scale.h || '190'}
+      width={scale?.w || '690'}
+      height={scale?.h || '190'}
       x="0"
       y="0"
       version="1.1"
