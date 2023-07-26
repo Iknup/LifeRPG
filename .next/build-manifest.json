@@ -35,10 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/about.js"
     ],
-    "/settings": [
+    "/signInPage": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/settings.js"
+      "static/chunks/pages/signInPage.js"
     ]
   },
   "ampFirstPages": []
