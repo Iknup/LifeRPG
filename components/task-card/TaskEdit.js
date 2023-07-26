@@ -1,12 +1,13 @@
 import SaveIcon from '@/icons/jsx/SaveIcon';
 import TaskCardUI from '../UI/TaskCardUI';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editTask } from '@/slices/taskSlice';
 import Repeat from './Repeat';
 import TaskFormOptions from './task-form/TaskFormOptions';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import { TaskClass } from '../../classes/TaskClass';
+import Portal from '../Portal';
 
 const TaskEdit = props => {
   const { taskEditHandler, task, getUpdatedTaskHandler } = props;
@@ -19,7 +20,17 @@ const TaskEdit = props => {
   const [description, setDescription] = useState(task.description);
   const [showOptions, setShowOptions] = useState(true);
   const [isRPG, setIsRPG] = useState(task.isRPG);
+  const [position, setPosition] = useState({ top: 0, right: 0 });
+  const ref = useRef();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setPosition({ top: rect.top, right: rect.right });
+      console.log(position);
+    }
+  }, []);
 
   const showOptionsHandler = () => {
     setShowOptions(!showOptions);
@@ -95,7 +106,7 @@ const TaskEdit = props => {
 
   return (
     <TaskCardUI className="mb-3">
-      <div className="pr-1.5 pt-1.5 flex justify-end">
+      <div ref={ref} className="pr-1.5 pt-1.5 flex justify-end">
         {/* RPG Button */}
         <button onClick={setRPGHandler} className="ml-3">
           <svg
@@ -172,12 +183,22 @@ const TaskEdit = props => {
         </div>
       </div>
       {showOptions && (
-        <TaskFormOptions
-          getOptionAndDaysHandler={getOptionAndDaysHandler}
-          closeOptionHandler={closeOptionHandler}
-          options={options}
-          className="absolute top-0 z-40 translate-x-[90%]"
-        />
+        <Portal>
+          <div
+            style={{
+              position: 'absolute',
+              top: position.top,
+              right: position.right + 150,
+            }}
+          >
+            <TaskFormOptions
+              getOptionAndDaysHandler={getOptionAndDaysHandler}
+              closeOptionHandler={closeOptionHandler}
+              options={options}
+              className="absolute top-0 z-40 translate-x-[90%]"
+            />
+          </div>
+        </Portal>
       )}
     </TaskCardUI>
   );

@@ -1,7 +1,7 @@
 import { taskActions } from '@/slices/taskSlice';
 import { editUser, userAction } from '@/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getServerSession } from 'next-auth/next';
 import axios from 'axios';
 import TaskSection from '@/components/task-section/TaskSection';
@@ -58,26 +58,30 @@ export default function Home({ data, session }) {
   }
 
   return (
-    <div className="flex">
-      <TaskSection sectionData={{ title: session.user.name, _id: undefined }} />
-      {sectionContents}
-      {/* add section btn */}
-      {addSection ? (
-        <AddSection onClose={onCloseAddSection} />
-      ) : (
-        <div className="task-section flex items-center justify-center">
-          <button
-            onClick={() => {
-              setAddSection(prevState => !prevState);
-            }}
-            className="mb-40"
-          >
-            <AddSectionButton />
-          </button>
-        </div>
-      )}
-      {/* <TaskCardDragLayer /> */}
-    </div>
+    <Fragment>
+      <div className="flex">
+        <TaskSection
+          sectionData={{ title: session.user.name, _id: undefined }}
+        />
+        {sectionContents}
+        {/* add section btn */}
+        {addSection ? (
+          <AddSection onClose={onCloseAddSection} />
+        ) : (
+          <div className="task-section flex items-center justify-center">
+            <button
+              onClick={() => {
+                setAddSection(prevState => !prevState);
+              }}
+              className="mb-40"
+            >
+              <AddSectionButton />
+            </button>
+          </div>
+        )}
+      </div>
+      <div id="portal-root"></div>
+    </Fragment>
   );
 }
 
