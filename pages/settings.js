@@ -1,19 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { getTimezoneOffset } from 'date-fns-tz';
 import { editUser } from '@/slices/userSlice';
 
-const SettingPage = () => {
-  const user = useSelector(state => state.users.user);
+const SettingPage = ({ session }) => {
+  const user = session.user;
   const [timezone, setTimezone] = useState('');
-  const [resetSchedule, setResetSchedule] = useState(user.resetSchedule);
+  const [resetSchedule, setResetSchedule] = useState(user?.resetSchedule);
   const [showModal, setShowModal] = useState(false);
-  const resetHour = user.resetSchedule.toString().padStart(2, '0') + ':00';
+  const resetHour = user.resetSchedule?.toString().padStart(2, '0') + ':00';
   const boxContainer =
     'w-[490px] bg-ColorOne h-[170px] rounded-md mb-10 p-5 flex flex-col ';
   const infoContainer = 'flex justify-between';
-  const registerdDate = format(new Date(user.createdAt), 'yyyy/MM/dd');
+  const registerdDate = format(
+    new Date(user.createdAt || new Date()),
+    'yyyy/MM/dd'
+  );
   const dispatch = useDispatch();
 
   //Getting timezone on btn click
@@ -25,14 +28,14 @@ const SettingPage = () => {
   //On save
   const onSaveHandler = () => {
     let updateData = {};
-    if (timezone !== '' && timezone !== user.timezone.timezoneString) {
+    if (timezone !== '' && timezone !== user?.timezone.timezoneString) {
       const offset = getTimezoneOffset(timezone);
       updateData.timezone = { timezoneString: timezone, offset };
     }
-    if (resetSchedule !== user.resetSchedule) {
+    if (resetSchedule !== user?.resetSchedule) {
       updateData.resetSchedule = resetSchedule;
     }
-    dispatch(editUser({ data: updateData, userId: user._id }));
+    dispatch(editUser({ data: updateData, userId: user?._id }));
     setShowModal(prev => !prev);
   };
 
@@ -46,20 +49,20 @@ const SettingPage = () => {
       <h1 className="mb-5 text-2xl">Personal Settings</h1>
       <div className={boxContainer + 'gap-6'}>
         <div className={infoContainer}>
-          <p>Name</p> <p>{user.name}</p>
+          <p>Name</p> <p>{user?.name}</p>
         </div>
         <div className={infoContainer}>
           <p>Register</p> <p>{registerdDate}</p>
         </div>
         <div className={infoContainer}>
-          <p>Email</p> <p>{user.email}</p>
+          <p>Email</p> <p>{user?.email}</p>
         </div>
       </div>
       <div className={boxContainer + 'gap-3'}>
         <h1>Your current Timezone</h1>
         <div>
           <div className="flex justify-start">
-            <p>{user.timezone.timezoneString}</p>
+            <p>{user?.timezone.timezoneString}</p>
             <p className="mx-10">to</p>
             <p>{timezone}</p>
           </div>
@@ -117,3 +120,21 @@ const SettingPage = () => {
 };
 
 export default SettingPage;
+
+export const getServerSideProps = async context => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/signInPage',
+        permanent: false,
+      },
+    };
+  } else {
+    // Getting sections
+
+    return {
+      props: { session },
+    };
+  }
+};

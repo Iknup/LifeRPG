@@ -46,6 +46,8 @@ const AboutPage = () => {
         <Image
           src="/TutorialImg01.png"
           alt="Tutorial-img"
+          width={400}
+          height={400}
           className="mt-2 ml-2"
         />
         <ol className="mt-2 ml-2">
