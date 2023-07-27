@@ -24,15 +24,15 @@ jobs:
         run: npm install
       - name: Setup .env
         run: |
-          echo MONGO_DB_URI=${{ secrets.MONGO_DB_URI }} >> .env.local
-          echo GOOGLE_ID=${{ secrets.GOOGLE_ID }} >> .env.local
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.local
-          echo GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} >> .env.local
-          echo FACEBOOK_ID=${{ secrets.FACEBOOK_ID }} >> .env.local
-          echo FACEBOOK_SECRET=${{ secrets.FACEBOOK_SECRET }} >> .env.local
-          echo MY_APP_GITHUB_ID=${{ secrets.MY_APP_GITHUB_ID }} >> .env.local
-          echo MY_APP_GITHUB_SECRET=${{ secrets.MY_APP_GITHUB_SECRET }} >> .env.local
-          echo DOMAIN=${{ vars.DOMAIN }} >> .env.local
-          echo NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }} >> .env.local
+          echo MONGO_DB_URI=${{ secrets.MONGO_DB_URI }} >> .env
+          echo GOOGLE_ID=${{ secrets.GOOGLE_ID }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} >> .env
+          echo FACEBOOK_ID=${{ secrets.FACEBOOK_ID }} >> .env
+          echo FACEBOOK_SECRET=${{ secrets.FACEBOOK_SECRET }} >> .env
+          echo MY_APP_GITHUB_ID=${{ secrets.MY_APP_GITHUB_ID }} >> .env
+          echo MY_APP_GITHUB_SECRET=${{ secrets.MY_APP_GITHUB_SECRET }} >> .env
+          echo DOMAIN=${{ vars.DOMAIN }} >> .env
+          echo NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }} >> .env
       - name: Build Nextjs Application
         run: npm run build
