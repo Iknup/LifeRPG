@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const signInPage = () => {
   const { data: session } = useSession();
-  const [isEmailLogin, setIsEmailLogin] = useState(true);
+  const [isEmailLogin, setIsEmailLogin] = useState(false);
   const button = session ? (
     <button
       onClick={() => {
@@ -80,23 +80,38 @@ const signInPage = () => {
         <LogoHorizontal />
       </div>
       <div className="text-center text-ColorOne font-extrabold text-xl mt-14">
-        <button className="bg-colorMain w-[90%] mt-[8%] h-12">
+        <button
+          onClick={() => {
+            signIn('google', { callbackUrl: '/' });
+          }}
+          className="bg-colorMain w-[90%] mt-[8%] h-12"
+        >
           <p>Google</p>
         </button>
-        <button className="bg-colorMain w-[90%] mt-3 h-12">
+        <button
+          onClick={() => {
+            signIn('facebook', { callbackUrl: '/' });
+          }}
+          className="bg-colorMain w-[90%] mt-3 h-12"
+        >
           <p>Facebook</p>
         </button>
-        <button className="bg-colorMain w-[90%] mt-3 h-12">
+        <button
+          onClick={() => {
+            signIn('github', { callbackUrl: '/' });
+          }}
+          className="bg-colorMain w-[90%] mt-3 h-12"
+        >
           <p>Github</p>
         </button>
-        <button
+        {/* <button
           onClick={() => {
             setIsEmailLogin(true);
           }}
           className="mt-3 hover:underline text-ColorSix"
         >
           <p>Log in with email</p>
-        </button>
+        </button> */}
       </div>
     </div>
   );

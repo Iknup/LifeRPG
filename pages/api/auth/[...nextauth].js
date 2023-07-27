@@ -1,10 +1,9 @@
 import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/lib/mongodb';
 import GoogleProvider from 'next-auth/providers/google';
-import EmailProvider from 'next-auth/providers/email';
-import { User } from '@/models/User';
+import FacebookProvider from 'next-auth/providers/facebook';
+import GitHubProvider from 'next-auth/providers/github';
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -13,6 +12,14 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     // EmailProvider({
     //   server: {
@@ -56,6 +63,7 @@ export const authOptions = {
       return session;
     },
   },
+  secret: process.env.JWT_SECRET,
 };
 
 export default NextAuth(authOptions);
