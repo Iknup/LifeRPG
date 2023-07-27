@@ -19,7 +19,7 @@ export default function Home({ data, session }) {
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const offset = getTimezoneOffset(userTimezone);
     return { timezoneString: userTimezone, offset };
-  });
+  }, []);
 
   // Checking user's timezone
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Home({ data, session }) {
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
     dispatch(userAction.loadUser({ ...session.user, sections: data.sections }));
-  }, []);
+  }, [getTimezone]);
 
   const onCloseAddSection = () => {
     setAddSection(false);
