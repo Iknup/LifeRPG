@@ -8,6 +8,7 @@ import TaskFormOptions from './task-form/TaskFormOptions';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import { TaskClass } from '../../classes/TaskClass';
 import Portal from '../Portal';
+import useClickOutside from '@/hooks/useClickOutside';
 
 const TaskEdit = props => {
   const { taskEditHandler, task, getUpdatedTaskHandler } = props;
@@ -30,6 +31,10 @@ const TaskEdit = props => {
       setPosition({ top: rect.top, right: rect.right });
     }
   }, [ref]);
+
+  const domNode = useClickOutside(() => {
+    setShowOptions(false);
+  });
 
   const showOptionsHandler = () => {
     setShowOptions(!showOptions);
@@ -105,100 +110,102 @@ const TaskEdit = props => {
 
   return (
     <TaskCardUI className="mb-3">
-      <div ref={ref} className="pr-1.5 pt-1.5 flex justify-end">
-        {/* RPG Button */}
-        <button onClick={setRPGHandler} className="ml-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className={`w-4 h-4 ${isRPG ? 'bg-ColorSix rounded-lg' : null}`}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-            />
-          </svg>
-        </button>
-        {/* Option Button */}
-        <button className="ml-1" onClick={showOptionsHandler}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-            />
-          </svg>
-        </button>
-        {/* Save Button */}
-        <button onClick={updateTaskHandler} className="ml-1">
-          <SaveIcon />
-        </button>
-        {/* Cancel Button */}
-        <button
-          onClick={() => {
-            taskEditHandler();
-          }}
-          className="ml-1"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 hover:scale-110"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div className="flex h-[50%] ml-4">
-        <input
-          onChange={descriptionChangeHandler}
-          value={description}
-          className="grow bg-ColorFour pl-2 h-1/2 place-self-center mr-4"
-        />
-        <div className="ml-auto">
-          <Repeat
-            key={task._id}
-            repeat={options.repeat}
-            selectedDays={task.selectedDays ? task.selectedDays : null}
-          />
-        </div>
-      </div>
-      {showOptions && (
-        <Portal>
-          <div
-            style={{
-              position: 'absolute',
-              top: position.top,
-              right: position.right + 150,
+      <div ref={domNode}>
+        <div ref={ref} className="pr-1.5 pt-1.5 flex justify-end">
+          {/* RPG Button */}
+          <button onClick={setRPGHandler} className="ml-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className={`w-4 h-4 ${isRPG ? 'bg-ColorSix rounded-lg' : null}`}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+              />
+            </svg>
+          </button>
+          {/* Option Button */}
+          <button className="ml-1" onClick={showOptionsHandler}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+          </button>
+          {/* Save Button */}
+          <button onClick={updateTaskHandler} className="ml-1">
+            <SaveIcon />
+          </button>
+          {/* Cancel Button */}
+          <button
+            onClick={() => {
+              taskEditHandler();
             }}
+            className="ml-1"
           >
-            <TaskFormOptions
-              getOptionAndDaysHandler={getOptionAndDaysHandler}
-              closeOptionHandler={closeOptionHandler}
-              options={options}
-              className="absolute top-0 z-40 translate-x-[90%]"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-5 hover:scale-110"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div className="flex h-[50%] ml-4">
+          <input
+            onChange={descriptionChangeHandler}
+            value={description}
+            className="grow bg-ColorFour pl-2 h-1/2 place-self-center mr-4"
+          />
+          <div className="ml-auto">
+            <Repeat
+              key={task._id}
+              repeat={options.repeat}
+              selectedDays={task.selectedDays ? task.selectedDays : null}
             />
           </div>
-        </Portal>
-      )}
+        </div>
+        {showOptions && (
+          <Portal>
+            <div
+              style={{
+                position: 'absolute',
+                top: position.top,
+                right: position.right + 150,
+              }}
+            >
+              <TaskFormOptions
+                getOptionAndDaysHandler={getOptionAndDaysHandler}
+                closeOptionHandler={closeOptionHandler}
+                options={options}
+                className="absolute top-0 z-40 translate-x-[90%]"
+              />
+            </div>
+          </Portal>
+        )}
+      </div>
     </TaskCardUI>
   );
 };
