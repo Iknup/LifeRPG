@@ -5,7 +5,6 @@ import {
   getDay,
   isEqual,
   parse,
-  startOfMonth,
   startOfToday,
   isToday,
   isSameMonth,
@@ -47,7 +46,7 @@ const MyCalendar = props => {
 
   useEffect(() => {
     getSelectedDaysHandler(selectedDays);
-  }, [selectedDays]);
+  }, [selectedDays, getSelectedDaysHandler]);
 
   useEffect(() => {
     let updatedSelectedDays = selectedDays;
@@ -75,7 +74,7 @@ const MyCalendar = props => {
         );
       }
     };
-  }, [todayOn, nextWeekOn]);
+  }, [todayOn, nextWeekOn, nextWeek, today, selectedDays]);
   const newDays = eachDayOfInterval({
     start: startOfWeek(firstDayCurrentMonth),
     end: endOfWeek(endOfMonth(firstDayCurrentMonth)),

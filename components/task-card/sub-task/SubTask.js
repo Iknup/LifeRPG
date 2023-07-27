@@ -35,7 +35,7 @@ const SubTask = props => {
     // if (subtaskWrapper && subtaskWrapper.length === 0) {
     //
     // }
-  }, [props.hasSubTask, subtaskWrapper]);
+  }, [props.hasSubTask, subtaskWrapper, dispatch, props.taskId]);
 
   let subtaskContent;
 

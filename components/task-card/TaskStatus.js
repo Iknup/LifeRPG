@@ -94,10 +94,12 @@ const TaskStatus = props => {
           {format(parseISO(createdAt), 'yyyy/MM/dd')}
         </h3>
         <div className="text-sm p-1 mr-2">
-          It's has been
-          <br />
-          {ageContent}
-          after the task's birth!
+          <p>
+            It's has been
+            <br />
+            {ageContent}
+            after the task's birth!
+          </p>
         </div>
       </div>
     </div>

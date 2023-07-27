@@ -59,7 +59,7 @@ const NewTaskForm = props => {
         setShowIndicator(false);
       }
     }
-  }, [options]);
+  }, [options, description.length, errorMessage, isMatch]);
 
   // getting an option from TaskFormOptions
 

@@ -3,6 +3,7 @@ import TaskInfo from '@/components/task-card/TaskInfo';
 import Dot from '@/icons/jsx/Dot';
 import RPGCheck from '@/icons/jsx/RPGCheck';
 import LogoVertical from '@/icons/jsx/LogoVertical';
+import Image from 'next/image';
 
 const AboutPage = () => {
   const DUMMY_DATA = {
@@ -42,7 +43,7 @@ const AboutPage = () => {
       </div>
       <div className="mx-2 bg-ColorOne rounded-md mt-5 p-1">
         <h3 className="text-xl">How to</h3>
-        <img
+        <Image
           src="/TutorialImg01.png"
           alt="Tutorial-img"
           className="mt-2 ml-2"

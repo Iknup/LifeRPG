@@ -3,26 +3,9 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const signInPage = () => {
+const SignInPage = () => {
   const { data: session } = useSession();
   const [isEmailLogin, setIsEmailLogin] = useState(false);
-  const button = session ? (
-    <button
-      onClick={() => {
-        signOut();
-      }}
-    >
-      Let me go!
-    </button>
-  ) : (
-    <button
-      onClick={() => {
-        signIn(undefined, { callbackUrl: '/' });
-      }}
-    >
-      Sign in
-    </button>
-  );
 
   const emailLogin = (
     <div
@@ -124,4 +107,4 @@ const signInPage = () => {
   );
 };
 
-export default signInPage;
+export default SignInPage;

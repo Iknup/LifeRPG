@@ -30,7 +30,7 @@ export default function Home({ data, session }) {
     }
     init();
     return () => {};
-  }, []);
+  }, [session.user.timezone, dispatch, init, session.user._id]);
 
   const onCloseAddSection = () => {
     setAddSection(false);
