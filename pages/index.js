@@ -15,23 +15,21 @@ export default function Home({ data, session }) {
   const dispatch = useDispatch();
   const [addSection, setAddSection] = useState(false);
 
-  const getTimezone = useCallback(() => {
-    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const offset = getTimezoneOffset(userTimezone);
-    return { timezoneString: userTimezone, offset };
-  }, []);
-
-  const init = useCallback(() => {});
-
   // Checking user's timezone
   useEffect(() => {
+    const getTimezone = () => {
+      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const offset = getTimezoneOffset(userTimezone);
+      return { timezoneString: userTimezone, offset };
+    };
+
     if (!session.user.timezone) {
       const userTimezone = getTimezone();
       dispatch(
         editUser({ data: { timezone: userTimezone }, userId: session.user._id })
       );
     }
-  }, [getTimezone, session.user]);
+  }, [session.user, dispatch]);
 
   useEffect(() => {
     dispatch(taskActions.loadTasks(data.taskData));
