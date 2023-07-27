@@ -16,8 +16,6 @@ const handle = async (req, res) => {
       }
     });
 
-    console.log('user: ', userId, 'data: ', req.body);
-
     try {
       const response = await User.findOneAndUpdate(
         { _id: userId },

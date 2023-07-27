@@ -21,6 +21,8 @@ export default function Home({ data, session }) {
     return { timezoneString: userTimezone, offset };
   }, []);
 
+  const init = useCallback(() => {});
+
   // Checking user's timezone
   useEffect(() => {
     if (!session.user.timezone) {
@@ -29,11 +31,15 @@ export default function Home({ data, session }) {
         editUser({ data: { timezone: userTimezone }, userId: session.user._id })
       );
     }
+  }, [getTimezone, session.user]);
 
+  useEffect(() => {
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
     dispatch(userAction.loadUser({ ...session.user, sections: data.sections }));
-  }, [getTimezone]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onCloseAddSection = () => {
     setAddSection(false);
