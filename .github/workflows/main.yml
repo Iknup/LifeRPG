@@ -14,6 +14,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
+      - name: Cache Next.js build
+        uses: actions/cache@v2
+        with:
+          path: .next/cache
+          key: ${{ runner.OS }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
+          restore-keys: ${{ runner.OS }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Install dependencies
         run: npm install
       - name: Setup .env
