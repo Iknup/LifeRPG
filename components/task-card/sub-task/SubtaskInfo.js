@@ -36,6 +36,7 @@ const SubtaskInfo = props => {
 
     audio.addEventListener('canplaythrough', () => {
       // The sound is ready to play
+      audio.volume = 0.3;
       audio.play();
     });
     audio.addEventListener('error', error => {
