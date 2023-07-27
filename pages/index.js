@@ -1,7 +1,7 @@
 import { taskActions } from '@/slices/taskSlice';
 import { editUser, userAction } from '@/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getServerSession } from 'next-auth/next';
 import axios from 'axios';
 import TaskSection from '@/components/task-section/TaskSection';

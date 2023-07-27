@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const TaskCardAnimation = ({ children }) => {
   const bounceTransition = {
