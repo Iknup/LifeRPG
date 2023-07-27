@@ -1,7 +1,7 @@
 import { taskActions } from '@/slices/taskSlice';
 import { editUser, userAction } from '@/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { getServerSession } from 'next-auth/next';
 import axios from 'axios';
 import TaskSection from '@/components/task-section/TaskSection';
@@ -15,25 +15,25 @@ export default function Home({ data, session }) {
   const dispatch = useDispatch();
   const [addSection, setAddSection] = useState(false);
 
+  const getTimezone = useCallback(() => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const offset = getTimezoneOffset(userTimezone);
+    return { timezoneString: userTimezone, offset };
+  });
+
   // Checking user's timezone
   useEffect(() => {
-    const getTimezone = () => {
-      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const offset = getTimezoneOffset(userTimezone);
-      return { timezoneString: userTimezone, offset };
-    };
     if (!session.user.timezone) {
       const userTimezone = getTimezone();
       dispatch(
         editUser({ data: { timezone: userTimezone }, userId: session.user._id })
       );
     }
+
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
     dispatch(userAction.loadUser({ ...session.user, sections: data.sections }));
-
-    return () => {};
-  }, [session.user.timezone, dispatch, session.user._id]);
+  }, []);
 
   const onCloseAddSection = () => {
     setAddSection(false);

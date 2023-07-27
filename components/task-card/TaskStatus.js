@@ -95,10 +95,10 @@ const TaskStatus = props => {
         </h3>
         <div className="text-sm p-1 mr-2">
           <p>
-            It\'s has been
+            {"It's has been"}
             <br />
             {ageContent}
-            after the task\'s birth!
+            {"after the task's birth!"}
           </p>
         </div>
       </div>
