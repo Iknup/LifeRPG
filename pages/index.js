@@ -15,7 +15,7 @@ export default function Home({ data, session }) {
   const dispatch = useDispatch();
   const [addSection, setAddSection] = useState(false);
 
-  //init!
+  // Checking user's timezone
   useEffect(() => {
     const getTimezone = () => {
       const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -28,21 +28,18 @@ export default function Home({ data, session }) {
         editUser({ data: { timezone: userTimezone }, userId: session.user._id })
       );
     }
-    init();
+    dispatch(taskActions.loadTasks(data.taskData));
+    dispatch(taskActions.getClearRate());
+    dispatch(userAction.loadUser({ ...session.user, sections: data.sections }));
+
     return () => {};
-  }, [session.user.timezone, dispatch, init, session.user._id]);
+  }, [session.user.timezone, dispatch, session.user._id]);
 
   const onCloseAddSection = () => {
     setAddSection(false);
   };
 
   // const userTimezone = Intl
-
-  const init = () => {
-    dispatch(taskActions.loadTasks(data.taskData));
-    dispatch(taskActions.getClearRate());
-    dispatch(userAction.loadUser({ ...session.user, sections: data.sections }));
-  };
 
   let sectionContents;
 

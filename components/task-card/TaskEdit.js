@@ -29,7 +29,7 @@ const TaskEdit = props => {
       const rect = ref.current.getBoundingClientRect();
       setPosition({ top: rect.top, right: rect.right });
     }
-  });
+  }, [ref]);
 
   const showOptionsHandler = () => {
     setShowOptions(!showOptions);

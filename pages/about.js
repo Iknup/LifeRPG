@@ -115,7 +115,7 @@ const AboutPage = () => {
       </div>
 
       <div className="mx-2 bg-ColorOne rounded-md mt-5 pt-1 px-1 pb-3">
-        <h3 className="text-xl">Let's Start</h3>
+        <h3 className="text-xl">Let\'s Start</h3>
         <div className="flex items-center">
           <p className="mr-2">왼쪽 상단</p>
           <LogoVertical scale={{ w: '91', h: '25' }} />
