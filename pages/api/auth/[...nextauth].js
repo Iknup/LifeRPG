@@ -18,8 +18,8 @@ export const authOptions = {
       clientSecret: process.env.FACEBOOK_SECRET,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.MY_APP_GITHUB_ID,
+      clientSecret: process.env.MY_APP_GITHUB_SECRET,
     }),
     // EmailProvider({
     //   server: {
@@ -62,6 +62,9 @@ export const authOptions = {
 
       return session;
     },
+  },
+  pages: {
+    newUser: '/about',
   },
   secret: process.env.JWT_SECRET,
 };
