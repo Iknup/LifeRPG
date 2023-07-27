@@ -26,5 +26,7 @@ jobs:
           echo FACEBOOK_SECRET=${{ secrets.FACEBOOK_SECRET }} >> .env.local
           echo MY_APP_GITHUB_ID=${{ secrets.MY_APP_GITHUB_ID }} >> .env.local
           echo MY_APP_GITHUB_SECRET=${{ secrets.MY_APP_GITHUB_SECRET }} >> .env.local
+          echo DOMAIN=${{ vars.DOMAIN }} >> .env.local
+          echo NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }} >> .env.local
       - name: Build Nextjs Application
         run: npm run build
