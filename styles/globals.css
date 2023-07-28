@@ -37,7 +37,7 @@
 
 @layer components {
   .task-section {
-    @apply h-screen min-w-[370px] w-[370px] mr-[20px] mt-5;
+    @apply max-h-[80%] min-w-[370px] w-[370px] mr-[20px] mt-5;
   }
   .sectionTaskBox {
     scrollbar-gutter: stable;

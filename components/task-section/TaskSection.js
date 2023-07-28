@@ -268,7 +268,7 @@ const TaskSection = ({ sectionData }) => {
       {/* Task Card */}
       <div
         ref={drop}
-        className={`flex flex-col h-[75%] sectionTaskBox
+        className={`flex flex-col h-[80%] sectionTaskBox
         overflow-y-hidden hover:overflow-y-auto scroll-smooth ${
           canDrop ? 'animate-shadowBling' : ''
         }`}

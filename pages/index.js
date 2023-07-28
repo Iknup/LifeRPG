@@ -17,7 +17,6 @@ export default function Home({ data, session }) {
 
   // Checking user's timezone
 
-
   useEffect(() => {
     dispatch(taskActions.loadTasks(data.taskData));
     dispatch(taskActions.getClearRate());
@@ -47,7 +46,7 @@ export default function Home({ data, session }) {
 
   return (
     <Fragment>
-      <div className="flex">
+      <div className="flex max-w-screen overflow-x-auto overflow-y-hidden">
         <TaskSection
           sectionData={{ title: session.user.name, _id: undefined }}
         />
