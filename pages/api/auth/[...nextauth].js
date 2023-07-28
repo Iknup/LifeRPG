@@ -52,8 +52,8 @@ export const authOptions = {
 
       if (user.createdAt) {
         const createdAtISO = user.createdAt.toISOString();
+        session.user.createdAt = createdAtISO;
       }
-      session.user.createdAt = createdAtISO;
       if (user.timezone) {
         const timezone = {
           timezone: user.timezone.timezoneString,
