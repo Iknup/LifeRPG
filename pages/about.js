@@ -9,6 +9,7 @@ import { editUser } from '@/slices/userSlice';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './api/auth/[...nextauth]';
 import { useDispatch } from 'react-redux';
+import { getTimezoneOffset } from 'date-fns-tz';
 
 const AboutPage = ({ session }) => {
   const dispatch = useDispatch();
