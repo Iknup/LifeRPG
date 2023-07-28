@@ -4,6 +4,7 @@ import Dot from '@/icons/jsx/Dot';
 import RPGCheck from '@/icons/jsx/RPGCheck';
 import LogoVertical from '@/icons/jsx/LogoVertical';
 import Image from 'next/image';
+import { editUser } from '@/slices/userSlice';
 
 const AboutPage = () => {
   const DUMMY_DATA = {
@@ -21,7 +22,23 @@ const AboutPage = () => {
     },
   };
 
-  console.log(DUMMY_DATA);
+  useEffect(() => {
+    const getTimezone = () => {
+      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const offset = getTimezoneOffset(userTimezone);
+      return { timezoneString: userTimezone, offset };
+    };
+
+    if (!session.user.timezone) {
+      const userTimezone = getTimezone();
+      dispatch(
+        editUser({
+          data: { timezone: userTimezone, resetSchedule: 2 },
+          userId: session.user._id,
+        })
+      );
+    }
+  }, [session.user, dispatch]);
 
   return (
     <div className="w-[50%]">

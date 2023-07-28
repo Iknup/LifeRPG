@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { getTimezoneOffset } from 'date-fns-tz';
 import { editUser } from '@/slices/userSlice';
 import { getServerSession } from 'next-auth/next';
+import { authOptions } from './api/auth/[...nextauth]'
 
 const SettingPage = ({ session }) => {
   const user = session.user;
