@@ -146,7 +146,8 @@ const TaskInfo = props => {
             ref={domNode}
             className="pr-1.5 pt-1.5 flex justify-end relative"
           >
-            {task.repeat === REPEAT_ENUM.MONTHLY && (
+            {(task.repeat === REPEAT_ENUM.MONTHLY ||
+              (task.repeat === REPEAT_ENUM.NONE && task.selectedDate)) && (
               <div className="group absolute text-xs right-5">
                 <div
                   className="flex items-center px-1 bg-ColorFive rounded-md p-[1px] scale-0 
@@ -154,10 +155,30 @@ const TaskInfo = props => {
                 >
                   <TooltipIcon scale={12} />
                   <p className="ml-1">
-                    {format(parseISO(task.reset), 'MM/dd')}
+                    {format(
+                      parseISO(
+                        task.repeat === REPEAT_ENUM.MONTHLY
+                          ? task.reset
+                          : task.selectedDate
+                      ),
+                      'MM/dd'
+                    )}
                   </p>
                 </div>
-                <p>D-{getdDay(task.reset)}</p>
+                <p>
+                  D-
+                  {getdDay(
+                    task.repeat === REPEAT_ENUM.MONTHLY
+                      ? task.reset
+                      : task.selectedDate
+                  ) === 0
+                    ? 'day'
+                    : getdDay(
+                        task.repeat === REPEAT_ENUM.MONTHLY
+                          ? task.reset
+                          : task.selectedDate
+                      )}
+                </p>
               </div>
             )}
             <button
