@@ -1,8 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 import { useState } from 'react';
 import { getTimezoneOffset } from 'date-fns-tz';
 import { editUser } from '@/slices/userSlice';
+import { getServerSession } from 'next-auth/next';
 
 const SettingPage = ({ session }) => {
   const user = session.user;
