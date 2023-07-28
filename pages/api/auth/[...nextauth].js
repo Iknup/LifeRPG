@@ -56,10 +56,11 @@ export const authOptions = {
       }
       if (user.timezone) {
         const timezone = {
-          timezone: user.timezone.timezoneString,
+          timezoneString: user.timezone.timezoneString,
           offset: user.timezone.offset,
         };
-        session.user.timzone = timezone;
+        session.user.resetSchedule = user.resetSchedule;
+        session.user.timezone = timezone;
       }
 
       return session;
