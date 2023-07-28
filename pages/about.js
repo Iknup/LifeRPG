@@ -8,8 +8,10 @@ import Image from 'next/image';
 import { editUser } from '@/slices/userSlice';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './api/auth/[...nextauth]';
+import { useDispatch } from 'react-redux';
 
 const AboutPage = ({ session }) => {
+  const dispatch = useDispatch();
   const DUMMY_DATA = {
     description: 'Study',
     isComplete: false,
