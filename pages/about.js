@@ -9,7 +9,7 @@ import { editUser } from '@/slices/userSlice';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './api/auth/[...nextauth]';
 
-const AboutPage = () => {
+const AboutPage = ({ session }) => {
   const DUMMY_DATA = {
     description: 'Study',
     isComplete: false,
