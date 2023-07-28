@@ -47,7 +47,7 @@ const AboutPage = ({ session }) => {
   }, [session.user, dispatch]);
 
   return (
-    <div className="w-[50%]">
+    <div className="2xl:w-[30%] lg:w-[50%]">
       <h1 className="text-3xl font-bold mx-2 mb-2">About</h1>
       <div className="mx-2 bg-ColorOne rounded-md p-1">
         <h3 className="text-xl">RPG Task</h3>
