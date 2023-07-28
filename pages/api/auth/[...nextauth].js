@@ -36,6 +36,24 @@ export const authOptions = {
     // ...add more providers here
   ],
   callbacks: {
+    signIn: async (user, account, email) => {
+      const client = await clientPromise;
+      const db = client.db();
+
+      console.log(user.user);
+      const userData = user.user;
+      if (!userData.createdAt) {
+        const currentTime = new Date().toISOString();
+
+        await db.collection('users').findOneAndUpdate(
+          {
+            _id: userData.id,
+          },
+          { createdAt: currentTime }
+        );
+      }
+      return true;
+    },
     // async signIn({ user, account, email }) {
     //   await db.connect();
     //   const userExists = await User.findOne({
