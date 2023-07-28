@@ -50,7 +50,9 @@ export const authOptions = {
     async session({ session, token, user }) {
       session.user._id = user.id;
 
-      const createdAtISO = user.createdAt.toISOString();
+      if (user.createdAt) {
+        const createdAtISO = user.createdAt.toISOString();
+      }
       session.user.createdAt = createdAtISO;
       if (user.timezone) {
         const timezone = {
