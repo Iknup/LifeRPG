@@ -6,6 +6,8 @@ import RPGCheck from '@/icons/jsx/RPGCheck';
 import LogoVertical from '@/icons/jsx/LogoVertical';
 import Image from 'next/image';
 import { editUser } from '@/slices/userSlice';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from './api/auth/[...nextauth]';
 
 const AboutPage = () => {
   const DUMMY_DATA = {
@@ -151,3 +153,21 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
+export const getServerSideProps = async context => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/signInPage',
+        permanent: false,
+      },
+    };
+  } else {
+    // Getting sections
+
+    return {
+      props: { session },
+    };
+  }
+};
