@@ -1,12 +1,12 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import MyCalendar from '../../Calendar';
 import CalendarUnchecked from '@/icons/jsx/01-yellow/CalendarUnchecked';
 import CalendarChecked from '@/icons/jsx/01-yellow/CalendarChecked';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import { useDispatch, useSelector } from 'react-redux';
 import Nextweek from '@/icons/jsx/Nextweek';
-import optionSlice, { optionActions } from '@/slices/optionSlice';
-import useFindOption from '@/hooks/useFindOption';
+import  { optionActions } from '@/slices/optionSlice';
+
 
 const OPTIONS = Object.freeze({
   TODAY_CHECK: 'today check',
@@ -101,9 +101,9 @@ const TaskFormOptions = props => {
     dispatch({ type: OPTIONS.NEXTWEEK_CHECK });
   };
 
-  const getSelectedDaysHandler = days => {
+  const getSelectedDaysHandler = useCallback(days => {
     dispatch({ type: OPTIONS.SELECTED_DAYS, payload: days });
-  };
+  }, []);
 
   const closeOption = () => {
     closeOptionHandler();
@@ -120,7 +120,7 @@ const TaskFormOptions = props => {
         getSelectedDaysHandler={getSelectedDaysHandler}
         todayOn={state.isTodayChecked}
         nextWeekOn={state.isNextWeekChecked}
-        // preSelectedDays={selectedDays}
+        preSelectedDays={state.selectedDays}
         className="pr-1"
       />
       {/* Days and repeat options */}

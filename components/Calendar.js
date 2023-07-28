@@ -13,7 +13,7 @@ import {
   startOfWeek,
   addDays,
 } from 'date-fns';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 let colStartClasses = [
   '',
@@ -37,6 +37,7 @@ const MyCalendar = props => {
     nextWeekOn,
     preSelectedDays,
   } = props;
+
   const today = startOfToday();
   const nextWeek = addDays(today, 7);
   // const [todayOnCheck, setTodayOnCheck] = useState(false);
@@ -45,8 +46,15 @@ const MyCalendar = props => {
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
 
   useEffect(() => {
+    // const daysStringify = selectedDays.map(day => JSON.stringify(day));
     getSelectedDaysHandler(selectedDays);
   }, [selectedDays, getSelectedDaysHandler]);
+
+  // const getSelectedDays = useCallback(() => {
+  //   getSelectedDaysHandler(selectedDays);
+  // }, [selectedDays]);
+
+  // getSelectedDays();
 
   useEffect(() => {
     let updatedSelectedDays = selectedDays;

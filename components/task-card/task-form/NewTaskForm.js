@@ -93,7 +93,7 @@ const NewTaskForm = props => {
       };
     }
 
-    if (repeat === REPEAT_ENUM.MONTHLY) {
+    if (repeat === REPEAT_ENUM.MONTHLY || repeat === REPEAT_ENUM.NONE) {
       taskOptions.selectedDate = selectedDays[0];
     }
 
@@ -102,8 +102,8 @@ const NewTaskForm = props => {
       repeat,
       isRPG,
       user: user._id,
-      ...taskOptions,
       section: sectionId,
+      ...taskOptions,
     };
 
     if (newTask.repeat !== 'None') {
