@@ -82,7 +82,7 @@ const MyCalendar = props => {
         );
       }
     };
-  }, [todayOn, nextWeekOn, nextWeek, today, selectedDays]);
+  }, [todayOn, nextWeekOn]);
   const newDays = eachDayOfInterval({
     start: startOfWeek(firstDayCurrentMonth),
     end: endOfWeek(endOfMonth(firstDayCurrentMonth)),

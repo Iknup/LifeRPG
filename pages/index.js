@@ -46,7 +46,7 @@ export default function Home({ data, session }) {
 
   return (
     <Fragment>
-      <div className="flex max-w-screen overflow-x-auto overflow-y-hidden">
+      <div className="flex snap-x snap-mandatory max-w-screen overflow-x-auto overflow-y-hidden">
         <TaskSection
           sectionData={{ title: session.user.name, _id: undefined }}
         />
