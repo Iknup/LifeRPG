@@ -5,8 +5,7 @@ import CalendarChecked from '@/icons/jsx/01-yellow/CalendarChecked';
 import { REPEAT_ENUM } from '@/utility/ENUM';
 import { useDispatch, useSelector } from 'react-redux';
 import Nextweek from '@/icons/jsx/Nextweek';
-import  { optionActions } from '@/slices/optionSlice';
-
+import { optionActions } from '@/slices/optionSlice';
 
 const OPTIONS = Object.freeze({
   TODAY_CHECK: 'today check',
@@ -115,7 +114,9 @@ const TaskFormOptions = props => {
   };
 
   return (
-    <div className={`${className} flex w-[430px] bg-ColorOne  p-3 rounded-lg`}>
+    <div
+      className={`${className} flex min-w-max lg:w-[430px] bg-ColorOne p-1 lg:p-3 rounded-lg`}
+    >
       <MyCalendar
         getSelectedDaysHandler={getSelectedDaysHandler}
         todayOn={state.isTodayChecked}
@@ -125,9 +126,13 @@ const TaskFormOptions = props => {
       />
       {/* Days and repeat options */}
       <div
-        className={`border-l-2 border-l-secondary relative w-1/2 max-w-1/2 pl-1 pt-2`}
+        className={`border-l-2 border-l-secondary relative w-[37%] lg:w-1/2 max-w-1/2 pl-1 pt-2`}
       >
-        <button onClick={closeOption} className="absolute -top-2 -right-2">
+        {/* close button  */}
+        <button
+          onClick={closeOption}
+          className="absolute -top-[2px] -right-3 lg:-top-2 lg:-right-2"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -179,7 +184,7 @@ const TaskFormOptions = props => {
           px-1 py-1"
           >
             <Nextweek />
-            <p className="text-lg  ml-1 mr-auto">Next Week</p>
+            <p className="lg:text-lg  ml-1 mr-auto">Next Week</p>
             {state.isNextWeekChecked ? (
               <CalendarChecked className="w-[14px] h-[14px]" />
             ) : (
@@ -207,7 +212,7 @@ const TaskFormOptions = props => {
           <select
             value={state.repeatOption}
             onChange={handleSelectChange}
-            className={`${repeatStyle} text-md ml-6 pr-1 w-fit appearance-none
+            className={`${repeatStyle} text-md lg:ml-6 pr-1 w-fit appearance-none
               indent-2 rounded-md`}
           >
             <option value={'None'} className=" bg-ColorOne">
@@ -235,7 +240,7 @@ const TaskFormOptions = props => {
             </p>
           )}
         </div>
-        <div className="absolute bottom-0 right-0">
+        <div className="absolute bottom-0 right-0 flex">
           <button
             onClick={resetHandler}
             className="py-[2px] px-[5px] rounded-lg mb-2 bg-DarkRed mr-2"
@@ -245,7 +250,7 @@ const TaskFormOptions = props => {
           <button
             onClick={handleSubmit}
             className="ml-auto bg-DarkGreen py-[2px] px-[4px] rounded-lg mb-2 
-        mr-3"
+        lg:mr-3"
           >
             Confirm
           </button>

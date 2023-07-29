@@ -255,7 +255,7 @@ const TaskSection = ({ sectionData }) => {
           <div className="relative z-50">
             <TaskFormOptions
               // getOptionAndDaysHandler={}
-              className="absolute -top-[68px] left-[100%] z-50"
+              className="absolute  z-50 lg:-top-[68px] lg:left-[100%]"
               closeOptionHandler={() => {
                 setShowCalendar();
               }}
