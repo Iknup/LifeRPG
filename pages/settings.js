@@ -8,7 +8,7 @@ import { authOptions } from './api/auth/[...nextauth]';
 
 const SettingPage = ({ session }) => {
   const user = session.user;
-  console.log(user);
+
   const [timezone, setTimezone] = useState('');
   const [resetSchedule, setResetSchedule] = useState(user?.resetSchedule);
   const [showModal, setShowModal] = useState(false);

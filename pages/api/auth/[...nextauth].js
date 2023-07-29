@@ -4,6 +4,7 @@ import clientPromise from '@/lib/mongodb';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import GitHubProvider from 'next-auth/providers/github';
+import axios from 'axios';
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -37,22 +38,20 @@ export const authOptions = {
   ],
   callbacks: {
     signIn: async (user, account, email) => {
-      const client = await clientPromise;
-      const db = client.db();
+      try {
+        const userData = user.user;
+        if (!userData.createdAt) {
+          const currentTime = new Date().toISOString();
 
-      console.log(user.user);
-      const userData = user.user;
-      if (!userData.createdAt) {
-        const currentTime = new Date().toISOString();
-
-        await db.collection('users').findOneAndUpdate(
-          {
-            _id: userData.id,
-          },
-          { createdAt: currentTime }
-        );
+          const updatedUser = await axios.patch(
+            `${process.env.DOMAIN}/api/user?userId=${userData.id}`,
+            { createdAt: currentTime }
+          );
+        }
+        return true;
+      } catch (e) {
+        console.error('sign in error:', e);
       }
-      return true;
     },
     // async signIn({ user, account, email }) {
     //   await db.connect();

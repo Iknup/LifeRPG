@@ -7,7 +7,7 @@ const handle = async (req, res) => {
 
   if (method === 'PATCH') {
     const userId = req.query.userId;
-    const fieldsToUpdate = ['timezone', 'resetSchedule'];
+    const fieldsToUpdate = ['timezone', 'resetSchedule', 'createdAt'];
 
     let updateData = {};
     fieldsToUpdate.forEach(field => {
