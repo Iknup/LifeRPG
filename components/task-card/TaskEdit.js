@@ -27,7 +27,6 @@ const TaskEdit = props => {
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      console.log(rect);
       setPosition({ top: rect.top, left: rect.left });
       window.scrollTo({
         top: position.top + 112,

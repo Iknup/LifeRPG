@@ -64,7 +64,7 @@ const NewSubTaskFrom = props => {
         onChange={inputChangeHandler}
         value={taskTitle}
         placeholder="Sub task title here..."
-        className="bg-ColorFour grow indent-1"
+        className="bg-ColorFour w-full lg:grow indent-1"
       />
       <div className="ml-1 flex">
         <button

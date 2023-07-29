@@ -35,9 +35,9 @@ const TaskStatus = props => {
 
   const ageContent =
     ageInDays > 365 ? (
-      <div className="text-btnReject">{`${ageInYears}years`}</div>
+      <p className="text-btnReject">{`${ageInYears}years`}</p>
     ) : (
-      <div className="text-colorMain">{`${ageInDays}days`}</div>
+      <p className="text-colorMain">{`${ageInDays}days`}</p>
     );
 
   const clrRateChartData = {
