@@ -37,34 +37,8 @@ export const authOptions = {
     // ...add more providers here
   ],
   callbacks: {
-    signIn: async (user, account, email) => {
-      try {
-        const userData = user.user;
-        if (!userData.createdAt) {
-          const currentTime = new Date().toISOString();
-
-          const updatedUser = await axios.patch(
-            `${process.env.DOMAIN}/api/user?userId=${userData.id}`,
-            { createdAt: currentTime }
-          );
-        }
-        return true;
-      } catch (e) {
-        console.error('sign in error:', e);
-      }
-    },
-    // async signIn({ user, account, email }) {
-    //   await db.connect();
-    //   const userExists = await User.findOne({
-    //     email: user.email, //the user object has an email property, which contains the email the user entered.
-    //   });
-    //   if (userExists) {
-    //     return true; //if the email exists in the User collection, email them a magic login link
-    //   } else {
-    //     return '/register';
-    //   }
-    // },
     async session({ session, token, user }) {
+      // passing user data to session.
       session.user._id = user.id;
 
       if (user.createdAt) {
@@ -81,6 +55,26 @@ export const authOptions = {
       }
 
       return session;
+    },
+  },
+  events: {
+    createUser: async user => {
+      try {
+        // adding register date to user.
+        const userData = user.user;
+        if (!userData.createdAt) {
+          const currentTime = new Date().toISOString();
+
+          const updatedUser = await axios.patch(
+            `${process.env.DOMAIN}/api/user?userId=${userData.id}`,
+            { createdAt: currentTime }
+          );
+        }
+
+        console.log('create user:', updatedUser);
+      } catch (e) {
+        console.error('create user error:', e);
+      }
     },
   },
   pages: {
